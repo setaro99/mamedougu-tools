@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お品書きメーカー 無料｜同人イベントのお品書きをブラウザで作成・A4印刷とPNG保存</title>
+<meta name="description" content="同人イベントのお品書きを、デザインソフトなしでブラウザだけで作れる無料ツールです。A4印刷とSNS告知用のPNG画像の両方で保存できます。登録不要・インストール不要で動きます。">
+<link rel="canonical" href="https://setaro99.github.io/mamedougu-tools/oshinagaki/">
+<meta property="og:title" content="お品書きメーカー 無料｜同人イベントのお品書きをブラウザで作成・A4印刷とPNG保存">
+<meta property="og:description" content="同人イベントのお品書きを、デザインソフトなしでブラウザだけで作れる無料ツールです。A4印刷とSNS告知用のPNG画像の両方で保存できます。登録不要・インストール不要で動きます。">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --ink: #3a2f28;
+    --accent: #b5651d;
+    --line: #e2d8cc;
+    --bg: #f3ede4;
+    --muted: #8a7d6e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", "Yu Gothic UI", "Hiragino Sans", "Noto Sans JP", "Meiryo", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 14px;
+  }
+  header.app {
+    background: var(--ink);
+    color: #fff;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  header.app h1 { font-size: 16px; margin: 0; font-weight: 600; }
+  header.app h1 span { font-weight: 400; font-size: 12px; opacity: .8; }
+  header.app .spacer { flex: 1; }
+  button {
+    font: inherit;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    cursor: pointer;
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+  button.ghost { background: transparent; color: #efe6d9; border-color: #6a5b4c; }
+  button:hover { filter: brightness(1.06); }
+
+  /* ---- タブ ---- */
+  .tabs { display: flex; gap: 4px; padding: 0 18px; background: var(--ink); flex-wrap: wrap; }
+  .tabs button {
+    background: transparent; color: #e2d5c3; border: none; border-radius: 8px 8px 0 0;
+    padding: 9px 16px; font-weight: 600; font-size: 13px;
+  }
+  .tabs button.active { background: var(--bg); color: var(--ink); }
+  .tabs button:hover { filter: none; color: #fff; }
+  .tabs button.active:hover { color: var(--ink); }
+
+  .container { max-width: 1160px; margin: 0 auto; padding: 18px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ---- 入力フォーム ---- */
+  .wrap { display: grid; grid-template-columns: minmax(340px, 460px) 1fr; gap: 18px; align-items: start; }
+  @media (max-width: 940px) { .wrap { grid-template-columns: 1fr; } }
+  .panel { background: #fff; border-radius: 10px; border: 1px solid var(--line); overflow: hidden; }
+  .panel .ph { padding: 12px 16px; font-weight: 600; background: #faf6f0; border-bottom: 1px solid var(--line); display:flex; align-items:center; gap:8px;}
+  .panel .ph .spacer{flex:1;}
+  .fields { padding: 14px 16px 16px; display: grid; gap: 12px; }
+  .fields label.f { display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
+  .fields input[type=text], .fields input[type=number], .fields select, .fields textarea {
+    font: inherit; font-size: 15px; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; width: 100%; background: #fff;
+  }
+  .fields textarea { resize: vertical; min-height: 44px; }
+  .hint { font-size: 11px; color: var(--muted); line-height: 1.6; }
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+  /* ---- 頒布品リスト ---- */
+  .items-head { display:flex; align-items:center; gap:8px; margin: 4px 0 6px; }
+  .items-head .spacer{flex:1;}
+  .item-row {
+    border: 1px solid var(--line); border-radius: 8px; padding: 10px; margin-bottom: 10px; background:#fdfbf8;
+    display:grid; gap:8px;
+  }
+  .item-row .r1 { display:grid; grid-template-columns: 1fr 110px; gap:8px; }
+  .item-row .r2 { display:grid; grid-template-columns: 130px 1fr auto; gap:8px; align-items:center; }
+  .item-row input { font:inherit; font-size:14px; border:1px solid var(--line); border-radius:6px; padding:7px 9px; width:100%; }
+  .item-row .del { background:none; border:none; color:var(--accent); font-size:16px; cursor:pointer; padding:4px 8px; }
+  .cap { font-size:11px; color:var(--muted); }
+  .limit-note { font-size:12px; color:var(--accent); background:#fbf0e3; border:1px solid #efd9bf; border-radius:6px; padding:8px 10px; }
+
+  /* ---- デザインタブ ---- */
+  .design-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:820px; }
+  @media (max-width:700px){ .design-grid{grid-template-columns:1fr;} }
+  .swatches { display:flex; gap:8px; flex-wrap:wrap; }
+  .swatch { width:44px; height:44px; border-radius:8px; border:2px solid transparent; cursor:pointer; position:relative; }
+  .swatch.sel { border-color: var(--ink); box-shadow:0 0 0 2px #fff inset; }
+  .seg { display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; max-width:320px; }
+  .seg button { flex:1; border:none; border-radius:0; background:#fff; color:var(--muted); }
+  .seg button.on { background:var(--accent); color:#fff; font-weight:600; }
+  .tpl-list { display:flex; gap:8px; flex-wrap:wrap; }
+  .tpl { border:1px solid var(--line); border-radius:8px; padding:8px 12px; cursor:pointer; background:#fff; font-size:13px; }
+  .tpl.on { border-color:var(--accent); background:#fbf0e3; color:var(--accent); font-weight:600; }
+
+  /* ---- プレビュー / お品書きシート ---- */
+  .preview-tools { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:12px; }
+  .preview-tools .spacer{flex:1;}
+  .stage { display:flex; justify-content:center; }
+  .sheet {
+    background:#fff; color:#000; border:1px solid var(--line); box-shadow:0 2px 12px rgba(60,40,20,.10);
+    width: 480px; min-height: 672px; padding: 34px 30px; position:relative;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .sheet.landscape { width: 672px; min-height: 480px; }
+  .sheet .s-frame { position:absolute; inset:14px; border:2px solid var(--sheet-accent,#b5651d); border-radius:6px; pointer-events:none; }
+  .sheet.tpl-plain .s-frame { display:none; }
+  .s-inner { position:relative; }
+  .s-heading { text-align:center; font-size:30px; font-weight:800; letter-spacing:4px; color:var(--sheet-accent,#b5651d); margin:6px 0 2px; }
+  .s-circle { text-align:center; font-size:17px; font-weight:700; margin:2px 0; }
+  .s-meta { text-align:center; font-size:12px; color:#555; margin-bottom:6px; line-height:1.7; }
+  .s-div { border:none; border-top:1.5px solid var(--sheet-accent,#b5651d); margin:8px 0 12px; }
+  .s-items { display:grid; gap:10px; }
+  .s-item { display:grid; gap:2px; }
+  .sheet.tpl-lined .s-item { border-bottom:1px dashed #bbb; padding-bottom:8px; }
+  .sheet.tpl-card .s-item { background:#00000008; border-radius:6px; padding:8px 10px; }
+  .s-item .row { display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
+  .s-item .nm { font-size:16px; font-weight:600; word-break:break-word; }
+  .s-item .pr { font-size:16px; font-weight:700; white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .s-item .sub { font-size:11.5px; color:#666; }
+  .s-item .sub .kind { color:var(--sheet-accent,#b5651d); font-weight:600; margin-right:6px; }
+  .s-footer { margin-top:16px; text-align:center; }
+  .s-footer .msg { font-size:13px; }
+  .s-footer .note { font-size:11px; color:#666; margin-top:3px; }
+  .s-contact { text-align:center; font-size:11px; color:#666; margin-top:4px; }
+  .s-watermark {
+    position:absolute; right:16px; bottom:12px; font-size:11px; color:#00000033; font-weight:700;
+    border:1px solid #00000022; border-radius:4px; padding:1px 6px;
+  }
+  .s-empty { text-align:center; color:#aaa; padding:30px 0; font-size:13px; }
+
+  /* ---- 使い方 ---- */
+  .howto { background:#fff; border:1px solid var(--line); border-radius:10px; padding:20px 24px; max-width:820px; line-height:1.85; }
+  .howto h2 { font-size:18px; margin:0 0 12px; }
+  .howto h3 { font-size:14px; margin:18px 0 6px; color:var(--accent); }
+  .howto ol, .howto ul { margin:6px 0; padding-left:22px; }
+  .howto code { background:#f4efe8; padding:1px 5px; border-radius:4px; font-size:12px; }
+  .howto .warn { background:#faf6f0; border-left:3px solid var(--accent); padding:10px 14px; font-size:12px; color:var(--muted); margin-top:14px; border-radius:0 6px 6px 0; }
+
+  .disclaimer { padding:12px 16px; font-size:11px; color:var(--muted); line-height:1.7; }
+  #png-canvas { display:none; }
+
+  /* ---- 印刷 ---- */
+  @media print {
+    @page { size: A4; margin: 12mm; }
+    body { background:#fff; }
+    header.app, .tabs, .preview-tools, .no-print, .disclaimer { display:none !important; }
+    .container { padding:0; max-width:none; }
+    .tab-panel:not(.active) { display:none !important; }
+    /* 印刷ではお品書きシートのみ出力（入力フォームは隠す） */
+    #tab-make .wrap { display:block; }
+    #tab-make .wrap > .panel { display:none !important; }
+    .stage { display:block; }
+    .sheet { width:auto; min-height:auto; box-shadow:none; border:none; margin:0 auto; }
+    .sheet.landscape { width:auto; }
+  }
+</style>
+</head>
+<body>
+<header class="app">
+  <h1>お品書きメーカー <span>無料お試し版 / 入力はこの端末内のみ</span></h1>
+  <div class="spacer"></div>
+  <span id="edition-badge" class="hint" style="color:#efe6d9"></span>
+  <button class="ghost" id="btn-clear" type="button">入力内容を消去</button>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="howto" class="active" type="button">使い方</button>
+  <button data-tab="make" type="button">お品書き作成</button>
+  <button data-tab="design" type="button">デザイン</button>
+</nav>
+
+<div class="container">
+
+  <!-- ============ 使い方 ============ -->
+  <section class="tab-panel active" id="tab-howto">
+    <div class="howto">
+      <h2>はじめにお読みください（5分で作れます）</h2>
+      <ol>
+        <li><b>「お品書き作成」タブ</b>で、サークル名・イベント名・スペース番号などを入力し、頒布品を「＋ 品目を追加」で並べます。右側に<b>お品書きのプレビュー</b>がすぐ表示されます。</li>
+        <li><b>「デザイン」タブ</b>で、テンプレート・配色・向き（縦／横）・見出しの文言を選べます。デザイン編集ソフトは要りません。</li>
+        <li>できあがったら「お品書き作成」タブの上にある2つのボタンで出力します。
+          <ul>
+            <li><b>「PNG画像で保存」</b>… X（旧Twitter）などSNSでの告知用に、画像ファイルとして保存します。</li>
+            <li><b>「印刷 / PDF保存」</b>… 当日の掲示用に、ブラウザの印刷からA4で印刷・PDF保存できます。</li>
+          </ul>
+        </li>
+      </ol>
+
+      <h3>できること・できないこと</h3>
+      <ul>
+        <li>品名・種別（新刊／既刊／グッズ 等）・価格・一言を入れるだけで、体裁の整ったお品書きになります。</li>
+        <li>本ツールは<b>合計金額の計算や会計機能は持ちません</b>（お品書きは「品名と価格の一覧」です）。価格は入力した数字をそのまま表示します。</li>
+        <li>フォントはお使いの端末の標準フォントを使います。文字が入りきらない品名は自動で折り返します。</li>
+      </ul>
+
+      <h3>データの保存とリセット</h3>
+      <ul>
+        <li>入力内容とデザイン設定は、この端末のブラウザ内（localStorage）にのみ自動保存されます。<b>外部への送信は一切ありません。</b></li>
+        <li>消したいときは右上の「入力内容を消去」を押してください。共有PCでは使用後の消去を推奨します。</li>
+      </ul>
+
+      <div class="warn">
+        本ツールはお品書きの作成補助です。頒布物の内容・価格・表記はご自身の責任でご確認ください。イベントの規約や頒布物の内容に関する判断は行いません。
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ お品書き作成 ============ -->
+  <section class="tab-panel" id="tab-make">
+    <div class="preview-tools no-print">
+      <button class="primary" id="btn-png" type="button">🖼 PNG画像で保存</button>
+      <button id="btn-print" type="button">🖨 印刷 / PDF保存</button>
+      <div class="spacer"></div>
+      <span class="hint">右のプレビューがそのまま出力されます</span>
+    </div>
+    <div class="wrap">
+      <div class="panel">
+        <div class="ph">サークル・イベント情報</div>
+        <div class="fields">
+          <label class="f">サークル名 / 名前
+            <input id="i-circle" type="text" maxlength="40" placeholder="例) まめどうぐ製作所">
+          </label>
+          <div class="two">
+            <label class="f">イベント名
+              <input id="i-event" type="text" maxlength="40" placeholder="例) 〇〇イベント 12">
+            </label>
+            <label class="f">開催日
+              <input id="i-date" type="text" maxlength="30" placeholder="例) 2026.8.15">
+            </label>
+          </div>
+          <div class="two">
+            <label class="f">スペース番号
+              <input id="i-space" type="text" maxlength="20" placeholder="例) A-01">
+            </label>
+            <label class="f">連絡先（X の ID 等・任意）
+              <input id="i-contact" type="text" maxlength="40" placeholder="例) @your_id">
+            </label>
+          </div>
+
+          <div class="items-head">
+            <b style="font-size:13px">頒布品リスト</b>
+            <div class="spacer"></div>
+            <span class="cap" id="items-count"></span>
+          </div>
+          <div id="items"></div>
+          <div id="limit-note" class="limit-note" style="display:none"></div>
+          <button class="primary" id="btn-add" type="button">＋ 品目を追加</button>
+
+          <label class="f" style="margin-top:6px">一言メッセージ（フッター・任意）
+            <input id="i-msg" type="text" maxlength="60" placeholder="例) お立ち寄りありがとうございます">
+          </label>
+          <label class="f">頒布に関する注記（任意）
+            <input id="i-note" type="text" maxlength="60" placeholder="例) 価格はすべて税込です">
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <div class="stage">
+          <div class="sheet" id="sheet">
+            <div class="s-frame"></div>
+            <div class="s-inner" id="sheet-inner"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ デザイン ============ -->
+  <section class="tab-panel" id="tab-design">
+    <div class="design-grid">
+      <div class="panel">
+        <div class="ph">テンプレート</div>
+        <div class="fields">
+          <div class="tpl-list" id="tpl-list"></div>
+          <span class="hint">お品書きの体裁を選びます。迷ったら「シンプル」で十分きれいに仕上がります。</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph">配色</div>
+        <div class="fields">
+          <div class="swatches" id="swatches"></div>
+          <span class="hint">見出し・枠・区切り線の色が変わります。</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph">向き</div>
+        <div class="fields">
+          <div class="seg" id="orient">
+            <button type="button" data-o="portrait" class="on">縦向き</button>
+            <button type="button" data-o="landscape">横向き</button>
+          </div>
+          <span class="hint">SNS告知は縦向き、掲示は横向きなど、用途で選べます。印刷・PNGとも向きが反映されます。</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph">見出しの文言</div>
+        <div class="fields">
+          <label class="f">お品書きの大見出し
+            <input id="i-heading" type="text" maxlength="16" placeholder="お品書き">
+          </label>
+          <span class="hint">空欄のときは「お品書き」と表示します。</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    本ツールはお品書きの作成補助です。入力データはこの端末のブラウザ内（localStorage）にのみ保存され、外部へ送信されません。フォントは端末の標準フォントを使用し、フォントファイルの同梱・外部読み込みはありません。
+  </div>
+</div>
+
+<canvas id="png-canvas"></canvas>
+
+<script>
+(function () {
+  "use strict";
+
+  // ===================================================================
+  // 版の設定（このブロックだけを差し替えて無料版/有料版を作り分ける）
+  //   MAX_ITEMS   : 頒布品の上限（0 = 無制限）
+  //   SHOW_WATERMARK : 出力（印刷・PNG）に「無料版」透かしを入れるか
+  //   TEMPLATES   : 利用可能なテンプレート
+  // ===================================================================
+  var CONFIG = {
+    EDITION: "free",
+    MAX_ITEMS: 5,
+    SHOW_WATERMARK: true,
+    TEMPLATES: ["plain"]
+  };
+
+  var LS_KEY = "mame_q001_v1";
+
+  function $(id) { return document.getElementById(id); }
+
+  // ---- 配色（オリジナル・OS標準色のみ） ----
+  var PALETTES = {
+    cream: { name: "クリーム", bg: "#fdf7ee", ink: "#4a3b2a", accent: "#b5651d" },
+    mono:  { name: "モノトーン", bg: "#ffffff", ink: "#222222", accent: "#555555" },
+    sky:   { name: "スカイ",   bg: "#f1f7fb", ink: "#20374d", accent: "#2e6da4" },
+    sakura:{ name: "さくら",   bg: "#fdf1f4", ink: "#5a2a3a", accent: "#c65f83" },
+    matcha:{ name: "まっちゃ", bg: "#f2f6ec", ink: "#31402a", accent: "#5f8a3f" }
+  };
+  var PALETTE_ORDER = ["cream", "mono", "sky", "sakura", "matcha"];
+  var TEMPLATE_LABELS = { plain: "シンプル", lined: "罫線", card: "カード" };
+
+  // ---- 状態 ----
+  var state = {
+    circle: "", event: "", date: "", space: "", contact: "",
+    heading: "", msg: "", note: "",
+    items: [],
+    palette: "cream", template: CONFIG.TEMPLATES[0], orient: "portrait"
+  };
+
+  function newItem() { return { name: "", kind: "", price: "", tip: "" }; }
+
+  // ---- 表示用の正規化モデル（プレビュー・印刷・PNGが共通で参照） ----
+  function buildModel() {
+    var pal = PALETTES[state.palette] || PALETTES.cream;
+    var tpl = (CONFIG.TEMPLATES.indexOf(state.template) >= 0) ? state.template : CONFIG.TEMPLATES[0];
+    var metaParts = [];
+    if (state.event) metaParts.push(state.event);
+    if (state.date) metaParts.push(state.date);
+    if (state.space) metaParts.push("スペース " + state.space);
+    var items = state.items.map(function (it) {
+      var priceStr = "";
+      var p = String(it.price == null ? "" : it.price).trim();
+      if (p !== "") {
+        var n = parseInt(p, 10);
+        priceStr = (!isNaN(n) && isFinite(n) && String(n) === p.replace(/^0+(?=\d)/, "")) ?
+          "¥" + n.toLocaleString("ja-JP") : p; // 数値なら桁区切り、それ以外はそのまま（無料/応相談 等）
+      }
+      return {
+        name: (it.name || "").trim(),
+        kind: (it.kind || "").trim(),
+        price: priceStr,
+        tip: (it.tip || "").trim()
+      };
+    }).filter(function (it) { return it.name || it.price || it.kind || it.tip; });
+
+    return {
+      heading: (state.heading || "").trim() || "お品書き",
+      circle: (state.circle || "").trim(),
+      meta: metaParts.join("　"),
+      contact: (state.contact || "").trim(),
+      items: items,
+      msg: (state.msg || "").trim(),
+      note: (state.note || "").trim(),
+      pal: pal, template: tpl, orient: state.orient,
+      watermark: CONFIG.SHOW_WATERMARK
+    };
+  }
+
+  // ===================================================================
+  // プレビュー描画（HTML・textContent のみ＝XSS安全）
+  // ===================================================================
+  function renderPreview() {
+    var m = buildModel();
+    var sheet = $("sheet");
+    sheet.className = "sheet tpl-" + m.template + (m.orient === "landscape" ? " landscape" : "");
+    sheet.style.setProperty("--sheet-accent", m.pal.accent);
+    sheet.style.background = m.pal.bg;
+    sheet.style.color = m.pal.ink;
+
+    var root = $("sheet-inner");
+    root.textContent = "";
+
+    var h = document.createElement("div"); h.className = "s-heading"; h.textContent = m.heading; root.appendChild(h);
+    if (m.circle) { var c = document.createElement("div"); c.className = "s-circle"; c.textContent = m.circle; root.appendChild(c); }
+    if (m.meta) { var mt = document.createElement("div"); mt.className = "s-meta"; mt.textContent = m.meta; root.appendChild(mt); }
+    var hr = document.createElement("hr"); hr.className = "s-div"; root.appendChild(hr);
+
+    if (!m.items.length) {
+      var e = document.createElement("div"); e.className = "s-empty";
+      e.textContent = "「＋ 品目を追加」で頒布品を入れると、ここに表示されます";
+      root.appendChild(e);
+    } else {
+      var list = document.createElement("div"); list.className = "s-items";
+      m.items.forEach(function (it) {
+        var box = document.createElement("div"); box.className = "s-item";
+        var row = document.createElement("div"); row.className = "row";
+        var nm = document.createElement("span"); nm.className = "nm"; nm.textContent = it.name || "（無題）";
+        var pr = document.createElement("span"); pr.className = "pr"; pr.textContent = it.price;
+        row.appendChild(nm); row.appendChild(pr); box.appendChild(row);
+        if (it.kind || it.tip) {
+          var sub = document.createElement("div"); sub.className = "sub";
+          if (it.kind) { var k = document.createElement("span"); k.className = "kind"; k.textContent = it.kind; sub.appendChild(k); }
+          if (it.tip) { sub.appendChild(document.createTextNode(it.tip)); }
+          box.appendChild(sub);
+        }
+        list.appendChild(box);
+      });
+      root.appendChild(list);
+    }
+
+    if (m.msg || m.note) {
+      var f = document.createElement("div"); f.className = "s-footer";
+      if (m.msg) { var mg = document.createElement("div"); mg.className = "msg"; mg.textContent = m.msg; f.appendChild(mg); }
+      if (m.note) { var nt = document.createElement("div"); nt.className = "note"; nt.textContent = m.note; f.appendChild(nt); }
+      root.appendChild(f);
+    }
+    if (m.contact) { var ct = document.createElement("div"); ct.className = "s-contact"; ct.textContent = "連絡先: " + m.contact; root.appendChild(ct); }
+
+    // 透かし（無料版のみ）
+    var old = sheet.querySelector(".s-watermark"); if (old) old.remove();
+    if (m.watermark) {
+      var w = document.createElement("div"); w.className = "s-watermark"; w.textContent = "無料版";
+      sheet.appendChild(w);
+    }
+  }
+
+  // ===================================================================
+  // PNG 出力（標準 Canvas API のみ・外部ライブラリ不使用）
+  //   プレビューと同じモデルを描くことで「画面・印刷・PNG」の内容を一致させる
+  // ===================================================================
+  var LAYOUT = {
+    portrait:  { w: 600, h: 840 },
+    landscape: { w: 840, h: 600 }
+  };
+  var SCALE = 2; // 高解像度（論理サイズの2倍のピクセルで描画）
+
+  // 文字列を最大幅で折り返し、行配列を返す（measureText 使用）
+  function wrapText(ctx, text, maxWidth) {
+    var lines = [];
+    var chars = Array.from(text);
+    var cur = "";
+    for (var i = 0; i < chars.length; i++) {
+      var ch = chars[i];
+      if (ch === "\n") { lines.push(cur); cur = ""; continue; }
+      var test = cur + ch;
+      if (ctx.measureText(test).width > maxWidth && cur !== "") {
+        lines.push(cur); cur = ch;
+      } else { cur = test; }
+    }
+    lines.push(cur);
+    return lines;
+  }
+
+  function drawCanvas() {
+    var m = buildModel();
+    var dim = LAYOUT[m.orient] || LAYOUT.portrait;
+    var W = dim.w, H = dim.h;
+    var canvas = $("png-canvas");
+    canvas.width = W * SCALE;
+    canvas.height = H * SCALE;
+    var ctx = canvas.getContext("2d");
+    ctx.setTransform(SCALE, 0, 0, SCALE, 0, 0);
+    ctx.textBaseline = "alphabetic";
+    var FONT = '"Yu Gothic UI","Hiragino Sans","Noto Sans JP","Meiryo",sans-serif';
+
+    // 背景
+    ctx.fillStyle = m.pal.bg; ctx.fillRect(0, 0, W, H);
+
+    var pad = 44;
+    // 枠（plain 以外）
+    if (m.template !== "plain") {
+      ctx.strokeStyle = m.pal.accent; ctx.lineWidth = 2;
+      ctx.strokeRect(16, 16, W - 32, H - 32);
+    }
+
+    var cx = W / 2;
+    var y = pad + 30;
+
+    // 見出し
+    ctx.fillStyle = m.pal.accent;
+    ctx.textAlign = "center";
+    ctx.font = "800 40px " + FONT;
+    ctx.fillText(m.heading, cx, y);
+    y += 14;
+
+    // サークル名
+    if (m.circle) {
+      y += 26;
+      ctx.fillStyle = m.pal.ink; ctx.font = "700 22px " + FONT;
+      ctx.fillText(m.circle, cx, y);
+    }
+    // メタ
+    if (m.meta) {
+      y += 22;
+      ctx.fillStyle = "#5a5a5a"; ctx.font = "15px " + FONT;
+      ctx.fillText(m.meta, cx, y);
+    }
+
+    // 区切り線
+    y += 20;
+    ctx.strokeStyle = m.pal.accent; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(W - pad, y); ctx.stroke();
+    y += 30;
+
+    // フッター領域を確保して品目描画の下限を決める
+    var footerLines = 0;
+    if (m.msg) footerLines++;
+    if (m.note) footerLines++;
+    if (m.contact) footerLines++;
+    var footerH = footerLines * 22 + (footerLines ? 16 : 0);
+    var bottomLimit = H - pad - footerH;
+
+    // 品目
+    ctx.textAlign = "left";
+    var leftX = pad, rightX = W - pad;
+    var priceW = 130;
+
+    if (!m.items.length) {
+      ctx.fillStyle = "#aaaaaa"; ctx.textAlign = "center"; ctx.font = "15px " + FONT;
+      ctx.fillText("（頒布品が未入力です）", cx, y + 20);
+    } else {
+      var LG = 26; // 品名の行送り
+      for (var i = 0; i < m.items.length; i++) {
+        var it = m.items[i];
+        var hasSub = !!(it.kind || it.tip);
+        // この品目の折返し行数と占有ブロックの上下端を先に計算（はみ出し・装飾のため）
+        ctx.font = "600 20px " + FONT;
+        var nameLines = wrapText(ctx, it.name || "（無題）", (rightX - priceW - 12) - leftX);
+        var nameBottom = y + (nameLines.length - 1) * LG;       // 最終行のベースライン
+        var subBaseline = hasSub ? nameBottom + 20 : nameBottom; // 種別・一言のベースライン
+        var blockTop = y - 18;
+        var blockBottom = subBaseline + 8;
+
+        // ブロック全体が下限を超えるなら残りを「ほか N 点」で省略（画像はみ出し防止）
+        if (blockBottom > bottomLimit) {
+          ctx.fillStyle = "#777777"; ctx.textAlign = "center"; ctx.font = "14px " + FONT;
+          ctx.fillText("ほか " + (m.items.length - i) + " 点", cx, y + 4);
+          y = y + 20;
+          break;
+        }
+
+        // テンプレの体裁（画面プレビューと一致させる）: card=背景 / lined=下線
+        if (m.template === "card") {
+          ctx.fillStyle = "rgba(0,0,0,0.035)";
+          roundRect(ctx, leftX - 12, blockTop - 2, (rightX + 12) - (leftX - 12), blockBottom - (blockTop - 2), 6);
+          ctx.fill();
+        }
+
+        // 品名（折返し）＋価格（右寄せ・1行目のベースライン）
+        ctx.textAlign = "left"; ctx.fillStyle = m.pal.ink; ctx.font = "600 20px " + FONT;
+        for (var L = 0; L < nameLines.length; L++) {
+          ctx.fillText(nameLines[L], leftX, y + L * LG);
+        }
+        if (it.price) {
+          ctx.textAlign = "right"; ctx.font = "700 20px " + FONT; ctx.fillStyle = m.pal.ink;
+          ctx.fillText(it.price, rightX, y);
+        }
+        // 種別・一言
+        if (hasSub) {
+          ctx.textAlign = "left";
+          var subX = leftX;
+          if (it.kind) {
+            ctx.font = "600 13px " + FONT; ctx.fillStyle = m.pal.accent;
+            ctx.fillText(it.kind, subX, subBaseline);
+            subX += ctx.measureText(it.kind).width + 12;
+          }
+          if (it.tip) {
+            ctx.font = "13px " + FONT; ctx.fillStyle = "#666666";
+            var tip = it.tip;
+            while (ctx.measureText(tip).width > (rightX - subX) && tip.length > 1) { tip = tip.slice(0, -1); }
+            if (tip !== it.tip) tip = tip.slice(0, -1) + "…";
+            ctx.fillText(tip, subX, subBaseline);
+          }
+        }
+
+        // lined テンプレの区切り線
+        if (m.template === "lined") {
+          ctx.strokeStyle = "#c9c0b4"; ctx.lineWidth = 1; ctx.setLineDash([4, 3]);
+          ctx.beginPath(); ctx.moveTo(leftX, blockBottom + 2); ctx.lineTo(rightX, blockBottom + 2); ctx.stroke();
+          ctx.setLineDash([]);
+        }
+
+        y = blockBottom + 16; // 次の品目へ
+      }
+    }
+
+    // フッター
+    var fy = H - pad - footerH + 20;
+    ctx.textAlign = "center";
+    if (m.msg) { ctx.fillStyle = m.pal.ink; ctx.font = "15px " + FONT; ctx.fillText(clip(ctx, m.msg, W - pad * 2), cx, fy); fy += 22; }
+    if (m.note) { ctx.fillStyle = "#666666"; ctx.font = "12px " + FONT; ctx.fillText(clip(ctx, m.note, W - pad * 2), cx, fy); fy += 22; }
+    if (m.contact) { ctx.fillStyle = "#666666"; ctx.font = "12px " + FONT; ctx.fillText(clip(ctx, "連絡先: " + m.contact, W - pad * 2), cx, fy); fy += 22; }
+
+    // 透かし（無料版）
+    if (m.watermark) {
+      ctx.textAlign = "right"; ctx.font = "700 14px " + FONT; ctx.fillStyle = "rgba(0,0,0,0.28)";
+      ctx.fillText("無料版", W - 22, H - 20);
+    }
+    return canvas;
+  }
+
+  function clip(ctx, text, maxW) {
+    if (ctx.measureText(text).width <= maxW) return text;
+    var t = text;
+    while (t.length > 1 && ctx.measureText(t + "…").width > maxW) t = t.slice(0, -1);
+    return t + "…";
+  }
+
+  // 角丸矩形のパス（ctx.roundRect 非対応環境向けの自前実装）
+  function roundRect(ctx, x, y, w, h, r) {
+    if (r > w / 2) r = w / 2; if (r > h / 2) r = h / 2; if (r < 0) r = 0;
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  function downloadPng() {
+    var canvas = drawCanvas();
+    var name = "oshinagaki_" + fileStamp() + ".png";
+    function trigger(url, revoke) {
+      var a = document.createElement("a");
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      if (revoke) setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }
+    if (canvas.toBlob) {
+      canvas.toBlob(function (blob) {
+        if (!blob) { trigger(canvas.toDataURL("image/png"), false); return; }
+        trigger(URL.createObjectURL(blob), true);
+      }, "image/png");
+    } else {
+      trigger(canvas.toDataURL("image/png"), false); // 古い環境向けフォールバック
+    }
+  }
+
+  function fileStamp() {
+    var d = new Date(), p = function (n) { return (n < 10 ? "0" : "") + n; };
+    return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + "_" + p(d.getHours()) + p(d.getMinutes());
+  }
+
+  // ===================================================================
+  // 入力フォーム（頒布品リスト）
+  // ===================================================================
+  function renderItems() {
+    var box = $("items"); box.textContent = "";
+    state.items.forEach(function (it, idx) {
+      var row = document.createElement("div"); row.className = "item-row";
+      var r1 = document.createElement("div"); r1.className = "r1";
+      var nm = mkInput("text", it.name, "品名（例: 新刊「〇〇」）", 60, function (v) { it.name = v; onEdit(); });
+      var pr = mkInput("text", it.price, "価格", 12, function (v) { it.price = v; onEdit(); });
+      pr.setAttribute("inputmode", "numeric");
+      r1.appendChild(nm); r1.appendChild(pr);
+      var r2 = document.createElement("div"); r2.className = "r2";
+      var kd = mkInput("text", it.kind, "種別（新刊/既刊/グッズ 等）", 16, function (v) { it.kind = v; onEdit(); });
+      var tp = mkInput("text", it.tip, "一言（任意）", 40, function (v) { it.tip = v; onEdit(); });
+      var del = document.createElement("button");
+      del.type = "button"; del.className = "del"; del.title = "この品目を削除"; del.textContent = "✕";
+      del.addEventListener("click", function () { state.items.splice(idx, 1); renderItems(); onEdit(); });
+      r2.appendChild(kd); r2.appendChild(tp); r2.appendChild(del);
+      row.appendChild(r1); row.appendChild(r2);
+      box.appendChild(row);
+    });
+    // 上限表示・追加ボタンの活性
+    var count = state.items.length;
+    $("items-count").textContent = CONFIG.MAX_ITEMS ? (count + " / " + CONFIG.MAX_ITEMS + " 点") : (count + " 点");
+    var atLimit = CONFIG.MAX_ITEMS && count >= CONFIG.MAX_ITEMS;
+    $("btn-add").disabled = !!atLimit;
+    $("btn-add").style.opacity = atLimit ? ".5" : "1";
+    var ln = $("limit-note");
+    if (CONFIG.MAX_ITEMS) {
+      ln.style.display = "block";
+      ln.textContent = atLimit
+        ? "無料版は頒布品 " + CONFIG.MAX_ITEMS + " 点までです。6点目以降・透かしなし・テンプレ複数は有料版（¥300）でご利用いただけます。"
+        : "無料版は頒布品 " + CONFIG.MAX_ITEMS + " 点までです（現在 " + count + " 点）。";
+    } else {
+      ln.style.display = "none";
+    }
+  }
+  function mkInput(type, val, ph, max, oninput) {
+    var el = document.createElement("input");
+    el.type = type; el.value = val || ""; el.placeholder = ph; el.maxLength = max;
+    el.addEventListener("input", function () { oninput(el.value); });
+    return el;
+  }
+
+  // ===================================================================
+  // デザインタブUI
+  // ===================================================================
+  function renderDesignControls() {
+    // テンプレート
+    var tl = $("tpl-list"); tl.textContent = "";
+    CONFIG.TEMPLATES.forEach(function (t) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "tpl" + (state.template === t ? " on" : "");
+      b.textContent = TEMPLATE_LABELS[t] || t;
+      b.addEventListener("click", function () { state.template = t; renderDesignControls(); onEdit(); });
+      tl.appendChild(b);
+    });
+    if (CONFIG.TEMPLATES.length <= 1) {
+      var note = document.createElement("span"); note.className = "hint";
+      note.textContent = "無料版のテンプレートは1種類です（有料版は複数から選べます）。";
+      tl.appendChild(note);
+    }
+    // 配色
+    var sw = $("swatches"); sw.textContent = "";
+    PALETTE_ORDER.forEach(function (key) {
+      var p = PALETTES[key];
+      var s = document.createElement("div");
+      s.className = "swatch" + (state.palette === key ? " sel" : "");
+      s.style.background = p.bg; s.style.boxShadow = "inset 0 -14px 0 " + p.accent;
+      s.title = p.name;
+      s.addEventListener("click", function () { state.palette = key; renderDesignControls(); onEdit(); });
+      sw.appendChild(s);
+    });
+    // 向き
+    Array.prototype.forEach.call($("orient").children, function (b) {
+      b.classList.toggle("on", b.getAttribute("data-o") === state.orient);
+    });
+  }
+
+  // ===================================================================
+  // 保存・復元
+  // ===================================================================
+  var saveTimer = null;
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
+    }, 300);
+  }
+  function restore() {
+    var raw = null; try { raw = localStorage.getItem(LS_KEY); } catch (e) {}
+    var d = null; if (raw) { try { d = JSON.parse(raw); } catch (e) { d = null; } }
+    if (d && typeof d === "object") {
+      ["circle", "event", "date", "space", "contact", "heading", "msg", "note", "palette", "template", "orient"].forEach(function (k) {
+        if (typeof d[k] === "string") state[k] = d[k];
+      });
+      if (Array.isArray(d.items)) {
+        state.items = d.items.map(function (it) {
+          return { name: str(it.name), kind: str(it.kind), price: str(it.price), tip: str(it.tip) };
+        });
+      }
+    }
+    // 版の制約に合わせて補正
+    if (CONFIG.TEMPLATES.indexOf(state.template) < 0) state.template = CONFIG.TEMPLATES[0];
+    if (CONFIG.MAX_ITEMS && state.items.length > CONFIG.MAX_ITEMS) state.items = state.items.slice(0, CONFIG.MAX_ITEMS);
+    if (state.orient !== "landscape") state.orient = "portrait";
+    if (!PALETTES[state.palette]) state.palette = "cream";
+    if (!state.items.length) {
+      // 初回の見本（読み込むだけで完成イメージが分かる）
+      state.circle = state.circle || "まめどうぐ製作所";
+      state.event = state.event || "サンプルイベント";
+      state.space = state.space || "A-01";
+      state.items = [
+        { name: "新刊「はじめてのお品書き」", kind: "新刊", price: "700", tip: "B5・36P" },
+        { name: "既刊セット", kind: "既刊", price: "1000", tip: "2冊セット" },
+        { name: "アクリルキーホルダー", kind: "グッズ", price: "500", tip: "" }
+      ];
+      if (CONFIG.MAX_ITEMS && state.items.length > CONFIG.MAX_ITEMS) state.items = state.items.slice(0, CONFIG.MAX_ITEMS);
+      state.msg = state.msg || "お立ち寄りありがとうございます";
+      state.note = state.note || "価格はすべて税込です";
+    }
+  }
+  function str(v) { return (typeof v === "string") ? v : (v == null ? "" : String(v)); }
+
+  // ---- 入力を state に取り込む（ヘッダー系の単純フィールド） ----
+  function bindField(id, key) {
+    var el = $(id);
+    el.value = state[key] || "";
+    el.addEventListener("input", function () { state[key] = el.value; onEdit(); });
+  }
+
+  function onEdit() { renderPreview(); save(); }
+
+  // ---- タブ切替 ----
+  function showTab(name) {
+    Array.prototype.forEach.call(document.querySelectorAll(".tab-panel"), function (p) {
+      p.classList.toggle("active", p.id === "tab-" + name);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("#tabs button"), function (b) {
+      b.classList.toggle("active", b.getAttribute("data-tab") === name);
+    });
+  }
+
+  // ===================================================================
+  // 起動
+  // ===================================================================
+  function init() {
+    restore();
+    $("edition-badge").textContent = CONFIG.EDITION === "free" ? "無料版" : "";
+    bindField("i-circle", "circle");
+    bindField("i-event", "event");
+    bindField("i-date", "date");
+    bindField("i-space", "space");
+    bindField("i-contact", "contact");
+    bindField("i-heading", "heading");
+    bindField("i-msg", "msg");
+    bindField("i-note", "note");
+    renderItems();
+    renderDesignControls();
+    renderPreview();
+
+    $("tabs").addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-tab]"); if (b) showTab(b.getAttribute("data-tab"));
+    });
+    $("btn-add").addEventListener("click", function () {
+      if (CONFIG.MAX_ITEMS && state.items.length >= CONFIG.MAX_ITEMS) return;
+      state.items.push(newItem()); renderItems(); onEdit();
+    });
+    $("orient").addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-o]"); if (!b) return;
+      state.orient = b.getAttribute("data-o"); renderDesignControls(); onEdit();
+    });
+    $("btn-png").addEventListener("click", downloadPng);
+    $("btn-print").addEventListener("click", function () { showTab("make"); window.print(); });
+    $("btn-clear").addEventListener("click", function () {
+      if (!confirm("入力内容と保存データをすべて消去します。よろしいですか？")) return;
+      try { localStorage.removeItem(LS_KEY); } catch (e) {}
+      location.reload();
+    });
+
+    // QA用に描画コアを公開（閲覧のみ・外部送信なし）
+    window.__mameOshinagaki = { buildModel: buildModel, drawCanvas: drawCanvas, wrapText: wrapText, state: state, CONFIG: CONFIG };
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+})();
+</script>
+<style>
+.mdw-foot{max-width:900px;margin:48px auto 32px;padding:24px;border-top:2px solid #d6dce6;font:15px/1.9 "Yu Gothic UI",Meiryo,sans-serif;color:#3a4658}
+.mdw-foot h2{font-size:19px;margin:0 0 12px;color:#1a2b4a}
+.mdw-foot h3{font-size:16px;margin:22px 0 8px;color:#1a2b4a}
+.mdw-foot ul{margin:8px 0 8px 1.3em;padding:0}
+.mdw-foot a{color:#2554a3}
+.mdw-cta{display:inline-block;margin-top:10px;padding:11px 20px;background:#2554a3;color:#fff;
+  text-decoration:none;border-radius:6px;font-weight:bold}
+.mdw-note{font-size:13px;color:#6b7686;margin-top:20px}
+@media print{.mdw-foot{display:none !important}}
+</style><div class="mdw-foot">
+<h2>このページについて</h2>
+<p>同人イベントの「お品書き」を、<strong>デザインソフトを使わずブラウザだけ</strong>で作れる無料ツールです。
+会員登録・インストール・ネット接続は不要で、入力内容は<strong>この端末の中だけで処理されます</strong>。
+できたお品書きは<strong>A4印刷（当日の掲示用）</strong>と<strong>PNG画像（Xなどの告知用）</strong>の両方で保存できます。</p>
+<h3>この無料版でできること</h3>
+<ul>
+<li>サークル名・イベント名・スペース番号・連絡先の入力</li>
+<li><strong>頒布品は5点まで</strong>（品名／種別／価格／一言）</li>
+<li>A4印刷とPNG画像の書き出し（出力に「無料版」の透かしが入ります）</li>
+<li>テンプレートは1種類／配色は変更できます</li>
+</ul>
+<h3>制限なしで使いたい方へ</h3>
+<p>頒布点数の制限と透かしをなくし、テンプレートを3種類にした買い切り版（¥300・税込）をBOOTHで頒布しています。</p>
+<a class="mdw-cta" href="https://mamedougu.booth.pm/items/8665037">お品書きメーカー（¥300・買い切り）を見る</a>
+<p class="mdw-note">制作: <a href="../">まめどうぐ製作所</a></p></div>
+</body>
+</html>
