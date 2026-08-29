@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>見積書・納品書・領収書 3点セット 無料作成ツール｜登録不要・インストール不要｜まめどうぐ製作所</title>
+<meta name="description" content="見積書・納品書・領収書を1回の入力で作れる無料のブラウザツール。税率別（10%/8%）の消費税に対応、印刷からPDF保存。登録不要・インストール不要・入力内容を外部に送信しません。無料版は明細3行まで。">
+<link rel="canonical" href="https://setaro99.github.io/mamedougu-tools/quote/">
+<meta property="og:title" content="見積書・納品書・領収書 3点セット 無料作成ツール｜登録不要・インストール不要">
+<meta property="og:description" content="見積書・納品書・領収書を1回の入力で作れる無料のブラウザツール。税率別（10%/8%）の消費税に対応、印刷からPDF保存。登録不要・インストール不要・入力内容を外部に送信しません。無料版は明細3行まで。">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "見積書・納品書・領収書 3点セット作成ツール（無料版）",
+  "url": "https://setaro99.github.io/mamedougu-tools/quote/",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web（ブラウザ）",
+  "inLanguage": "ja",
+  "description": "見積書・納品書・領収書を1回の入力でまとめて作れる無料のブラウザツール。税率別（10%／8%）の消費税に対応。登録不要・インストール不要・入力内容を外部に送信しません。印刷からPDFとして保存できます。無料版は明細3行まで。",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+  "featureList": [
+    "見積書・納品書・領収書の3種を1回入力で作成",
+    "税率別（10%／8%軽減）の消費税額を計算",
+    "インボイス登録番号（T＋13桁）に対応",
+    "印刷からPDFとして保存",
+    "登録不要・インストール不要・データを外部に送信しない"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "見積書・納品書・領収書は何が違いますか？いつ出しますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "見積書は契約前に金額を示すとき、納品書は商品やサービスを納めたとき、領収書は代金を受け取った後に発行します。領収書は代金を受け取る前には発行しません。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "領収書に収入印紙は必要ですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "紙の領収書では、記載金額（原則は税抜金額で判断）が5万円以上のときに収入印紙が必要です（5万円以上100万円以下は200円）。5万円未満や、PDFなどの電子データで発行する領収書は収入印紙が不要とされています。金額や最新の取り扱いは国税庁でご確認ください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "インボイス制度に対応していますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "発行者の欄に適格請求書発行事業者の登録番号（T＋13桁）を記載できます。免税事業者の方は空欄のままで構いません。制度の詳細は国税庁の情報をご確認ください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "入力した内容は外部に送信されますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "送信されません。取引先名や金額は、お使いの端末（ブラウザ）の中だけで処理されます。外部へ送信する通信処理を含みません。"
+      }
+    }
+  ]
+}
+</script>
+<style>
+  :root {
+    --ink: #1a2b4a;
+    --accent: #2554a3;
+    --line: #d6dce6;
+    --bg: #eef1f6;
+    --danger: #b03030;
+    --free: #b06a00;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", "Yu Gothic UI", "Hiragino Sans", "Noto Sans JP", "Meiryo", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 14px;
+  }
+  header.app {
+    background: var(--ink);
+    color: #fff;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  header.app h1 { font-size: 16px; margin: 0; font-weight: 600; }
+  header.app h1 span { font-weight: 400; font-size: 12px; opacity: .8; }
+  header.app .spacer { flex: 1; }
+  button {
+    font: inherit;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    cursor: pointer;
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+  button.ghost { background: transparent; color: #dfe6f2; border-color: #4a5c7d; }
+  button:hover { filter: brightness(1.06); }
+  button:disabled { opacity: .5; cursor: default; }
+
+  /* 無料版バナー（有料版への静的リンク） */
+  .freebar {
+    background: #fff6e6; border-bottom: 1px solid #f0d9a8; color: var(--free);
+    padding: 8px 18px; font-size: 13px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .freebar a { color: var(--accent); font-weight: 600; }
+  .freebar .tag {
+    background: var(--free); color: #fff; border-radius: 4px; padding: 1px 7px; font-size: 11px; font-weight: 600;
+  }
+
+  /* ---- タブ ---- */
+  .tabs {
+    display: flex; gap: 4px; padding: 0 18px; background: var(--ink);
+    flex-wrap: wrap;
+  }
+  .tabs button {
+    background: transparent; color: #cdd8ea; border: none; border-radius: 8px 8px 0 0;
+    padding: 9px 16px; font-weight: 600; font-size: 13px;
+  }
+  .tabs button.active { background: var(--bg); color: var(--ink); }
+  .tabs button:hover { filter: none; color: #fff; }
+  .tabs button.active:hover { color: var(--ink); }
+
+  .container { max-width: 1500px; margin: 0 auto; padding: 18px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ---- 入力フォーム ---- */
+  .wrap {
+    display: grid;
+    grid-template-columns: minmax(340px, 460px) 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  @media (max-width: 1000px) { .wrap { grid-template-columns: 1fr; } }
+  .panel { background: #fff; border-radius: 10px; border: 1px solid var(--line); overflow: hidden; }
+  .panel details { border-bottom: 1px solid var(--line); }
+  .panel details:last-child { border-bottom: none; }
+  .panel summary {
+    cursor: pointer; padding: 12px 16px; font-weight: 600; background: #f7f9fc;
+    list-style: none; user-select: none;
+  }
+  .panel summary::before { content: "▸ "; color: var(--accent); }
+  .panel details[open] summary::before { content: "▾ "; }
+  .fields { padding: 12px 16px 16px; display: grid; gap: 10px; }
+  .fields label { display: grid; gap: 4px; font-size: 12px; color: #51607a; }
+  .fields input, .fields textarea, .fields select {
+    font: inherit; font-size: 14px; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; width: 100%; background: #fff;
+  }
+  .fields textarea { resize: vertical; min-height: 54px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .hint { font-size: 11px; color: #7c8aa5; line-height: 1.6; }
+
+  /* 明細行 */
+  .line { display: grid; grid-template-columns: 1fr 64px 92px 96px 30px; gap: 6px; align-items: center; }
+  .line input, .line select { padding: 6px 7px; font-size: 13px; }
+  .line .del { background: none; border: none; color: var(--danger); font-size: 16px; padding: 2px; cursor: pointer; }
+  .line-head { font-size: 11px; color: #7c8aa5; display: grid; grid-template-columns: 1fr 64px 92px 96px 30px; gap: 6px; }
+  #btn-addline { width: 100%; border-style: dashed; color: var(--accent); }
+
+  /* 明細3行の上限に達したときの案内（有料版へ） */
+  .upsell {
+    border: 1px dashed var(--free); border-radius: 6px; background: #fff6e6;
+    padding: 10px 12px; font-size: 12px; color: var(--free); line-height: 1.6;
+  }
+  .upsell a { color: var(--accent); font-weight: 600; }
+
+  .disclaimer { padding: 12px 16px; font-size: 11px; color: #7c8aa5; line-height: 1.6; background: #f7f9fc; }
+
+  /* 帳票タブの固有入力コントロール */
+  .doc-controls { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px 16px; margin-bottom: 16px; }
+  .doc-controls .dh { font-weight: 600; margin-bottom: 10px; }
+  .doc-controls .grid { display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 700px) { .doc-controls .grid { grid-template-columns: 1fr; } }
+  .doc-controls label { display: grid; gap: 4px; font-size: 12px; color: #51607a; }
+  .doc-controls input, .doc-controls textarea {
+    font: inherit; font-size: 14px; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; width: 100%; background: #fff;
+  }
+  .doc-actions { margin-bottom: 10px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+  /* ---- プレビュー（A4） ---- */
+  .sheet-outer { display: grid; gap: 8px; }
+  .sheet-label { font-size: 12px; color: #7c8aa5; }
+  .sheet {
+    background: #fff; width: 100%; max-width: 210mm; min-height: 280mm; margin: 0 auto;
+    padding: 18mm 16mm; box-shadow: 0 2px 14px rgba(20,35,60,.14); font-size: 13px; line-height: 1.6;
+    position: relative;      /* 透かしの基準 */
+    overflow: hidden;        /* 回転した透かしのはみ出しを隠す */
+  }
+  /* 透かし：CSS擬似要素で描画するため、DOM要素の削除では消せない（無料版の識別表示）。
+     文字列を繰り返して面全体にタイル表示し、薄いグレーで印刷面に必ず出力する。 */
+  .sheet::before {
+    content: "無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　";
+    position: absolute;
+    top: -25%; left: -25%; width: 150%; height: 150%;
+    transform: rotate(-30deg);
+    transform-origin: center;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 3.4;
+    letter-spacing: 2px;
+    color: rgba(120, 132, 152, 0.17);
+    white-space: normal;
+    word-break: break-word;
+    pointer-events: none;
+    z-index: 5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  /* 本文は透かしより前面に置き、可読性を保つ */
+  .sheet > * { position: relative; z-index: 6; }
+  .sheet h2.title {
+    text-align: center; font-size: 26px; letter-spacing: 14px; text-indent: 14px;
+    margin: 0 0 18px; font-weight: 600; border-bottom: 2px solid var(--ink); padding-bottom: 10px;
+  }
+  .top { display: flex; justify-content: space-between; gap: 20px; }
+  .client { max-width: 55%; }
+  .client .cname { font-size: 17px; font-weight: 600; border-bottom: 1px solid var(--ink); padding: 0 24px 3px 2px; display: inline-block; min-width: 200px; }
+  .client .caddr { margin-top: 6px; white-space: pre-wrap; font-size: 12px; }
+  .meta { text-align: right; font-size: 12px; }
+  .meta table { margin-left: auto; border-collapse: collapse; }
+  .meta td { padding: 1px 0 1px 14px; }
+  .issuer { margin-top: 14px; text-align: left; display: inline-block; position: relative; }
+  .issuer .iname { font-weight: 600; font-size: 14px; }
+  .issuer div { white-space: pre-wrap; }
+  .seal { position: absolute; right: -54px; top: 2px; width: 44px; height: 44px; border: 1.5px solid #b48; color: #b48; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .subject { margin: 14px 0 4px; font-size: 13px; }
+  .totalbox {
+    display: flex; align-items: baseline; gap: 18px; margin: 10px 0 16px;
+    border: 2px solid var(--ink); padding: 10px 16px; justify-content: space-between; flex-wrap: wrap;
+  }
+  .totalbox .lbl { font-size: 14px; font-weight: 600; }
+  .totalbox .amt { font-size: 24px; font-weight: 700; letter-spacing: 1px; }
+  .totalbox .sub { font-size: 12px; }
+  table.items { width: 100%; border-collapse: collapse; margin-top: 6px; }
+  table.items th {
+    background: #eef1f6; color: var(--ink); font-weight: 600; font-size: 12px;
+    padding: 7px 8px; text-align: left;
+    border-top: 2px solid var(--ink); border-bottom: 1.5px solid var(--ink);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  table.items td { border-bottom: 1px solid var(--line); padding: 7px 8px; }
+  table.items .num { text-align: right; white-space: nowrap; }
+  table.items .ctr { text-align: center; white-space: nowrap; }
+  .totals { margin-top: 10px; display: flex; justify-content: flex-end; }
+  .totals table { border-collapse: collapse; font-size: 13px; min-width: 300px; }
+  .totals td { padding: 4px 8px; border-bottom: 1px solid var(--line); }
+  .totals td.num { text-align: right; white-space: nowrap; }
+  .totals tr.grand td { border-top: 2px solid var(--ink); border-bottom: none; font-weight: 700; font-size: 15px; }
+  .legend { font-size: 11px; color: #51607a; margin-top: 6px; }
+  .notes { margin-top: 10px; font-size: 12px; white-space: pre-wrap; }
+  .muted { color: #9aa7bd; }
+
+  /* 領収書固有 */
+  .rc-amount { text-align: center; margin: 18px 0; }
+  .rc-amount .amt { font-size: 34px; font-weight: 700; letter-spacing: 3px; border-bottom: 2px solid var(--ink); padding: 4px 24px 8px; display: inline-block; }
+  .rc-tanaki { text-align: center; margin: 12px 0 18px; font-size: 14px; }
+  .rc-stamp { float: right; width: 88px; height: 100px; border: 1px dashed #b48; color: #b48; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 11px; margin: 0 0 10px 14px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rc-body { font-size: 13px; }
+  .rc-note { clear: both; }
+
+  /* ---- 使い方タブ ---- */
+  .howto { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; max-width: 820px; line-height: 1.8; }
+  .howto h2 { font-size: 18px; margin: 0 0 12px; }
+  .howto h3 { font-size: 14px; margin: 18px 0 6px; color: var(--accent); }
+  .howto ol, .howto ul { margin: 6px 0; padding-left: 22px; }
+  .howto .warn { background: #f7f9fc; border-left: 3px solid var(--accent); padding: 10px 14px; font-size: 12px; color: #51607a; margin-top: 12px; border-radius: 0 6px 6px 0; }
+
+  /* ---- 印刷 ---- */
+  @media print {
+    @page { size: A4; margin: 0; }
+    body { background: #fff; }
+    header.app, .freebar, .tabs, .doc-controls, .doc-actions, .sheet-label, .panel-col, .no-print, .mdw-foot { display: none !important; }
+    .container { padding: 0; max-width: none; }
+    .wrap { display: block; }
+    .tab-panel:not(.active) { display: none !important; }
+    .sheet { box-shadow: none; max-width: none; width: 100%; min-height: auto; margin: 0; padding: 14mm; }
+  }
+</style>
+</head>
+<body>
+<header class="app">
+  <h1>見積書・納品書・領収書 3点セットツール <span>無料お試し版 / 1回入力で3帳票 / データはこの端末内のみ</span></h1>
+  <div class="spacer"></div>
+  <button class="ghost" id="btn-clear" type="button">入力内容を消去</button>
+</header>
+
+<div class="freebar">
+  <span class="tag">無料版</span>
+  <span>明細は3行まで・印刷/PDFに「無料版」の透かしが入ります。</span>
+  <span>制限なしで使うなら
+    <a href="https://mamedougu.booth.pm/items/8620414" target="_blank" rel="noopener">有料版（¥800・BOOTH）はこちら</a>。
+  </span>
+</div>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="howto" class="active" type="button">使い方</button>
+  <button data-tab="input" type="button">共通入力</button>
+  <button data-tab="quote" type="button">見積書</button>
+  <button data-tab="delivery" type="button">納品書</button>
+  <button data-tab="receipt" type="button">領収書</button>
+</nav>
+
+<div class="container">
+
+  <!-- ============ 使い方 ============ -->
+  <section class="tab-panel active" id="tab-howto">
+    <div class="howto">
+      <h2>はじめにお読みください（5分で使えます）</h2>
+      <ol>
+        <li><b>「共通入力」タブ</b>で、自社情報・取引先・品目の明細を1回だけ入力します。</li>
+        <li><b>「見積書」「納品書」「領収書」タブ</b>を開くと、入力した内容が3帳票すべてに自動で反映されます。各帳票に固有の項目（有効期限・納品日・但し書きなど）だけ、そのタブで補います。</li>
+        <li>各帳票タブの<b>「印刷 / PDF保存」</b>ボタン → 送信先を「PDFに保存」にすると、その帳票がA4のPDFになります。</li>
+      </ol>
+
+      <h3>入力のルール</h3>
+      <ul>
+        <li>数量は小数もOK（例: 1.5時間）。行の金額は四捨五入します。</li>
+        <li>税率は行ごとに <b>10% / 8%（軽減） / 非課税</b> を選べます。混在OK。消費税は税率ごとに切り捨てで計算します。</li>
+        <li>金額はすべて整数演算で処理し、1円のズレが出ないようにしています。</li>
+      </ul>
+
+      <h3>データの保存とリセット</h3>
+      <ul>
+        <li>入力内容はこの端末のブラウザ内（localStorage）にのみ自動保存されます。<b>外部への送信は一切ありません。</b></li>
+        <li>消去したいときは右上の「入力内容を消去」を押してください。共有PCでは使用後の消去を推奨します。</li>
+      </ul>
+
+      <div class="warn">
+        これは無料お試し版です。明細は3行までで、印刷/PDFに「無料版」の薄い透かしが入ります。行数制限と透かしのない<a href="https://mamedougu.booth.pm/items/8620414" target="_blank" rel="noopener">買い切り版（¥800・BOOTH）</a>もあります。<br>
+        本ツールは帳票作成の補助であり、税務・法務のアドバイスではありません。消費税の課税区分・インボイス（適格請求書）の要件・収入印紙の要否は制度改正がありえます。最新の取り扱いは国税庁・税理士・税務署にご確認ください。<br>
+        領収書は金銭を実際に受領した事実を証する書類です。受領していない金額の領収書を作成しないようご注意ください（本ツールは書式作成の補助です）。
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 共通入力 ============ -->
+  <section class="tab-panel" id="tab-input">
+    <div class="wrap">
+      <div class="panel-col">
+      <div class="panel">
+        <details open>
+          <summary>1. あなたの情報（発行者）</summary>
+          <div class="fields">
+            <label>氏名・屋号（必須）<input id="i-name" placeholder="例) 山田 太郎（Yamada Design）"></label>
+            <label>住所<textarea id="i-addr" rows="2" placeholder="例) 〒100-0001&#10;東京都千代田区…"></textarea></label>
+            <label>連絡先（電話・メール）<input id="i-contact" placeholder="例) 090-xxxx-xxxx / mail@example.com"></label>
+            <label>インボイス登録番号（任意）<input id="i-reg" placeholder="例) T1234567890123"></label>
+            <span class="hint">免税事業者の方は空欄のままで構いません（記載自体が非表示になります）。</span>
+          </div>
+        </details>
+
+        <details open>
+          <summary>2. 取引先（宛先）</summary>
+          <div class="fields">
+            <div class="row2">
+              <label>会社名・氏名（必須）<input id="c-name" placeholder="例) 株式会社サンプル"></label>
+              <label>敬称
+                <select id="c-suffix">
+                  <option value="御中">御中</option>
+                  <option value="様">様</option>
+                  <option value="">（なし）</option>
+                </select>
+              </label>
+            </div>
+            <label>住所（任意）<textarea id="c-addr" rows="2"></textarea></label>
+          </div>
+        </details>
+
+        <details open>
+          <summary>3. 明細（見積・納品・領収に共通／無料版は3行まで）</summary>
+          <div class="fields">
+            <div class="line-head"><span>品名・内容</span><span>数量</span><span>単価(円)</span><span>税率</span><span></span></div>
+            <div id="lines"></div>
+            <button id="btn-addline" type="button">＋ 行を追加</button>
+            <div class="upsell" id="upsell" style="display:none">
+              無料版の明細は<b>3行まで</b>です。行数無制限で使うには
+              <a href="https://mamedougu.booth.pm/items/8620414" target="_blank" rel="noopener">有料版（¥800）</a>
+              をご利用ください（透かしも入りません）。
+            </div>
+            <span class="hint">数量は小数もOK。税率は行ごとに 10% / 8%（軽減） / 非課税 から選べます。</span>
+          </div>
+        </details>
+
+        <details open>
+          <summary>4. 備考（任意）</summary>
+          <div class="fields">
+            <label>備考<textarea id="o-notes" rows="2" placeholder="例) お取引ありがとうございます。"></textarea></label>
+          </div>
+        </details>
+
+        <div class="disclaimer">
+          本ツールは帳票作成の補助です。税務上の最終判断は税理士または税務署にご確認ください。<br>
+          入力データはブラウザの localStorage にのみ保存され、外部へ送信されません。
+          共有PCでは使用後に「入力内容を消去」を押してください。<br>
+          ＜無料お試し版＞明細3行まで・印刷/PDFに透かしあり。制限なしの有料版は
+          <a href="https://mamedougu.booth.pm/items/8620414" target="_blank" rel="noopener">こちら（¥800・BOOTH）</a>。
+        </div>
+      </div>
+      </div>
+
+      <!-- 明細の集計プレビュー -->
+      <div class="sheet-outer">
+        <div class="sheet-label">明細の集計（3帳票で共通に使われます）</div>
+        <div class="panel" style="padding:16px">
+          <div class="totals" style="justify-content:flex-start">
+            <table>
+              <tbody id="sum-totals"></tbody>
+            </table>
+          </div>
+          <div class="legend" id="sum-legend" style="display:none;margin-top:10px">※ は軽減税率（8%）対象 ／ 「非課税」は消費税の対象外です</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 見積書 ============ -->
+  <section class="tab-panel" id="tab-quote">
+    <div class="doc-controls">
+      <div class="dh">見積書の固有項目</div>
+      <div class="grid">
+        <label>見積書番号<input id="q-no" placeholder="例) Q-20260715-01"></label>
+        <label>発行日<input id="q-date" type="date"></label>
+        <label>有効期限<input id="q-valid" type="date"></label>
+      </div>
+      <div class="grid" style="margin-top:10px">
+        <label style="grid-column:1 / -1">件名（任意）<input id="q-title" placeholder="例) Webサイト制作一式のお見積り"></label>
+      </div>
+    </div>
+    <div class="doc-actions">
+      <button class="primary" data-print="quote" type="button">印刷 / PDF保存</button>
+      <span class="hint">この見積書だけがA4で印刷されます（無料版の透かしが入ります）。</span>
+    </div>
+    <div class="sheet-outer">
+      <div class="sheet-label">プレビュー（A4）</div>
+      <div class="sheet" id="sheet-quote">
+        <h2 class="title">見積書</h2>
+        <div class="top">
+          <div class="client">
+            <div class="cname"><span id="q-pv-cname" class="muted">（宛先）</span>　<span id="q-pv-csuffix">御中</span></div>
+            <div class="caddr" id="q-pv-caddr"></div>
+            <div class="subject" id="q-pv-subject-wrap" style="display:none">件名：<span id="q-pv-subject"></span></div>
+          </div>
+          <div class="meta">
+            <table>
+              <tr><td>見積書番号</td><td id="q-pv-no" style="text-align:right">-</td></tr>
+              <tr><td>発行日</td><td id="q-pv-date" style="text-align:right">-</td></tr>
+              <tr><td>有効期限</td><td id="q-pv-valid" style="text-align:right">-</td></tr>
+            </table>
+            <div class="issuer">
+              <span class="seal">印</span>
+              <div class="iname" id="q-pv-iname"></div>
+              <div id="q-pv-iaddr" style="font-size:11px"></div>
+              <div id="q-pv-icontact" style="font-size:11px"></div>
+              <div id="q-pv-ireg" style="font-size:11px"></div>
+            </div>
+          </div>
+        </div>
+        <div class="totalbox">
+          <span class="lbl">お見積金額（税込）</span>
+          <span class="amt" id="q-pv-total-big">¥0</span>
+          <span class="sub" id="q-pv-valid-wrap" style="display:none">有効期限：<span id="q-pv-valid2"></span></span>
+        </div>
+        <table class="items">
+          <thead><tr><th>品名・内容</th><th class="ctr" style="width:70px">数量</th><th class="num" style="width:100px">単価</th><th class="num" style="width:110px">金額（税抜）</th></tr></thead>
+          <tbody id="q-pv-lines"></tbody>
+        </table>
+        <div class="totals"><table><tbody id="q-pv-totals"></tbody></table></div>
+        <div class="legend" id="q-pv-legend" style="display:none">※ は軽減税率（8%）対象 ／ 「非課税」は消費税の対象外です</div>
+        <div class="notes" id="q-pv-notes"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 納品書 ============ -->
+  <section class="tab-panel" id="tab-delivery">
+    <div class="doc-controls">
+      <div class="dh">納品書の固有項目</div>
+      <div class="grid">
+        <label>納品書番号<input id="d-no" placeholder="例) D-20260715-01"></label>
+        <label>納品日<input id="d-date" type="date"></label>
+        <label>件名（任意）<input id="d-title" placeholder="例) Webサイト制作一式"></label>
+      </div>
+    </div>
+    <div class="doc-actions">
+      <button class="primary" data-print="delivery" type="button">印刷 / PDF保存</button>
+      <span class="hint">この納品書だけがA4で印刷されます（無料版の透かしが入ります）。</span>
+    </div>
+    <div class="sheet-outer">
+      <div class="sheet-label">プレビュー（A4）</div>
+      <div class="sheet" id="sheet-delivery">
+        <h2 class="title">納品書</h2>
+        <div class="top">
+          <div class="client">
+            <div class="cname"><span id="d-pv-cname" class="muted">（宛先）</span>　<span id="d-pv-csuffix">御中</span></div>
+            <div class="caddr" id="d-pv-caddr"></div>
+            <div class="subject" id="d-pv-subject-wrap" style="display:none">件名：<span id="d-pv-subject"></span></div>
+          </div>
+          <div class="meta">
+            <table>
+              <tr><td>納品書番号</td><td id="d-pv-no" style="text-align:right">-</td></tr>
+              <tr><td>納品日</td><td id="d-pv-date" style="text-align:right">-</td></tr>
+            </table>
+            <div class="issuer">
+              <span class="seal">印</span>
+              <div class="iname" id="d-pv-iname"></div>
+              <div id="d-pv-iaddr" style="font-size:11px"></div>
+              <div id="d-pv-icontact" style="font-size:11px"></div>
+              <div id="d-pv-ireg" style="font-size:11px"></div>
+            </div>
+          </div>
+        </div>
+        <div class="totalbox">
+          <span class="lbl">納品金額（税込）</span>
+          <span class="amt" id="d-pv-total-big">¥0</span>
+        </div>
+        <p style="font-size:12px;margin:0 0 6px">下記のとおり納品いたしました。</p>
+        <table class="items">
+          <thead><tr><th>品名・内容</th><th class="ctr" style="width:70px">数量</th><th class="num" style="width:100px">単価</th><th class="num" style="width:110px">金額（税抜）</th></tr></thead>
+          <tbody id="d-pv-lines"></tbody>
+        </table>
+        <div class="totals"><table><tbody id="d-pv-totals"></tbody></table></div>
+        <div class="legend" id="d-pv-legend" style="display:none">※ は軽減税率（8%）対象 ／ 「非課税」は消費税の対象外です</div>
+        <div class="notes" id="d-pv-notes"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 領収書 ============ -->
+  <section class="tab-panel" id="tab-receipt">
+    <div class="doc-controls">
+      <div class="dh">領収書の固有項目</div>
+      <div class="grid">
+        <label>領収書番号<input id="r-no" placeholder="例) R-20260715-01"></label>
+        <label>受領日<input id="r-date" type="date"></label>
+        <label>但し書き<input id="r-tanaki" placeholder="例) Web制作費として"></label>
+      </div>
+      <div class="hint" style="margin-top:8px">宛名・金額・内訳は「共通入力」の内容から自動で反映されます。実際に受領した金額の領収書のみ発行してください。</div>
+    </div>
+    <div class="doc-actions">
+      <button class="primary" data-print="receipt" type="button">印刷 / PDF保存</button>
+      <span class="hint">この領収書だけがA4で印刷されます（無料版の透かしが入ります）。</span>
+    </div>
+    <div class="sheet-outer">
+      <div class="sheet-label">プレビュー（A4）</div>
+      <div class="sheet" id="sheet-receipt">
+        <h2 class="title">領収書</h2>
+        <div class="top">
+          <div class="client">
+            <div class="cname"><span id="r-pv-cname" class="muted">（宛名）</span>　<span id="r-pv-csuffix">様</span></div>
+          </div>
+          <div class="meta">
+            <table>
+              <tr><td>No.</td><td id="r-pv-no" style="text-align:right">-</td></tr>
+              <tr><td>受領日</td><td id="r-pv-date" style="text-align:right">-</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="rc-amount">
+          <div class="amt" id="r-pv-total-big">¥0</div>
+        </div>
+        <div class="rc-tanaki">但し <span id="r-pv-tanaki">（但し書き）</span> として</div>
+        <div class="rc-body">
+          <div class="rc-stamp">収入印紙<br>（必要な<br>場合）</div>
+          <p>上記の金額を正に領収いたしました。</p>
+          <div class="totals" style="justify-content:flex-start">
+            <table><tbody id="r-pv-totals"></tbody></table>
+          </div>
+          <div class="legend" id="r-pv-legend" style="display:none">※ は軽減税率（8%）対象 ／ 「非課税」は消費税の対象外です</div>
+          <div class="issuer" style="margin-top:20px">
+            <span class="seal">印</span>
+            <div class="iname" id="r-pv-iname"></div>
+            <div id="r-pv-iaddr" style="font-size:11px"></div>
+            <div id="r-pv-icontact" style="font-size:11px"></div>
+            <div id="r-pv-ireg" style="font-size:11px"></div>
+          </div>
+        </div>
+        <div class="legend rc-note" style="margin-top:18px">
+          収入印紙は、受取金額が5万円以上（税抜）の場合などに課税文書となり必要となることがあります（電子的に交付する領収書は印紙税の課税対象外とされています）。金額や交付方法により取り扱いが異なり、制度改正もあるため、要否・貼付額は国税庁の最新情報でご確認ください。本ツールは印紙の要否を判定するものではありません。
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var LS_KEY = "mame_p004_v1";
+  var MAX_LINES = 3; // 無料版：明細は3行まで（有料版は無制限）
+
+  // ---------- ユーティリティ ----------
+  function $(id) { return document.getElementById(id); }
+  function yen(n) {
+    var sign = n < 0 ? "-" : "";
+    return sign + "¥" + Math.abs(n).toLocaleString("ja-JP");
+  }
+  function fmtDate(iso) {
+    if (!iso) return "";
+    var p = iso.split("-");
+    if (p.length !== 3) return iso;
+    return parseInt(p[0], 10) + "年" + parseInt(p[1], 10) + "月" + parseInt(p[2], 10) + "日";
+  }
+  function todayISO() {
+    var d = new Date();
+    var m = ("0" + (d.getMonth() + 1)).slice(-2);
+    var day = ("0" + d.getDate()).slice(-2);
+    return d.getFullYear() + "-" + m + "-" + day;
+  }
+
+  // ---------- 計算（純関数・整数演算・有料版と同一ロジック） ----------
+  // lines: [{qty, price, rate}] rate は "0.1" / "0.08" / "none"（非課税）
+  function calcTotals(lines) {
+    var sub = {};
+    lines.forEach(function (l) {
+      var amt = Math.round((l.qty || 0) * (l.price || 0));
+      var key = String(l.rate);
+      sub[key] = (sub[key] || 0) + amt;
+    });
+    var byRate = [], subtotal = 0, taxTotal = 0;
+    // 課税分（10% → 8%）を先に、非課税分を最後に並べる
+    [["0.1", 10], ["0.08", 8]].forEach(function (pair) {
+      var key = pair[0], pct = pair[1];
+      if (!(key in sub)) return;
+      var base = sub[key];
+      var tax = Math.floor(base * pct / 100); // 税率ごとに切り捨て
+      byRate.push({ key: key, pct: pct, base: base, tax: tax });
+      subtotal += base;
+      taxTotal += tax;
+    });
+    if ("none" in sub) {
+      var nbase = sub["none"];
+      byRate.push({ key: "none", pct: 0, base: nbase, tax: 0 });
+      subtotal += nbase;
+    }
+    return { byRate: byRate, subtotal: subtotal, taxTotal: taxTotal, total: subtotal + taxTotal };
+  }
+  // QA用に公開（閲覧のみ・外部送信なし）
+  window.__mameQuote = { calcTotals: calcTotals };
+
+  var RATE_OPTS = [["0.1", "10%"], ["0.08", "8%(軽)"], ["none", "非課税"]];
+
+  // ---------- 明細行（無料版：3行上限） ----------
+  var linesEl = $("lines");
+  function lineCount() { return linesEl.querySelectorAll(".line").length; }
+  function refreshAddState() {
+    var full = lineCount() >= MAX_LINES;
+    var btn = $("btn-addline");
+    btn.disabled = full;
+    btn.style.display = full ? "none" : "";
+    $("upsell").style.display = full ? "" : "none";
+  }
+  function addLine(data) {
+    if (lineCount() >= MAX_LINES) return false; // 上限に達したら追加しない
+    data = data || {};
+    var row = document.createElement("div");
+    row.className = "line";
+    var desc = document.createElement("input");
+    desc.className = "l-desc"; desc.placeholder = "例) Webサイトデザイン一式";
+    desc.value = data.desc || "";
+    var qty = document.createElement("input");
+    qty.className = "l-qty"; qty.type = "number"; qty.min = "0"; qty.step = "any";
+    qty.value = (data.qty != null) ? data.qty : 1;
+    var price = document.createElement("input");
+    price.className = "l-price"; price.type = "number"; price.min = "0"; price.step = "any";
+    price.value = (data.price != null) ? data.price : "";
+    var rate = document.createElement("select");
+    rate.className = "l-rate";
+    RATE_OPTS.forEach(function (o) {
+      var op = document.createElement("option");
+      op.value = o[0]; op.textContent = o[1];
+      rate.appendChild(op);
+    });
+    rate.value = data.rate != null ? String(data.rate) : "0.1";
+    var del = document.createElement("button");
+    del.type = "button"; del.className = "del"; del.title = "この行を削除"; del.textContent = "✕";
+    del.addEventListener("click", function () {
+      row.remove();
+      if (!lineCount()) addLine();
+      refreshAddState();
+      update();
+    });
+    row.appendChild(desc); row.appendChild(qty); row.appendChild(price); row.appendChild(rate); row.appendChild(del);
+    linesEl.appendChild(row);
+    return true;
+  }
+  function readLines() {
+    var out = [];
+    Array.prototype.forEach.call(linesEl.querySelectorAll(".line"), function (row) {
+      out.push({
+        desc: row.querySelector(".l-desc").value,
+        qty: parseFloat(row.querySelector(".l-qty").value) || 0,
+        price: parseFloat(row.querySelector(".l-price").value) || 0,
+        rate: row.querySelector(".l-rate").value
+      });
+    });
+    return out;
+  }
+
+  // ---------- プレビュー描画（textContent + createElement のみ・XSS安全） ----------
+  function setText(id, text) { var el = $(id); if (el) el.textContent = text; }
+
+  // 明細テーブルを描画（prefix: q/d のみ。領収書は明細表を出さない）
+  function renderLines(prefix, lines) {
+    var tbody = $(prefix + "-pv-lines");
+    if (!tbody) return { hasReduced: false, hasExempt: false };
+    tbody.textContent = "";
+    var hasReduced = false, hasExempt = false;
+    lines.forEach(function (l) {
+      var amt = Math.round(l.qty * l.price);
+      if (!l.desc && amt === 0) return;
+      var mark = l.rate === "0.08" ? " ※" : (l.rate === "none" ? "（非課税）" : "");
+      if (l.rate === "0.08") hasReduced = true;
+      if (l.rate === "none") hasExempt = true;
+      var tr = document.createElement("tr");
+      var tdDesc = document.createElement("td"); tdDesc.textContent = l.desc + mark;
+      var tdQty = document.createElement("td"); tdQty.className = "ctr"; tdQty.textContent = String(l.qty);
+      var tdPrice = document.createElement("td"); tdPrice.className = "num"; tdPrice.textContent = yen(l.price);
+      var tdAmt = document.createElement("td"); tdAmt.className = "num"; tdAmt.textContent = yen(amt);
+      tr.appendChild(tdDesc); tr.appendChild(tdQty); tr.appendChild(tdPrice); tr.appendChild(tdAmt);
+      tbody.appendChild(tr);
+    });
+    return { hasReduced: hasReduced, hasExempt: hasExempt };
+  }
+
+  // 合計テーブルを描画（税抜小計・税率別消費税・合計）
+  function renderTotals(tbodyId, t) {
+    var totals = $(tbodyId);
+    if (!totals) return;
+    totals.textContent = "";
+    function trow(label, val, cls) {
+      var tr = document.createElement("tr");
+      if (cls) tr.className = cls;
+      var td1 = document.createElement("td"); td1.textContent = label;
+      var td2 = document.createElement("td"); td2.className = "num"; td2.textContent = val;
+      tr.appendChild(td1); tr.appendChild(td2);
+      totals.appendChild(tr);
+    }
+    trow("小計（税抜）", yen(t.subtotal));
+    t.byRate.forEach(function (r) {
+      if (r.key === "none") {
+        trow("非課税（対象 " + yen(r.base) + "）", yen(0));
+      } else {
+        var pct = r.key === "0.08" ? "8%（軽減）" : "10%";
+        trow("消費税 " + pct + "（対象 " + yen(r.base) + "）", yen(r.tax));
+      }
+    });
+    trow("合計（税込）", yen(t.total), "grand");
+  }
+
+  // 発行者情報を各帳票へ反映
+  function renderIssuer(prefix) {
+    setText(prefix + "-pv-iname", $("i-name").value.trim());
+    setText(prefix + "-pv-iaddr", $("i-addr").value.trim());
+    setText(prefix + "-pv-icontact", $("i-contact").value.trim());
+    var reg = $("i-reg").value.trim();
+    setText(prefix + "-pv-ireg", reg ? "登録番号：" + reg : "");
+  }
+
+  // 宛先を各帳票へ反映
+  function renderClient(prefix, defaultLabel) {
+    var cname = $("c-name").value.trim();
+    var cEl = $(prefix + "-pv-cname");
+    cEl.textContent = cname || defaultLabel;
+    cEl.className = cname ? "" : "muted";
+    setText(prefix + "-pv-csuffix", $("c-suffix").value);
+    var addrEl = $(prefix + "-pv-caddr");
+    if (addrEl) addrEl.textContent = $("c-addr").value.trim();
+  }
+
+  function update() {
+    var lines = readLines();
+    var t = calcTotals(lines);
+    var notes = $("o-notes").value.trim();
+
+    // --- 明細の集計（共通入力タブ） ---
+    renderTotals("sum-totals", t);
+    var anyReduced = lines.some(function (l) { return l.rate === "0.08"; });
+    var anyExempt = lines.some(function (l) { return l.rate === "none"; });
+    $("sum-legend").style.display = (anyReduced || anyExempt) ? "" : "none";
+
+    // --- 見積書 ---
+    renderClient("q", "（宛先）");
+    renderIssuer("q");
+    var qSubj = $("q-title").value.trim();
+    $("q-pv-subject-wrap").style.display = qSubj ? "" : "none";
+    setText("q-pv-subject", qSubj);
+    setText("q-pv-no", $("q-no").value.trim() || "-");
+    setText("q-pv-date", fmtDate($("q-date").value) || "-");
+    var qValid = fmtDate($("q-valid").value);
+    setText("q-pv-valid", qValid || "-");
+    $("q-pv-valid-wrap").style.display = qValid ? "" : "none";
+    setText("q-pv-valid2", qValid);
+    var qMarks = renderLines("q", lines);
+    renderTotals("q-pv-totals", t);
+    setText("q-pv-total-big", yen(t.total));
+    $("q-pv-legend").style.display = (qMarks.hasReduced || qMarks.hasExempt) ? "" : "none";
+    setText("q-pv-notes", notes);
+
+    // --- 納品書 ---
+    renderClient("d", "（宛先）");
+    renderIssuer("d");
+    var dSubj = $("d-title").value.trim();
+    $("d-pv-subject-wrap").style.display = dSubj ? "" : "none";
+    setText("d-pv-subject", dSubj);
+    setText("d-pv-no", $("d-no").value.trim() || "-");
+    setText("d-pv-date", fmtDate($("d-date").value) || "-");
+    var dMarks = renderLines("d", lines);
+    renderTotals("d-pv-totals", t);
+    setText("d-pv-total-big", yen(t.total));
+    $("d-pv-legend").style.display = (dMarks.hasReduced || dMarks.hasExempt) ? "" : "none";
+    setText("d-pv-notes", notes);
+
+    // --- 領収書 ---
+    renderClient("r", "（宛名）");
+    renderIssuer("r");
+    setText("r-pv-no", $("r-no").value.trim() || "-");
+    setText("r-pv-date", fmtDate($("r-date").value) || "-");
+    var tanaki = $("r-tanaki").value.trim();
+    var tEl = $("r-pv-tanaki");
+    tEl.textContent = tanaki || "（但し書き）";
+    tEl.className = tanaki ? "" : "muted";
+    setText("r-pv-total-big", yen(t.total));
+    renderTotals("r-pv-totals", t);
+    $("r-pv-legend").style.display = (anyReduced || anyExempt) ? "" : "none";
+
+    save();
+  }
+
+  // ---------- 保存・復元（localStorageのみ） ----------
+  var saveTimer = null;
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      var data = {
+        issuer: { name: $("i-name").value, addr: $("i-addr").value, contact: $("i-contact").value, reg: $("i-reg").value },
+        client: { name: $("c-name").value, suffix: $("c-suffix").value, addr: $("c-addr").value },
+        lines: readLines(),
+        notes: $("o-notes").value,
+        quote: { no: $("q-no").value, date: $("q-date").value, valid: $("q-valid").value, title: $("q-title").value },
+        delivery: { no: $("d-no").value, date: $("d-date").value, title: $("d-title").value },
+        receipt: { no: $("r-no").value, date: $("r-date").value, tanaki: $("r-tanaki").value }
+      };
+      try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch (e) { /* プライベートモード等 */ }
+    }, 300);
+  }
+  function restore() {
+    var raw = null;
+    try { raw = localStorage.getItem(LS_KEY); } catch (e) {}
+    if (!raw) { initFresh(); return; }
+    var d;
+    try { d = JSON.parse(raw); } catch (e) { initFresh(); return; }
+    var iss = d.issuer || {}, cli = d.client || {}, q = d.quote || {}, dl = d.delivery || {}, rc = d.receipt || {};
+    $("i-name").value = iss.name || "";
+    $("i-addr").value = iss.addr || "";
+    $("i-contact").value = iss.contact || "";
+    $("i-reg").value = iss.reg || "";
+    $("c-name").value = cli.name || "";
+    $("c-suffix").value = (cli.suffix != null) ? cli.suffix : "御中";
+    $("c-addr").value = cli.addr || "";
+    $("o-notes").value = d.notes || "";
+    $("q-no").value = q.no || "";
+    $("q-date").value = q.date || todayISO();
+    $("q-valid").value = q.valid || "";
+    $("q-title").value = q.title || "";
+    $("d-no").value = dl.no || "";
+    $("d-date").value = dl.date || todayISO();
+    $("d-title").value = dl.title || "";
+    $("r-no").value = rc.no || "";
+    $("r-date").value = rc.date || todayISO();
+    $("r-tanaki").value = rc.tanaki || "";
+    linesEl.textContent = "";
+    // 無料版は3行まで（保存データが多くても先頭3行に制限して復元）
+    if (d.lines && d.lines.length) {
+      d.lines.slice(0, MAX_LINES).forEach(addLine);
+    } else {
+      addLine();
+    }
+  }
+  function initFresh() {
+    var t = todayISO(), tag = t.replace(/-/g, "");
+    $("q-date").value = t; $("d-date").value = t; $("r-date").value = t;
+    $("q-no").value = "Q-" + tag + "-01";
+    $("d-no").value = "D-" + tag + "-01";
+    $("r-no").value = "R-" + tag + "-01";
+    // サンプル明細（削除して使ってください・無料版は3行まで）
+    addLine({ desc: "Webサイトデザイン一式", qty: 1, price: 120000, rate: "0.1" });
+    addLine({ desc: "商品パンフレット（軽減税率対象例）", qty: 1, price: 5000, rate: "0.08" });
+  }
+
+  // ---------- タブ切替 ----------
+  function showTab(name) {
+    Array.prototype.forEach.call(document.querySelectorAll(".tab-panel"), function (p) {
+      p.classList.toggle("active", p.id === "tab-" + name);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("#tabs button"), function (b) {
+      b.classList.toggle("active", b.getAttribute("data-tab") === name);
+    });
+  }
+  $("tabs").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-tab]");
+    if (b) showTab(b.getAttribute("data-tab"));
+  });
+
+  // ---------- 印刷（該当タブを表示してから印刷。印刷対象は表示中タブの帳票のみ） ----------
+  Array.prototype.forEach.call(document.querySelectorAll("button[data-print]"), function (btn) {
+    btn.addEventListener("click", function () {
+      showTab(btn.getAttribute("data-print"));
+      window.print();
+    });
+  });
+
+  // ---------- イベント ----------
+  $("btn-addline").addEventListener("click", function () {
+    if (addLine()) { refreshAddState(); update(); }
+  });
+  $("btn-clear").addEventListener("click", function () {
+    if (!confirm("入力内容と保存データをすべて消去します。よろしいですか？")) return;
+    try { localStorage.removeItem(LS_KEY); } catch (e) {}
+    location.reload();
+  });
+  document.addEventListener("input", update);
+  document.addEventListener("change", update);
+
+  // ---------- 起動 ----------
+  restore();
+  refreshAddState();
+  update();
+})();
+</script>
+<style>
+.mdw-foot{max-width:900px;margin:48px auto 32px;padding:24px;border-top:2px solid #d6dce6;font:15px/1.9 "Yu Gothic UI",Meiryo,sans-serif;color:#3a4658}
+.mdw-foot h2{font-size:19px;margin:0 0 12px;color:#1a2b4a}
+.mdw-foot h3{font-size:16px;margin:22px 0 8px;color:#1a2b4a}
+.mdw-foot ul{margin:8px 0 8px 1.3em;padding:0}
+.mdw-foot a{color:#2554a3}
+.mdw-foot dt{font-weight:bold;margin-top:14px}
+.mdw-foot dd{margin:4px 0 0;color:#5b6879}
+.mdw-cta{display:inline-block;margin-top:10px;padding:11px 20px;background:#2554a3;color:#fff;
+  text-decoration:none;border-radius:6px;font-weight:bold}
+.mdw-note{font-size:13px;color:#6b7686;margin-top:20px}
+@media print{.mdw-foot{display:none !important}}
+</style><div class="mdw-foot">
+<h2>このページについて</h2>
+<p>見積書・納品書・領収書を1回の入力でまとめて作れる無料のブラウザツールです。<strong>会員登録・インストール・ネット接続は不要</strong>で、
+入力した取引先名や金額は<strong>この端末の中だけで処理され、外部に送信されません</strong>（通信処理を含まないHTMLファイル1枚で動きます）。
+作った書類はブラウザの印刷機能からPDFとして保存できます。</p>
+
+<h3>3つの書類はどう違う？いつ出す？</h3>
+<p><strong>見積書</strong>は契約する前に金額をあらかじめ示す書類、<strong>納品書</strong>は「いつ・誰に・何を」納めたかを示す書類、
+<strong>領収書</strong>は代金を受け取った後にその受領を証明する書類です。領収書は代金の受け取り前には発行しません。</p>
+
+<h3>この無料版でできること</h3>
+<ul>
+<li>見積書・納品書・領収書の3種を作成</li>
+<li>共通の取引先・品目を1回入力で3帳票へ反映</li>
+<li>税率別（10%・8%軽減）の消費税を自動計算</li>
+<li>インボイス制度の登録番号（T＋13桁）の記載</li>
+<li><strong>明細は3行まで</strong>／A4での印刷・PDF保存（出力に「無料版」の透かしが入ります）</li>
+</ul>
+
+<h3>制限なしで使いたい方へ</h3>
+<p>明細の行数制限と透かしをなくした買い切り版（¥800・税込）をBOOTHで頒布しています。月額料金はありません。</p>
+<a class="mdw-cta" href="https://mamedougu.booth.pm/items/8620414">見積書・納品書・領収書 3点セット（¥800・買い切り）を見る</a>
+
+<h3>よくある質問</h3>
+<dl>
+<dt>見積書・納品書・領収書は何が違いますか？いつ出しますか？</dt>
+<dd>見積書は契約前に金額を示すとき、納品書は商品やサービスを納めたとき、領収書は代金を受け取った後に発行します。領収書は代金を受け取る前には発行しません。</dd>
+<dt>領収書に収入印紙は必要ですか？</dt>
+<dd>紙の領収書では、記載金額（原則は税抜金額で判断）が5万円以上のときに収入印紙が必要です（5万円以上100万円以下は200円）。5万円未満や、PDFなどの電子データで発行する領収書は収入印紙が不要とされています。金額や最新の取り扱いは国税庁でご確認ください。</dd>
+<dt>インボイス制度に対応していますか？</dt>
+<dd>発行者の欄に適格請求書発行事業者の登録番号（T＋13桁）を記載できます。免税事業者の方は空欄のままで構いません。制度の詳細は国税庁の情報をご確認ください。</dd>
+<dt>入力した内容は外部に送信されますか？</dt>
+<dd>送信されません。取引先名や金額は、お使いの端末（ブラウザ）の中だけで処理されます。外部へ送信する通信処理を含みません。</dd>
+</dl>
+
+<p class="mdw-note">制作: <a href="../">まめどうぐ製作所</a>／
+本ツールは書類の作成を補助するものです。税務・法務上の判断については国税庁の情報や税理士にご確認ください。</p></div>
+</body>
+</html>
