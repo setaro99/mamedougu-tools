@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>フリーランス 売上・経費 帳簿 無料作成ツール｜Excel不要・登録不要・インストール不要｜まめどうぐ製作所</title>
+<meta name="description" content="フリーランス・個人事業主の売上と経費を入力するだけで月次・年間の集計が出る無料のブラウザ帳簿ツール。税率別（10%/8%）の消費税に対応、CSV書き出し、印刷からPDF保存。登録不要・インストール不要・入力内容を外部に送信しません。無料版は売上・経費とも5行まで。">
+<link rel="canonical" href="https://setaro99.github.io/mamedougu-tools/ledger/">
+<meta property="og:title" content="フリーランス 売上・経費 帳簿 無料作成ツール｜Excel不要・登録不要・インストール不要">
+<meta property="og:description" content="フリーランス・個人事業主の売上と経費を入力するだけで月次・年間の集計が出る無料のブラウザ帳簿ツール。税率別（10%/8%）の消費税に対応、CSV書き出し、印刷からPDF保存。登録不要・インストール不要・入力内容を外部に送信しません。無料版は売上・経費とも5行まで。">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "フリーランス 売上・経費 管理帳簿（無料版）",
+  "url": "https://setaro99.github.io/mamedougu-tools/ledger/",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web（ブラウザ）",
+  "inLanguage": "ja",
+  "description": "フリーランス・個人事業主の売上と経費を入力すると月次・年間の集計が出る無料のブラウザ帳簿ツール。税率別（10%／8%軽減）の消費税に対応。登録不要・インストール不要・入力内容を外部に送信しません。CSV書き出しと印刷からのPDF保存に対応。無料版は売上・経費とも5行まで。",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+  "featureList": [
+    "売上・経費を入力して月次・年間の集計を自動計算",
+    "税率別（10%／8%軽減／非課税）の消費税に対応",
+    "インボイス登録番号（T＋13桁）を売上に記録",
+    "CSV書き出し（UTF-8）／印刷からPDF保存",
+    "登録不要・インストール不要・データを外部に送信しない"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "フリーランスの帳簿は、白色申告でもつけないといけませんか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい。2014年（平成26年）以降、白色申告の方も含めてすべての個人事業主に、帳簿づけと帳簿・書類の保存が義務づけられています。白色申告では、いつ・どんな取引が・いくらあったかを記録する単式簿記（簡易な記帳）でも認められています。詳しくは国税庁の情報をご確認ください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "帳簿やレシートは何年保存すればいいですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "白色申告の場合、収入や必要経費を記載した法定帳簿は原則7年、それ以外の帳簿や請求書・領収書などの書類は原則5年の保存が必要とされています。保存期間の起算日や最新の取り扱いは国税庁の情報をご確認ください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "インボイス制度に対応していますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "売上の各行にインボイス（適格請求書）の登録番号（T＋13桁）を記録できます。消費税は税率別（10%・8%軽減・非課税/対象外）に自動計算します。制度の詳細は国税庁の情報をご確認ください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "入力した内容は外部に送信されますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "送信されません。取引先名や金額は、お使いの端末（ブラウザ）の中だけで処理されます。外部へ送信する通信処理を含みません。"
+      }
+    }
+  ]
+}
+</script>
+<style>
+  :root {
+    --ink: #1a2b4a;
+    --accent: #2554a3;
+    --line: #d6dce6;
+    --bg: #eef1f6;
+    --danger: #b03030;
+    --free: #b06a00;
+    --in: #fffbe6;      /* 入力欄の色（薄い黄） */
+    --auto: #f2f5fa;    /* 自動計算欄の色（薄いグレー） */
+    --pos: #1d6b3a;
+    --neg: #b03030;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", "Yu Gothic UI", "Hiragino Sans", "Noto Sans JP", "Meiryo", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 14px;
+  }
+  header.app {
+    background: var(--ink);
+    color: #fff;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  header.app h1 { font-size: 16px; margin: 0; font-weight: 600; }
+  header.app .sub { font-weight: 400; font-size: 12px; opacity: .8; }
+  header.app .spacer { flex: 1; }
+  header.app label.year { font-size: 12px; display: flex; align-items: center; gap: 6px; color: #dfe6f2; }
+  header.app label.year input {
+    font: inherit; width: 74px; text-align: center; border-radius: 6px;
+    border: 1px solid #4a5c7d; padding: 5px 6px; background: #fff; color: var(--ink);
+  }
+  button {
+    font: inherit; border: none; border-radius: 6px; padding: 8px 14px;
+    cursor: pointer; background: #fff; color: var(--ink); border: 1px solid var(--line);
+  }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+  button.ghost { background: transparent; color: #dfe6f2; border-color: #4a5c7d; }
+  button:hover { filter: brightness(1.06); }
+  button.small { padding: 5px 10px; font-size: 12px; }
+
+  /* 無料版バナー（有料版への静的リンク） */
+  .freebar {
+    background: #fff6e6; border-bottom: 1px solid #f0d9a8; color: var(--free);
+    padding: 8px 18px; font-size: 13px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .freebar a { color: var(--accent); font-weight: 600; }
+  .freebar .tag {
+    background: var(--free); color: #fff; border-radius: 4px; padding: 1px 7px; font-size: 11px; font-weight: 600;
+  }
+
+  /* ---- タブ ---- */
+  nav.tabs {
+    display: flex; gap: 4px; flex-wrap: wrap;
+    padding: 10px 18px 0; max-width: 1400px; margin: 0 auto;
+  }
+  nav.tabs button {
+    background: #dde3ee; border: 1px solid var(--line); border-bottom: none;
+    border-radius: 8px 8px 0 0; padding: 9px 16px; font-weight: 600; color: #51607a;
+  }
+  nav.tabs button.active { background: #fff; color: var(--ink); }
+
+  main { max-width: 1400px; margin: 0 auto; padding: 0 18px 40px; }
+  section.tab { display: none; background: #fff; border: 1px solid var(--line); border-radius: 0 10px 10px 10px; padding: 18px; }
+  section.tab.active { display: block; }
+  section.tab h2 { font-size: 17px; margin: 0 0 6px; }
+  .desc { font-size: 12px; color: #51607a; line-height: 1.7; margin: 0 0 14px; }
+  .toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 12px 0; }
+  .toolbar .grow { flex: 1; }
+  .toolbar .count { font-size: 12px; color: #7c8aa5; }
+
+  /* 5行上限に達したときの案内（有料版へ） */
+  .limit-notice {
+    border: 1px dashed var(--free); border-radius: 6px; background: #fff6e6;
+    padding: 10px 12px; font-size: 12px; color: var(--free); line-height: 1.7; margin-top: 10px;
+  }
+  .limit-notice a { color: var(--accent); font-weight: 600; }
+
+  /* ---- 明細テーブル ---- */
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+  table.grid { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 720px; }
+  table.grid th {
+    background: #eef1f6; color: var(--ink); font-weight: 600; font-size: 12px;
+    padding: 8px 8px; text-align: left; border-bottom: 1.5px solid var(--ink); white-space: nowrap;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  table.grid td { border-bottom: 1px solid var(--line); padding: 4px 6px; vertical-align: middle; }
+  table.grid tr:last-child td { border-bottom: none; }
+  table.grid input, table.grid select {
+    font: inherit; font-size: 13px; color: var(--ink); width: 100%;
+    border: 1px solid var(--line); border-radius: 5px; padding: 6px 7px; background: var(--in);
+  }
+  table.grid td.auto { text-align: right; white-space: nowrap; background: var(--auto); font-variant-numeric: tabular-nums; }
+  table.grid td.del { text-align: center; }
+  table.grid .delbtn { background: none; border: none; color: var(--danger); font-size: 15px; cursor: pointer; padding: 2px 4px; }
+  .col-num input { text-align: right; }
+  .empty { padding: 22px; text-align: center; color: #9aa7bd; font-size: 13px; }
+
+  /* ---- 集計テーブル ---- */
+  table.report { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.report th, table.report td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
+  table.report th { background: #eef1f6; font-weight: 600; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  table.report th.l, table.report td.l { text-align: left; }
+  table.report tr.total td { border-top: 2px solid var(--ink); font-weight: 700; }
+  table.report td.pos { color: var(--pos); }
+  table.report td.neg { color: var(--neg); }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 4px 0 18px; }
+  .card { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; background: #f9fbfe; }
+  .card .k { font-size: 12px; color: #7c8aa5; }
+  .card .v { font-size: 22px; font-weight: 700; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .card .v.small { font-size: 18px; }
+  h3.block { font-size: 14px; margin: 22px 0 8px; border-left: 4px solid var(--accent); padding-left: 8px; }
+
+  .note { font-size: 12px; color: #51607a; line-height: 1.7; }
+  .callout { background: #f7f9fc; border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-size: 12px; line-height: 1.8; }
+  .callout b { color: var(--ink); }
+  .disclaimer { margin-top: 16px; padding: 12px 14px; font-size: 11px; color: #7c8aa5; line-height: 1.7; background: #f7f9fc; border-radius: 8px; }
+  ul.guide { padding-left: 20px; line-height: 1.9; font-size: 13px; }
+  ul.guide li { margin-bottom: 2px; }
+  .kbd { background: #eef1f6; border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; font-size: 12px; }
+
+  /* 集計プレビューの透かし（月次集計・年間サマリー）。
+     CSS擬似要素で描画するため、DOM要素の削除では消せない（無料版の識別表示）。
+     文字列を繰り返して面全体にタイル表示し、薄いグレーで印刷面にも必ず出力する。 */
+  .wm { position: relative; overflow: hidden; }
+  .wm::before {
+    content: "無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　";
+    position: absolute;
+    top: -25%; left: -25%; width: 150%; height: 150%;
+    transform: rotate(-30deg);
+    transform-origin: center;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 3.4;
+    letter-spacing: 2px;
+    color: rgba(120, 132, 152, 0.17);
+    white-space: normal;
+    word-break: break-word;
+    pointer-events: none;
+    z-index: 5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  /* 本文（数字）は透かしより前面に置き、可読性を保つ */
+  .wm > * { position: relative; z-index: 6; }
+
+  @media (max-width: 700px) {
+    nav.tabs button { padding: 8px 11px; font-size: 13px; }
+    section.tab { padding: 14px 12px; }
+  }
+
+  /* ---- 印刷（月次・年間の帳票を想定） ---- */
+  @media print {
+    body { background: #fff; }
+    header.app, nav.tabs, .toolbar, .freebar, .mdw-foot { display: none !important; }
+    main { max-width: none; padding: 0; }
+    section.tab { border: none; border-radius: 0; padding: 0; }
+    section.tab:not(.active) { display: none; }
+  }
+</style>
+</head>
+<body>
+<header class="app">
+  <h1>フリーランス売上・経費管理帳簿 <span class="sub">無料お試し版 ・ インボイス/確定申告メモ付き ・ データはこの端末内のみ</span></h1>
+  <div class="spacer"></div>
+  <label class="year">対象年 <input id="year" type="number" min="2000" max="2100" step="1"></label>
+  <button class="ghost small" id="btn-clear" type="button">全データを消去</button>
+</header>
+
+<div class="freebar">
+  <span class="tag">無料版</span>
+  <span>売上・経費とも5行まで・集計プレビューと印刷/PDFに「無料版」の透かしが入ります。</span>
+  <span>行数の制限なしで使うなら
+    <a href="https://mamedougu.booth.pm/items/8615481" target="_blank" rel="noopener">有料版（¥980・BOOTH）はこちら</a>。
+  </span>
+</div>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="help" class="active" type="button">① 使い方</button>
+  <button data-tab="sales" type="button">② 売上入力</button>
+  <button data-tab="exp" type="button">③ 経費入力</button>
+  <button data-tab="monthly" type="button">④ 月次集計</button>
+  <button data-tab="annual" type="button">⑤ 年間サマリー</button>
+  <button data-tab="memo" type="button">⑥ 確定申告メモ</button>
+</nav>
+
+<main>
+  <!-- ============ ① 使い方 ============ -->
+  <section class="tab active" id="tab-help">
+    <h2>はじめにお読みください（約5分で使い始められます）</h2>
+    <p class="desc">売上と経費を1行ずつ記録すると、月次・年間の集計が自動で計算される無料のブラウザ帳簿ツールです。会員登録・ネット接続・月額料金は一切不要です。</p>
+    <ul class="guide">
+      <li>右上の<b>「対象年」</b>を、記帳したい年（例: 2026）にします。集計はこの年で絞り込まれます。</li>
+      <li><b>② 売上入力</b>タブで、入金・請求のあった取引を1行ずつ入力します（黄色い欄が入力欄）。税率を選ぶと<b>消費税・税込額は自動計算</b>されます。</li>
+      <li><b>③ 経費入力</b>タブで、支払った経費を1行ずつ入力します。金額は<b>税込</b>で、勘定科目はプルダウンから選びます。</li>
+      <li><b>④ 月次集計 / ⑤ 年間サマリー</b>タブに、入力に応じた合計が自動で表示されます（入力欄はありません）。</li>
+      <li>入力内容は<b>この端末のブラウザ内にのみ自動保存</b>されます。外部への送信は一切ありません。</li>
+    </ul>
+    <div class="callout" style="margin-top:14px;border-color:#f0d9a8;background:#fff6e6;color:var(--free)">
+      <b>これは無料お試し版です</b><br>
+      売上・経費とも<b>5行まで</b>入力でき、④月次集計・⑤年間サマリーのプレビューと印刷/PDFに「無料版」の透かしが入ります。5行以内の計算・集計・CSV書き出しは有料版とまったく同じ動きです。1年ぶんの帳簿を制限なくつけたい方は、行数制限と透かしのない<a href="https://mamedougu.booth.pm/items/8615481" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">買い切り版（¥980・BOOTH）</a>をご利用ください（月額料金なし）。
+    </div>
+    <div class="callout" style="margin-top:14px">
+      <b>Excel・会計ソフトへ引き継ぎたいとき（CSV）</b><br>
+      各入力タブの「CSV書き出し」で、そのタブの表を CSV ファイル（文字コード UTF-8）として保存できます。Excel や Google スプレッドシート、多くの会計ソフトで読み込めます。<br>
+      別ファイルに退避したデータは「CSV読み込み」で復元・追記できます（同じ列の並びのCSV。無料版は読み込みでも合計5行までです）。
+    </div>
+    <div class="callout" style="margin-top:12px">
+      <b>印刷・PDF保存</b><br>
+      ④月次集計・⑤年間サマリーのタブを開いた状態で、ブラウザの印刷（<span class="kbd">Ctrl+P</span> / <span class="kbd">⌘+P</span>）→「PDFに保存」を選ぶと、その集計表をPDF/紙で残せます（無料版は透かしが入ります）。
+    </div>
+    <div class="disclaimer">
+      本ツールは記録・集計の補助であり、税務アドバイスではありません。所得・税額の最終的な判断は税理士または税務署にご確認ください。<br>
+      データはブラウザの localStorage にのみ保存され、外部へ送信されません。共有PCでは使用後に右上の「全データを消去」を押してください。
+    </div>
+  </section>
+
+  <!-- ============ ② 売上入力 ============ -->
+  <section class="tab" id="tab-sales">
+    <h2>売上入力</h2>
+    <p class="desc">売上（収入）を1件1行で記録します。黄色い欄を入力すると、消費税額と税込額は自動計算されます。税率は 10% / 8%（軽減）/ 非課税・対象外 から選べます。<b>無料版は5行まで</b>です。</p>
+    <div class="toolbar">
+      <button class="primary small" id="btn-add-sale" type="button">＋ 売上を1行追加</button>
+      <button class="small" id="btn-sample-sale" type="button">サンプルを入れる</button>
+      <span class="grow"></span>
+      <button class="small" id="btn-export-sale" type="button">CSV書き出し</button>
+      <button class="small" id="btn-import-sale" type="button">CSV読み込み</button>
+      <span class="count" id="count-sale"></span>
+    </div>
+    <div class="tablewrap">
+      <table class="grid" id="tbl-sales">
+        <thead>
+          <tr>
+            <th style="width:120px">日付</th>
+            <th style="width:150px">取引先</th>
+            <th>内容</th>
+            <th style="width:110px">税抜額(円)</th>
+            <th style="width:100px">税率</th>
+            <th style="width:90px">消費税</th>
+            <th style="width:100px">税込額</th>
+            <th style="width:120px">入金日</th>
+            <th style="width:140px">インボイス番号</th>
+            <th style="width:36px"></th>
+          </tr>
+        </thead>
+        <tbody id="rows-sales"></tbody>
+      </table>
+    </div>
+    <div class="limit-notice" id="limit-sale" style="display:none">
+      無料版で入力できるのは売上・経費とも<b>5行まで</b>です。1年ぶんの帳簿をつけるときは、行数の制限がない
+      <a href="https://mamedougu.booth.pm/items/8615481" target="_blank" rel="noopener">買い切り版（¥980）</a>をご利用ください。
+    </div>
+  </section>
+
+  <!-- ============ ③ 経費入力 ============ -->
+  <section class="tab" id="tab-exp">
+    <h2>経費入力</h2>
+    <p class="desc">経費（支出）を1件1行で記録します。金額は<b>税込</b>で入力します。勘定科目はプルダウンから選ぶと、年間サマリーで科目別に自動集計されます。<b>無料版は5行まで</b>です。</p>
+    <div class="toolbar">
+      <button class="primary small" id="btn-add-exp" type="button">＋ 経費を1行追加</button>
+      <button class="small" id="btn-sample-exp" type="button">サンプルを入れる</button>
+      <span class="grow"></span>
+      <button class="small" id="btn-export-exp" type="button">CSV書き出し</button>
+      <button class="small" id="btn-import-exp" type="button">CSV読み込み</button>
+      <span class="count" id="count-exp"></span>
+    </div>
+    <div class="tablewrap">
+      <table class="grid" id="tbl-exp">
+        <thead>
+          <tr>
+            <th style="width:120px">日付</th>
+            <th style="width:150px">支払先</th>
+            <th style="width:150px">勘定科目</th>
+            <th>内容</th>
+            <th style="width:120px">金額(税込・円)</th>
+            <th style="width:130px">税区分</th>
+            <th style="width:36px"></th>
+          </tr>
+        </thead>
+        <tbody id="rows-exp"></tbody>
+      </table>
+    </div>
+    <div class="limit-notice" id="limit-exp" style="display:none">
+      無料版で入力できるのは売上・経費とも<b>5行まで</b>です。1年ぶんの帳簿をつけるときは、行数の制限がない
+      <a href="https://mamedougu.booth.pm/items/8615481" target="_blank" rel="noopener">買い切り版（¥980）</a>をご利用ください。
+    </div>
+  </section>
+
+  <!-- ============ ④ 月次集計 ============ -->
+  <section class="tab wm" id="tab-monthly">
+    <h2>月次集計 <span class="sub" id="monthly-year"></span></h2>
+    <p class="desc">対象年の月ごとに、売上（税込）・経費（税込）・差引を自動集計します。入力欄はありません（②③の入力が反映されます）。</p>
+    <div class="tablewrap">
+      <table class="report" id="tbl-monthly">
+        <thead>
+          <tr><th class="l">月</th><th>売上（税込）</th><th>経費（税込）</th><th>差引</th></tr>
+        </thead>
+        <tbody id="rows-monthly"></tbody>
+        <tfoot id="foot-monthly"></tfoot>
+      </table>
+    </div>
+    <p class="note" style="margin-top:10px">※「差引」は 売上（税込）−経費（税込） の単純差です。消費税・各種控除を反映した正確な所得ではありません。</p>
+  </section>
+
+  <!-- ============ ⑤ 年間サマリー ============ -->
+  <section class="tab wm" id="tab-annual">
+    <h2>年間サマリー <span class="sub" id="annual-year"></span></h2>
+    <p class="desc">対象年の合計を表示します。数値はあくまで<b>概算の目安</b>です。</p>
+    <div class="cards">
+      <div class="card"><div class="k">売上 合計（税込）</div><div class="v" id="c-sales-inc">¥0</div></div>
+      <div class="card"><div class="k">経費 合計（税込）</div><div class="v" id="c-exp">¥0</div></div>
+      <div class="card"><div class="k">差引（所得の目安）</div><div class="v" id="c-income">¥0</div></div>
+    </div>
+
+    <h3 class="block">売上の内訳</h3>
+    <div class="tablewrap">
+      <table class="report">
+        <tbody id="rows-sales-sum"></tbody>
+      </table>
+    </div>
+
+    <h3 class="block">経費の科目別内訳</h3>
+    <div class="tablewrap">
+      <table class="report">
+        <thead><tr><th class="l">勘定科目</th><th>金額（税込）</th><th>件数</th></tr></thead>
+        <tbody id="rows-exp-sum"></tbody>
+        <tfoot id="foot-exp-sum"></tfoot>
+      </table>
+    </div>
+    <div class="disclaimer">
+      「差引（所得の目安）」は 売上（税込）−経費（税込） の単純差です。実際の所得金額・所得税額は、
+      消費税の課税/免税区分、青色申告特別控除、各種所得控除、家事按分などによって変わります。
+      本ツールの数値は記帳・把握の補助であり、確定申告の金額を保証するものではありません。最終的な判断は税理士または税務署にご確認ください。
+    </div>
+  </section>
+
+  <!-- ============ ⑥ 確定申告メモ ============ -->
+  <section class="tab" id="tab-memo">
+    <h2>確定申告メモ（一般的な情報）</h2>
+    <p class="desc">確定申告のときに「どの数字をどこで見るか」を確認するための一般的なメモです。以下は一般情報であり、個別の税務判断ではありません。</p>
+
+    <h3 class="block">1. このツールのどの数字を使うか</h3>
+    <div class="callout">
+      ・<b>収入金額（売上）</b>: ⑤年間サマリーの「売上 合計（税込）」または②売上入力の税込額の合計。<br>
+      ・<b>必要経費</b>: ⑤年間サマリーの「経費 合計（税込）」。内訳は科目別集計を参照。<br>
+      ・<b>所得の目安</b>: 「差引（所得の目安）」。ここから各種控除を差し引いたものが課税所得に近づきます（正確な計算は申告書・税理士で）。
+    </div>
+
+    <h3 class="block">2. 青色申告と白色申告（一般的な違い）</h3>
+    <div class="callout">
+      ・<b>白色申告</b>: 事前の承認申請は不要。収支内訳書を作成します。<br>
+      ・<b>青色申告</b>: 事前に「青色申告承認申請書」の提出が必要。要件を満たす帳簿付けにより特別控除などの制度があります。<br>
+      控除額・要件は制度改正で変わることがあります。最新の内容は国税庁の案内でご確認ください。
+    </div>
+
+    <h3 class="block">3. 提出の時期（一般的な目安）</h3>
+    <div class="callout">
+      所得税の確定申告は、一般に対象年の<b>翌年 2月中旬〜3月中旬</b>が申告・納付の期間とされています。
+      具体的な期日はその年ごとに国税庁が案内します。期日は変わることがあるため、必ず最新情報をご確認ください。
+    </div>
+
+    <h3 class="block">4. 消費税・インボイスについて</h3>
+    <div class="callout">
+      課税事業者か免税事業者か、インボイス（適格請求書）発行事業者の登録の有無によって、消費税の申告要否や計算方法が変わります。
+      本ツールは売上の税抜/消費税/税込と、経費の税込金額を記録しますが、消費税の納税額そのものは計算しません。詳細は税理士・税務署にご確認ください。
+    </div>
+
+    <div class="disclaimer">
+      本メモは一般的な情報提供であり、税務・法務のアドバイスではありません。制度や金額は改正されることがあります。
+      個別の判断は、必ず税理士または所轄の税務署・国税庁の最新情報でご確認ください。
+    </div>
+  </section>
+</main>
+
+<!-- CSV読み込み用（非表示） -->
+<input type="file" id="file-import" accept=".csv,text/csv" style="display:none">
+
+<script>
+(function () {
+  "use strict";
+  var LS_KEY = "mamedougu-ledger-v1";
+  var MAX_ROWS = 5; // 無料版：売上・経費とも5行まで（有料版は無制限）
+
+  // ---------- ユーティリティ ----------
+  function $(id) { return document.getElementById(id); }
+  function yen(n) {
+    var sign = n < 0 ? "-" : "";
+    return sign + "¥" + Math.abs(n).toLocaleString("ja-JP");
+  }
+  function toInt(v) {
+    // 全角数字は半角へ変換し、カンマ・空白・全角記号を除いて整数化（非数は0）
+    if (v == null) return 0;
+    var s = String(v)
+      .replace(/[０-９]/g, function (d) { return String.fromCharCode(d.charCodeAt(0) - 0xFEE0); })
+      .replace(/[，、\s]/g, "").replace(/,/g, "");
+    var n = parseInt(s, 10);
+    return isFinite(n) ? n : 0;
+  }
+  function monthOf(iso) {
+    // "YYYY-MM-DD" → {y, m}（不正なら null）
+    if (!iso) return null;
+    var p = String(iso).split("-");
+    if (p.length < 2) return null;
+    var y = parseInt(p[0], 10), m = parseInt(p[1], 10);
+    if (!isFinite(y) || !isFinite(m) || m < 1 || m > 12) return null;
+    return { y: y, m: m };
+  }
+
+  // 勘定科目（一般的な科目）
+  var ACCOUNTS = [
+    "消耗品費", "通信費", "旅費交通費", "接待交際費", "外注費",
+    "地代家賃", "水道光熱費", "減価償却費", "支払手数料", "広告宣伝費",
+    "新聞図書費", "会議費", "租税公課", "雑費"
+  ];
+  // 売上の税率（value=小数, label）。0 は非課税・対象外
+  var SALE_RATES = [["0.1", "10%"], ["0.08", "8%(軽)"], ["0", "非課税/対象外"]];
+  // 経費の税区分（表示ラベルのみ・集計は税込金額で行う）
+  var EXP_TAXES = ["課税10%", "課税8%(軽)", "非課税/対象外"];
+
+  // ---------- 計算（純関数・整数演算） ----------
+  // sale: {date, client, desc, base(税抜int), rate(0.1|0.08|0), paidDate, invoiceNo}
+  function saleTax(base, rate) {
+    // 税率別に切り捨て（P001標準規則）。整数演算で1円ズレを防ぐ
+    var b = toInt(base);
+    if (rate === 0.08) return Math.floor(b * 8 / 100);
+    if (rate === 0.1) return Math.floor(b * 10 / 100);
+    return 0; // 非課税・対象外
+  }
+  function saleInc(base, rate) { return toInt(base) + saleTax(base, rate); }
+
+  // 年で絞り込み、月次・年間を集計
+  function summarize(year, sales, expenses) {
+    var y = parseInt(year, 10);
+    var months = [];
+    var i;
+    for (i = 0; i < 12; i++) months.push({ sales: 0, expenses: 0 });
+
+    var salesBase = 0, salesTax = 0, salesInc = 0, taxableBase = 0;
+    sales.forEach(function (s) {
+      var mm = monthOf(s.date);
+      if (!mm || mm.y !== y) return;
+      var base = toInt(s.base);
+      var tax = saleTax(base, s.rate);
+      var inc = base + tax;
+      months[mm.m - 1].sales += inc;
+      salesBase += base;
+      salesTax += tax;
+      salesInc += inc;
+      if (s.rate === 0.1 || s.rate === 0.08) taxableBase += base;
+    });
+
+    var expTotal = 0;
+    var byAccount = {};
+    expenses.forEach(function (e) {
+      var mm = monthOf(e.date);
+      if (!mm || mm.y !== y) return;
+      var amt = toInt(e.amount);
+      months[mm.m - 1].expenses += amt;
+      expTotal += amt;
+      var acc = e.account || "（未分類）";
+      if (!byAccount[acc]) byAccount[acc] = { amount: 0, count: 0 };
+      byAccount[acc].amount += amt;
+      byAccount[acc].count += 1;
+    });
+
+    return {
+      year: y,
+      months: months,
+      salesBase: salesBase,
+      salesTax: salesTax,
+      salesInc: salesInc,
+      taxableBase: taxableBase,
+      expTotal: expTotal,
+      byAccount: byAccount,
+      incomeEstimate: salesInc - expTotal
+    };
+  }
+  // QA用に公開（閲覧のみ・外部送信なし）
+  window.__mameLedger = { summarize: summarize, saleTax: saleTax, saleInc: saleInc, toInt: toInt };
+
+  // ---------- 状態 ----------
+  var state = { year: "", sales: [], expenses: [] };
+  var saveTimer = null;
+
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      try { localStorage.setItem(LS_KEY, JSON.stringify(collect())); } catch (e) { /* プライベートモード等 */ }
+    }, 300);
+  }
+  function collect() {
+    return {
+      year: $("year").value,
+      sales: readSales(),
+      expenses: readExpenses()
+    };
+  }
+
+  // ---------- 売上テーブル ----------
+  var rowsSales = $("rows-sales");
+  function addSaleRow(d) {
+    // 無料版：5行に達したら追加しない（CSV読み込み・復元も同じ経路を通るため上限を回避できない）
+    if (rowsSales.children.length >= MAX_ROWS) return null;
+    d = d || {};
+    var tr = document.createElement("tr");
+    tr.appendChild(cellInput("s-date", "date", d.date));
+    tr.appendChild(cellInput("s-client", "text", d.client, "取引先名"));
+    tr.appendChild(cellInput("s-desc", "text", d.desc, "内容"));
+    tr.appendChild(cellNum("s-base", d.base));
+    tr.appendChild(cellSelect("s-rate", SALE_RATES, d.rate != null ? String(d.rate) : "0.1"));
+    var tdTax = document.createElement("td"); tdTax.className = "auto s-tax";
+    var tdInc = document.createElement("td"); tdInc.className = "auto s-inc";
+    tr.appendChild(tdTax); tr.appendChild(tdInc);
+    tr.appendChild(cellInput("s-paid", "date", d.paidDate));
+    tr.appendChild(cellInput("s-inv", "text", d.invoiceNo, "T1234…（任意）"));
+    tr.appendChild(cellDel(tr, rowsSales, addSaleRow));
+    rowsSales.appendChild(tr);
+    refreshSaleRow(tr);
+    return tr;
+  }
+  function refreshSaleRow(tr) {
+    var base = tr.querySelector(".s-base").value;
+    var rate = parseFloat(tr.querySelector(".s-rate").value) || 0;
+    tr.querySelector(".s-tax").textContent = yen(saleTax(base, rate));
+    tr.querySelector(".s-inc").textContent = yen(saleInc(base, rate));
+  }
+  function readSales() {
+    var out = [];
+    Array.prototype.forEach.call(rowsSales.querySelectorAll("tr"), function (tr) {
+      out.push({
+        date: tr.querySelector(".s-date").value,
+        client: tr.querySelector(".s-client").value,
+        desc: tr.querySelector(".s-desc").value,
+        base: toInt(tr.querySelector(".s-base").value),
+        rate: parseFloat(tr.querySelector(".s-rate").value) || 0,
+        paidDate: tr.querySelector(".s-paid").value,
+        invoiceNo: tr.querySelector(".s-inv").value
+      });
+    });
+    return out;
+  }
+
+  // ---------- 経費テーブル ----------
+  var rowsExp = $("rows-exp");
+  function accountOptions() { return ACCOUNTS.map(function (a) { return [a, a]; }); }
+  function taxOptions() { return EXP_TAXES.map(function (t) { return [t, t]; }); }
+  function addExpRow(d) {
+    // 無料版：5行に達したら追加しない
+    if (rowsExp.children.length >= MAX_ROWS) return null;
+    d = d || {};
+    var tr = document.createElement("tr");
+    tr.appendChild(cellInput("e-date", "date", d.date));
+    tr.appendChild(cellInput("e-payee", "text", d.payee, "支払先"));
+    tr.appendChild(cellSelect("e-account", accountOptions(), d.account || ACCOUNTS[0]));
+    tr.appendChild(cellInput("e-desc", "text", d.desc, "内容"));
+    tr.appendChild(cellNum("e-amount", d.amount));
+    tr.appendChild(cellSelect("e-tax", taxOptions(), d.taxType || EXP_TAXES[0]));
+    tr.appendChild(cellDel(tr, rowsExp, addExpRow));
+    rowsExp.appendChild(tr);
+    return tr;
+  }
+  function readExpenses() {
+    var out = [];
+    Array.prototype.forEach.call(rowsExp.querySelectorAll("tr"), function (tr) {
+      out.push({
+        date: tr.querySelector(".e-date").value,
+        payee: tr.querySelector(".e-payee").value,
+        account: tr.querySelector(".e-account").value,
+        desc: tr.querySelector(".e-desc").value,
+        amount: toInt(tr.querySelector(".e-amount").value),
+        taxType: tr.querySelector(".e-tax").value
+      });
+    });
+    return out;
+  }
+
+  // ---------- 無料版の上限表示 ----------
+  function refreshLimits() {
+    var sf = rowsSales.children.length >= MAX_ROWS;
+    var ef = rowsExp.children.length >= MAX_ROWS;
+    $("limit-sale").style.display = sf ? "" : "none";
+    $("limit-exp").style.display = ef ? "" : "none";
+    $("btn-add-sale").style.display = sf ? "none" : "";
+    $("btn-add-exp").style.display = ef ? "none" : "";
+  }
+
+  // ---------- セル生成ヘルパ ----------
+  function cellInput(cls, type, val, ph) {
+    var td = document.createElement("td");
+    var inp = document.createElement("input");
+    inp.className = cls; inp.type = type || "text";
+    if (ph) inp.placeholder = ph;
+    if (val != null) inp.value = val;
+    td.appendChild(inp);
+    return td;
+  }
+  function cellNum(cls, val) {
+    var td = document.createElement("td"); td.className = "col-num";
+    var inp = document.createElement("input");
+    inp.className = cls; inp.type = "number"; inp.min = "0"; inp.step = "1"; inp.placeholder = "0";
+    if (val != null && val !== "" && val !== 0) inp.value = val;
+    else if (val === 0) inp.value = "";
+    td.appendChild(inp);
+    return td;
+  }
+  function cellSelect(cls, opts, val) {
+    var td = document.createElement("td");
+    var sel = document.createElement("select");
+    sel.className = cls;
+    opts.forEach(function (o) {
+      var op = document.createElement("option");
+      op.value = o[0]; op.textContent = o[1];
+      sel.appendChild(op);
+    });
+    if (val != null) sel.value = val;
+    td.appendChild(sel);
+    return td;
+  }
+  function cellDel(tr, container, addFn) {
+    var td = document.createElement("td"); td.className = "del";
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "delbtn"; b.title = "この行を削除"; b.textContent = "✕";
+    b.addEventListener("click", function () {
+      tr.remove();
+      if (!container.children.length) addFn();
+      update();
+    });
+    td.appendChild(b);
+    return td;
+  }
+
+  // ---------- 集計描画 ----------
+  var MONTH_LABELS = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+  function num(td, v) {
+    td.className = "num" + (v > 0 ? " pos" : v < 0 ? " neg" : "");
+    td.textContent = yen(v);
+  }
+  function renderReports() {
+    var sales = readSales(), exps = readExpenses();
+    var year = $("year").value;
+    var r = summarize(year, sales, exps);
+
+    $("monthly-year").textContent = "（" + r.year + "年）";
+    $("annual-year").textContent = "（" + r.year + "年）";
+
+    // 月次
+    var body = $("rows-monthly");
+    body.textContent = "";
+    var i;
+    for (i = 0; i < 12; i++) {
+      var mm = r.months[i];
+      var tr = document.createElement("tr");
+      var tdL = document.createElement("td"); tdL.className = "l"; tdL.textContent = MONTH_LABELS[i];
+      var tdS = document.createElement("td"); tdS.textContent = yen(mm.sales);
+      var tdE = document.createElement("td"); tdE.textContent = yen(mm.expenses);
+      var tdD = document.createElement("td"); num(tdD, mm.sales - mm.expenses);
+      tr.appendChild(tdL); tr.appendChild(tdS); tr.appendChild(tdE); tr.appendChild(tdD);
+      body.appendChild(tr);
+    }
+    var foot = $("foot-monthly");
+    foot.textContent = "";
+    var ftr = document.createElement("tr"); ftr.className = "total";
+    var f0 = document.createElement("td"); f0.className = "l"; f0.textContent = "年間合計";
+    var f1 = document.createElement("td"); f1.textContent = yen(r.salesInc);
+    var f2 = document.createElement("td"); f2.textContent = yen(r.expTotal);
+    var f3 = document.createElement("td"); num(f3, r.incomeEstimate);
+    ftr.appendChild(f0); ftr.appendChild(f1); ftr.appendChild(f2); ftr.appendChild(f3);
+    foot.appendChild(ftr);
+
+    // 年間カード
+    $("c-sales-inc").textContent = yen(r.salesInc);
+    $("c-exp").textContent = yen(r.expTotal);
+    var incEl = $("c-income");
+    incEl.textContent = yen(r.incomeEstimate);
+    incEl.style.color = r.incomeEstimate < 0 ? "var(--neg)" : "var(--pos)";
+
+    // 売上内訳
+    var ss = $("rows-sales-sum");
+    ss.textContent = "";
+    ss.appendChild(kvRow("課税売上（税抜・10%/8%対象）", yen(r.taxableBase)));
+    ss.appendChild(kvRow("売上 税抜 合計", yen(r.salesBase)));
+    ss.appendChild(kvRow("受け取った消費税 合計", yen(r.salesTax)));
+    ss.appendChild(kvRow("売上 税込 合計", yen(r.salesInc), true));
+
+    // 経費 科目別
+    var es = $("rows-exp-sum");
+    es.textContent = "";
+    var accounts = Object.keys(r.byAccount).sort(function (a, b) { return r.byAccount[b].amount - r.byAccount[a].amount; });
+    if (!accounts.length) {
+      var tr0 = document.createElement("tr");
+      var td0 = document.createElement("td"); td0.className = "l"; td0.colSpan = 3;
+      td0.style.textAlign = "center"; td0.style.color = "#9aa7bd";
+      td0.textContent = "（対象年の経費データがありません）";
+      tr0.appendChild(td0); es.appendChild(tr0);
+    } else {
+      accounts.forEach(function (acc) {
+        var row = r.byAccount[acc];
+        var tr = document.createElement("tr");
+        var t0 = document.createElement("td"); t0.className = "l"; t0.textContent = acc;
+        var t1 = document.createElement("td"); t1.textContent = yen(row.amount);
+        var t2 = document.createElement("td"); t2.textContent = row.count + "件";
+        tr.appendChild(t0); tr.appendChild(t1); tr.appendChild(t2);
+        es.appendChild(tr);
+      });
+    }
+    var ef = $("foot-exp-sum");
+    ef.textContent = "";
+    var eftr = document.createElement("tr"); eftr.className = "total";
+    var e0 = document.createElement("td"); e0.className = "l"; e0.textContent = "経費 合計";
+    var e1 = document.createElement("td"); e1.textContent = yen(r.expTotal);
+    var e2 = document.createElement("td"); e2.textContent = "";
+    eftr.appendChild(e0); eftr.appendChild(e1); eftr.appendChild(e2);
+    ef.appendChild(eftr);
+  }
+  function kvRow(label, val, isTotal) {
+    var tr = document.createElement("tr");
+    if (isTotal) tr.className = "total";
+    var t0 = document.createElement("td"); t0.className = "l"; t0.textContent = label;
+    var t1 = document.createElement("td"); t1.textContent = val;
+    tr.appendChild(t0); tr.appendChild(t1);
+    return tr;
+  }
+
+  // ---------- 全体更新 ----------
+  function update() {
+    Array.prototype.forEach.call(rowsSales.querySelectorAll("tr"), refreshSaleRow);
+    $("count-sale").textContent = rowsSales.children.length + " 行";
+    $("count-exp").textContent = rowsExp.children.length + " 行";
+    renderReports();
+    refreshLimits();
+    save();
+  }
+
+  // ---------- CSV ----------
+  function csvEscape(v) {
+    var s = (v == null) ? "" : String(v);
+    if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+    return s;
+  }
+  function toCSV(headers, rows) {
+    // 先頭にBOMを付けExcelで文字化けしないように
+    var lines = [headers.map(csvEscape).join(",")];
+    rows.forEach(function (r) { lines.push(r.map(csvEscape).join(",")); });
+    return "﻿" + lines.join("\r\n");
+  }
+  function download(filename, text) {
+    var blob = new Blob([text], { type: "text/csv;charset=utf-8;" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+  var SALE_HEADERS = ["日付", "取引先", "内容", "税抜額", "税率", "消費税", "税込額", "入金日", "インボイス番号"];
+  var EXP_HEADERS = ["日付", "支払先", "勘定科目", "内容", "金額(税込)", "税区分"];
+  function rateLabel(rate) {
+    if (rate === 0.1) return "10%";
+    if (rate === 0.08) return "8%(軽)";
+    return "非課税/対象外";
+  }
+  function exportSales() {
+    var rows = readSales().map(function (s) {
+      return [s.date, s.client, s.desc, toInt(s.base), rateLabel(s.rate),
+        saleTax(s.base, s.rate), saleInc(s.base, s.rate), s.paidDate, s.invoiceNo];
+    });
+    download("売上_" + ($("year").value || "帳簿") + ".csv", toCSV(SALE_HEADERS, rows));
+  }
+  function exportExpenses() {
+    var rows = readExpenses().map(function (e) {
+      return [e.date, e.payee, e.account, e.desc, toInt(e.amount), e.taxType];
+    });
+    download("経費_" + ($("year").value || "帳簿") + ".csv", toCSV(EXP_HEADERS, rows));
+  }
+
+  // 簡易CSVパーサ（引用符・改行対応）
+  function parseCSV(text) {
+    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+    var rows = [], row = [], field = "", i = 0, inQ = false, c;
+    while (i < text.length) {
+      c = text[i];
+      if (inQ) {
+        if (c === '"') {
+          if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
+          inQ = false; i++; continue;
+        }
+        field += c; i++; continue;
+      }
+      if (c === '"') { inQ = true; i++; continue; }
+      if (c === ",") { row.push(field); field = ""; i++; continue; }
+      if (c === "\r") { i++; continue; }
+      if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; i++; continue; }
+      field += c; i++;
+    }
+    if (field !== "" || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+  function parseRate(label) {
+    var s = String(label);
+    if (s.indexOf("8") >= 0) return 0.08;
+    if (s.indexOf("非") >= 0 || s.indexOf("対象外") >= 0 || s.indexOf("0") === 0) return 0;
+    return 0.1; // 既定は10%
+  }
+  var importMode = null; // "sales" | "exp"
+  function handleImportText(text) {
+    var rows = parseCSV(text).filter(function (r) { return r.some(function (c) { return String(c).trim() !== ""; }); });
+    if (!rows.length) { alert("CSVにデータが見つかりませんでした。"); return; }
+    // 先頭行がヘッダー（日付という文字を含む等）なら飛ばす
+    var start = 0;
+    var first = rows[0].join("");
+    if (/日付|date/i.test(first)) start = 1;
+    var added = 0, skipped = 0;
+    if (importMode === "sales") {
+      for (var i = start; i < rows.length; i++) {
+        var r = rows[i];
+        var row = addSaleRow({
+          date: (r[0] || "").trim(), client: (r[1] || "").trim(), desc: (r[2] || "").trim(),
+          base: toInt(r[3]), rate: r[4] != null ? parseRate(r[4]) : 0.1,
+          paidDate: (r[7] || "").trim(), invoiceNo: (r[8] || "").trim()
+        });
+        if (row) added++; else skipped++;
+      }
+    } else if (importMode === "exp") {
+      for (var j = start; j < rows.length; j++) {
+        var e = rows[j];
+        var acc = (e[2] || "").trim();
+        if (ACCOUNTS.indexOf(acc) < 0) acc = ACCOUNTS[0];
+        var tax = (e[5] || "").trim();
+        if (EXP_TAXES.indexOf(tax) < 0) tax = EXP_TAXES[0];
+        var erow = addExpRow({
+          date: (e[0] || "").trim(), payee: (e[1] || "").trim(), account: acc,
+          desc: (e[3] || "").trim(), amount: toInt(e[4]), taxType: tax
+        });
+        if (erow) added++; else skipped++;
+      }
+    }
+    update();
+    var msg = added + " 件を読み込み、末尾に追加しました。";
+    if (skipped > 0) msg += "\n無料版は5行までのため、" + skipped + " 件は追加されませんでした（行数制限なしの有料版をご利用ください）。";
+    alert(msg);
+  }
+
+  // ---------- サンプル ----------
+  function sampleSales() {
+    var y = $("year").value || "2026";
+    addSaleRow({ date: y + "-04-30", client: "株式会社サンプル", desc: "4月分 デザイン制作費", base: 200000, rate: 0.1, paidDate: y + "-05-31", invoiceNo: "" });
+    addSaleRow({ date: y + "-05-31", client: "サンプル工房", desc: "Webサイト保守（5月）", base: 50000, rate: 0.1, paidDate: y + "-06-30", invoiceNo: "" });
+    update();
+  }
+  function sampleExpenses() {
+    var y = $("year").value || "2026";
+    addExpRow({ date: y + "-04-10", payee: "○○モバイル", account: "通信費", desc: "携帯・回線", amount: 8800, taxType: "課税10%" });
+    addExpRow({ date: y + "-04-15", payee: "文具店", account: "消耗品費", desc: "プリンタインク", amount: 3300, taxType: "課税10%" });
+    update();
+  }
+
+  // ---------- タブ ----------
+  function activateTab(name) {
+    Array.prototype.forEach.call($("tabs").children, function (b) {
+      b.classList.toggle("active", b.getAttribute("data-tab") === name);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("section.tab"), function (s) {
+      s.classList.toggle("active", s.id === "tab-" + name);
+    });
+    if (name === "monthly" || name === "annual") renderReports();
+  }
+
+  // ---------- 保存・復元 ----------
+  function restore() {
+    var raw = null;
+    try { raw = localStorage.getItem(LS_KEY); } catch (e) {}
+    var d = null;
+    if (raw) { try { d = JSON.parse(raw); } catch (e) { d = null; } }
+    if (d && (d.sales || d.expenses)) {
+      $("year").value = d.year || defaultYear();
+      // 無料版は5行まで（保存データが多くても addSaleRow/addExpRow が先頭5行に制限して復元）
+      (d.sales && d.sales.length ? d.sales : [null]).forEach(function (s) { addSaleRow(s || {}); });
+      (d.expenses && d.expenses.length ? d.expenses : [null]).forEach(function (e) { addExpRow(e || {}); });
+    } else {
+      $("year").value = defaultYear();
+      addSaleRow(); addExpRow();
+    }
+  }
+  function defaultYear() {
+    var y = (new Date()).getFullYear();
+    return isFinite(y) ? String(y) : "2026";
+  }
+
+  // ---------- イベント ----------
+  $("tabs").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-tab]");
+    if (b) activateTab(b.getAttribute("data-tab"));
+  });
+  $("btn-add-sale").addEventListener("click", function () { addSaleRow(); update(); });
+  $("btn-add-exp").addEventListener("click", function () { addExpRow(); update(); });
+  $("btn-sample-sale").addEventListener("click", sampleSales);
+  $("btn-sample-exp").addEventListener("click", sampleExpenses);
+  $("btn-export-sale").addEventListener("click", exportSales);
+  $("btn-export-exp").addEventListener("click", exportExpenses);
+  $("btn-import-sale").addEventListener("click", function () { importMode = "sales"; $("file-import").click(); });
+  $("btn-import-exp").addEventListener("click", function () { importMode = "exp"; $("file-import").click(); });
+  $("file-import").addEventListener("change", function (e) {
+    var f = e.target.files && e.target.files[0];
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function (ev) { handleImportText(String(ev.target.result || "")); };
+    reader.readAsText(f, "UTF-8");
+    e.target.value = ""; // 同じファイルを再選択できるように
+  });
+  $("btn-clear").addEventListener("click", function () {
+    if (!confirm("入力したすべての売上・経費データを消去します。よろしいですか？（この端末の保存も削除します）")) return;
+    try { localStorage.removeItem(LS_KEY); } catch (e) {}
+    location.reload();
+  });
+  // 対象年を空・不正のまま離れたら既定年へ戻す（全集計が0になるのを防ぐ）
+  $("year").addEventListener("blur", function () {
+    var y = parseInt($("year").value, 10);
+    if (!isFinite(y) || y < 2000 || y > 2100) { $("year").value = defaultYear(); update(); }
+  });
+  document.addEventListener("input", update);
+  document.addEventListener("change", update);
+
+  // ---------- 起動 ----------
+  restore();
+  update();
+})();
+</script>
+<style>
+.mdw-foot{max-width:900px;margin:48px auto 32px;padding:24px;border-top:2px solid #d6dce6;font:15px/1.9 "Yu Gothic UI",Meiryo,sans-serif;color:#3a4658}
+.mdw-foot h2{font-size:19px;margin:0 0 12px;color:#1a2b4a}
+.mdw-foot h3{font-size:16px;margin:22px 0 8px;color:#1a2b4a}
+.mdw-foot ul{margin:8px 0 8px 1.3em;padding:0}
+.mdw-foot a{color:#2554a3}
+.mdw-foot dt{font-weight:bold;margin-top:14px}
+.mdw-foot dd{margin:4px 0 0;color:#5b6879}
+.mdw-cta{display:inline-block;margin-top:10px;padding:11px 20px;background:#2554a3;color:#fff;
+  text-decoration:none;border-radius:6px;font-weight:bold}
+.mdw-note{font-size:13px;color:#6b7686;margin-top:20px}
+@media print{.mdw-foot{display:none !important}}
+</style><div class="mdw-foot">
+<h2>このページについて</h2>
+<p>フリーランス・個人事業主の売上と経費を入力するだけで、月次と年間の集計が自動で出る無料のブラウザ帳簿ツールです。
+<strong>会員登録・インストール・ネット接続は不要</strong>で、入力した取引先名や金額は<strong>この端末の中だけで処理され、外部に送信されません</strong>
+（通信処理を含まないHTMLファイル1枚で動きます）。作った集計はブラウザの印刷機能からPDFとして保存でき、CSVでの書き出しにも対応します。</p>
+
+<h3>フリーランスの帳簿は、いつから・何を記録すればいい？</h3>
+<p>確定申告の準備は、1年分（1月1日〜12月31日）の売上と経費を集計することから始まります。年が明けた1月ごろから、
+取引の記録を集計し始めると余裕をもって申告に臨めます。日々の取引を「いつ・誰と・何を・いくら」で1件ずつ記録しておくと、
+年末の集計が楽になります。最新の制度や提出時期は国税庁の情報をご確認ください。</p>
+
+<h3>この無料版でできること</h3>
+<ul>
+<li>売上を 日付／取引先／内容／税抜額／税率／入金日／インボイス番号 で記録（消費税・税込を自動計算）</li>
+<li>経費を勘定科目別に記録</li>
+<li>月次集計・年間サマリー（科目別内訳・差引の目安）を自動表示</li>
+<li>CSV書き出し（UTF-8）</li>
+<li><strong>売上・経費とも5行まで</strong>／集計の印刷・PDF保存（出力に「無料版」の透かしが入ります）</li>
+</ul>
+
+<h3>制限なしで使いたい方へ</h3>
+<p>行数の制限と透かしをなくし、CSV読み込みでの復元・追記にも対応した買い切り版（¥980・税込）をBOOTHで頒布しています。月額料金はありません。</p>
+<a class="mdw-cta" href="https://mamedougu.booth.pm/items/8615481">フリーランス売上・経費管理帳簿（¥980・買い切り）を見る</a>
+
+<h3>よくある質問</h3>
+<dl>
+<dt>フリーランスの帳簿は、白色申告でもつけないといけませんか？</dt>
+<dd>はい。2014年（平成26年）以降、白色申告の方も含めてすべての個人事業主に、帳簿づけと帳簿・書類の保存が義務づけられています。白色申告では、いつ・どんな取引が・いくらあったかを記録する単式簿記（簡易な記帳）でも認められています。詳しくは国税庁の情報をご確認ください。</dd>
+<dt>帳簿やレシートは何年保存すればいいですか？</dt>
+<dd>白色申告の場合、収入や必要経費を記載した法定帳簿は原則7年、それ以外の帳簿や請求書・領収書などの書類は原則5年の保存が必要とされています。保存期間の起算日や最新の取り扱いは国税庁の情報をご確認ください。</dd>
+<dt>インボイス制度に対応していますか？</dt>
+<dd>売上の各行にインボイス（適格請求書）の登録番号（T＋13桁）を記録できます。消費税は税率別（10%・8%軽減・非課税/対象外）に自動計算します。制度の詳細は国税庁の情報をご確認ください。</dd>
+<dt>入力した内容は外部に送信されますか？</dt>
+<dd>送信されません。取引先名や金額は、お使いの端末（ブラウザ）の中だけで処理されます。外部へ送信する通信処理を含みません。</dd>
+</dl>
+
+<p class="mdw-note">制作: <a href="../">まめどうぐ製作所</a>／
+本ツールは記録・集計を補助するものです。所得・税額や制度の最終的な判断については国税庁の情報や税理士にご確認ください。
+「差引（所得の目安）」は売上−経費の単純差で、確定申告の所得額そのものではありません。</p></div>
+</body>
+</html>
