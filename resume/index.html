@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>履歴書・職務経歴書 無料作成ツール｜登録不要・データを外部に送らない・インストール不要｜まめどうぐ製作所</title>
+<meta name="description" content="氏名・学歴・職歴を入力するだけで履歴書と職務経歴書をブラウザで作れる無料ツール。会員登録・インストール不要、入力内容や顔写真を外部に送信しません（この端末の中だけで処理）。ブラウザの印刷からA4のPDF保存。無料版は学歴3行・職歴3行・職務経歴1社まで。">
+<link rel="canonical" href="https://setaro99.github.io/mamedougu-tools/resume/">
+<meta property="og:title" content="履歴書・職務経歴書 無料作成ツール｜登録不要・データを外部に送らない・インストール不要">
+<meta property="og:description" content="氏名・学歴・職歴を入力するだけで履歴書と職務経歴書をブラウザで作れる無料ツール。会員登録・インストール不要、入力内容や顔写真を外部に送信しません。ブラウザの印刷からA4のPDF保存。無料版は学歴3行・職歴3行・職務経歴1社まで。">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "履歴書・職務経歴書 メーカー（無料版）",
+  "url": "https://setaro99.github.io/mamedougu-tools/resume/",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web（ブラウザ）",
+  "inLanguage": "ja",
+  "description": "氏名・学歴・職歴を入力すると履歴書と職務経歴書をブラウザで作れる無料ツール。会員登録・インストール不要、入力内容や顔写真を外部に送信しません（この端末の中だけで処理）。ブラウザの印刷からA4のPDF保存。無料版は学歴3行・職歴3行・職務経歴1社まで。",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+  "featureList": [
+    "基本情報を1回入力して履歴書・職務経歴書の両方に反映",
+    "生年月日と基準日から年齢を自動計算",
+    "顔写真はこの端末の中でのみ処理（アップロードなし）",
+    "ブラウザの印刷機能からA4のPDF保存・印刷",
+    "登録不要・インストール不要・入力内容を外部に送信しない"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "履歴書と職務経歴書は何が違いますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "履歴書は氏名・学歴・職歴・資格などを定型の様式にまとめた書類、職務経歴書はこれまでの職務内容や実績を自由な形式で説明する書類です。応募先によって必要な書類や様式が異なる場合があります。様式の指定があるときはそれに従ってください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "手書きとパソコン作成のどちらで出せばいいですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "近年はデータ（PDF等）での提出を認める応募先も増えていますが、手書きを求める場合もあります。どちらが良いかは応募先の指定やご自身の判断によります。本ツールはブラウザ印刷でA4のPDF保存・印刷ができます。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "入力した個人情報や顔写真は外部に送信されますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "送信されません。氏名・住所・学歴・職歴・顔写真は、お使いの端末（ブラウザ）の中だけで処理されます。外部へ送信する通信処理を含みません。顔写真は「この端末に写真も保存する」を選んだときのみ端末内に保存され、選ばなければ画面を閉じると消えます。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "作った書類はPDFで保存できますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい。ブラウザの印刷機能から「PDFに保存」を選ぶと、選択中の書類をA4サイズのPDFとして保存できます。紙への印刷も同じ手順です。"
+      }
+    }
+  ]
+}
+</script>
+<style>
+  :root {
+    --ink: #1a2b4a;
+    --accent: #2554a3;
+    --line: #d6dce6;
+    --bg: #eef1f6;
+    --danger: #b03030;
+    --free: #b06a00;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", "Yu Gothic UI", "Hiragino Sans", "Noto Sans JP", "Meiryo", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 14px;
+  }
+  header.app {
+    background: var(--ink);
+    color: #fff;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  header.app h1 { font-size: 16px; margin: 0; font-weight: 600; }
+  header.app h1 span { font-weight: 400; font-size: 12px; opacity: .8; }
+  header.app .spacer { flex: 1; }
+  button {
+    font: inherit;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    cursor: pointer;
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+  button.ghost { background: transparent; color: #dfe6f2; border-color: #4a5c7d; }
+  button:hover { filter: brightness(1.06); }
+
+  /* 無料版バナー（有料版への静的リンク） */
+  .freebar {
+    background: #fff6e6; border-bottom: 1px solid #f0d9a8; color: var(--free);
+    padding: 8px 18px; font-size: 13px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .freebar a { color: var(--accent); font-weight: 600; }
+  .freebar .tag {
+    background: var(--free); color: #fff; border-radius: 4px; padding: 1px 7px; font-size: 11px; font-weight: 600;
+  }
+
+  /* 上限に達したときの案内（有料版へ）。無料版の件数制限を伝える */
+  .limit-notice {
+    border: 1px dashed var(--free); border-radius: 6px; background: #fff6e6;
+    padding: 10px 12px; font-size: 12px; color: var(--free); line-height: 1.7; margin-top: 10px;
+  }
+  .limit-notice a { color: var(--accent); font-weight: 600; }
+
+  /* ---- タブ ---- */
+  .tabs {
+    display: flex; gap: 4px; padding: 0 18px; background: var(--ink);
+    flex-wrap: wrap;
+  }
+  .tabs button {
+    background: transparent; color: #cdd8ea; border: none; border-radius: 8px 8px 0 0;
+    padding: 9px 16px; font-weight: 600; font-size: 13px;
+  }
+  .tabs button.active { background: var(--bg); color: var(--ink); }
+  .tabs button:hover { filter: none; color: #fff; }
+  .tabs button.active:hover { color: var(--ink); }
+
+  .container { max-width: 1500px; margin: 0 auto; padding: 18px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ---- 入力フォーム ---- */
+  .wrap {
+    display: grid;
+    grid-template-columns: minmax(340px, 480px) 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  @media (max-width: 1000px) { .wrap { grid-template-columns: 1fr; } }
+  .panel { background: #fff; border-radius: 10px; border: 1px solid var(--line); overflow: hidden; }
+  .panel details { border-bottom: 1px solid var(--line); }
+  .panel details:last-child { border-bottom: none; }
+  .panel summary {
+    cursor: pointer; padding: 12px 16px; font-weight: 600; background: #f7f9fc;
+    list-style: none; user-select: none;
+  }
+  .panel summary::before { content: "▸ "; color: var(--accent); }
+  .panel details[open] summary::before { content: "▾ "; }
+  .fields { padding: 12px 16px 16px; display: grid; gap: 10px; }
+  .fields label { display: grid; gap: 4px; font-size: 12px; color: #51607a; }
+  .fields input, .fields textarea, .fields select {
+    font: inherit; font-size: 14px; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; width: 100%; background: #fff;
+  }
+  .fields textarea { resize: vertical; min-height: 54px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .hint { font-size: 11px; color: #7c8aa5; line-height: 1.6; }
+
+  /* 可変リスト行（学歴・職歴・資格） */
+  .hrow { display: grid; grid-template-columns: 72px 60px 1fr 30px; gap: 6px; align-items: center; }
+  .hrow input { padding: 6px 7px; font-size: 13px; }
+  .hrow .del { background: none; border: none; color: var(--danger); font-size: 16px; padding: 2px; cursor: pointer; }
+  .hrow-head { font-size: 11px; color: #7c8aa5; display: grid; grid-template-columns: 72px 60px 1fr 30px; gap: 6px; }
+  .addrow { width: 100%; border-style: dashed; color: var(--accent); }
+
+  /* 職務経歴（会社ブロック） */
+  .career-block { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; background: #fafbfd; }
+  .career-block .cb-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .career-block .cb-head b { font-size: 12px; color: #51607a; }
+  .career-block .del { background: none; border: none; color: var(--danger); font-size: 15px; cursor: pointer; }
+  .career-block label { display: grid; gap: 4px; font-size: 12px; color: #51607a; margin-bottom: 8px; }
+  .career-block input, .career-block textarea {
+    font: inherit; font-size: 13px; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; width: 100%; background: #fff;
+  }
+  .career-block textarea { resize: vertical; min-height: 60px; }
+
+  .disclaimer { padding: 12px 16px; font-size: 11px; color: #7c8aa5; line-height: 1.6; background: #f7f9fc; }
+
+  /* 顔写真 */
+  .photo-box { display: flex; gap: 12px; align-items: flex-start; }
+  .photo-preview { width: 90px; height: 113px; border: 1px dashed var(--line); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #9aa7bd; text-align: center; overflow: hidden; flex-shrink: 0; background: #f7f9fc; }
+  .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-ctl { display: grid; gap: 6px; font-size: 12px; }
+  .photo-ctl .chk { display: flex; gap: 6px; align-items: center; font-size: 12px; color: #51607a; }
+  .photo-ctl .chk input { width: auto; }
+
+  /* 文書タブの固有入力 */
+  .doc-controls { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px 16px; margin-bottom: 16px; }
+  .doc-controls .dh { font-weight: 600; margin-bottom: 10px; }
+  .doc-controls .grid { display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 700px) { .doc-controls .grid { grid-template-columns: 1fr; } }
+  .doc-controls label { display: grid; gap: 4px; font-size: 12px; color: #51607a; }
+  .doc-controls input {
+    font: inherit; font-size: 14px; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; width: 100%; background: #fff;
+  }
+  .doc-actions { margin-bottom: 10px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+  /* ---- プレビュー（A4） ---- */
+  .sheet-outer { display: grid; gap: 8px; }
+  .sheet-label { font-size: 12px; color: #7c8aa5; }
+  .sheet {
+    background: #fff; width: 100%; max-width: 210mm; min-height: 288mm; margin: 0 auto;
+    padding: 16mm 14mm; box-shadow: 0 2px 14px rgba(20,35,60,.14); font-size: 12.5px; line-height: 1.6;
+  }
+  .sheet h2.doctitle {
+    text-align: center; font-size: 24px; letter-spacing: 10px; text-indent: 10px;
+    margin: 0 0 6px; font-weight: 600;
+  }
+  .sheet .sheet-date { text-align: right; font-size: 12px; margin-bottom: 8px; }
+
+  /* 出力面の透かし（履歴書・職務経歴書プレビュー）。
+     CSS擬似要素で描画するため、DOM要素の削除では消せない（無料版の識別表示）。
+     文字列を繰り返して面全体にタイル表示し、薄いグレーで印刷面にも必ず出力する。 */
+  .wm { position: relative; overflow: hidden; }
+  .wm::before {
+    content: "無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　無料版 / まめどうぐ製作所 　";
+    position: absolute;
+    top: -25%; left: -25%; width: 150%; height: 150%;
+    transform: rotate(-30deg);
+    transform-origin: center;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 3.4;
+    letter-spacing: 2px;
+    color: rgba(120, 132, 152, 0.17);
+    white-space: normal;
+    word-break: break-word;
+    pointer-events: none;
+    z-index: 5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  /* 本文は透かしより前面に置き、可読性を保つ */
+  .wm > * { position: relative; z-index: 6; }
+
+  /* 履歴書レイアウト */
+  .rsm-head { display: flex; gap: 14px; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .rsm-id { flex: 1; }
+  .rsm-id table { width: 100%; border-collapse: collapse; }
+  .rsm-id th, .rsm-id td { border: 1px solid var(--ink); padding: 5px 8px; text-align: left; font-weight: normal; vertical-align: top; }
+  .rsm-id th { background: #eef1f6; width: 78px; font-size: 11px; white-space: nowrap; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rsm-id .kana { font-size: 10px; color: #51607a; }
+  .rsm-id .nm { font-size: 18px; font-weight: 600; }
+  .rsm-photo { width: 30mm; height: 40mm; border: 1px solid var(--ink); display: flex; align-items: center; justify-content: center; font-size: 10px; color: #9aa7bd; text-align: center; overflow: hidden; flex-shrink: 0; }
+  .rsm-photo img { width: 100%; height: 100%; object-fit: cover; }
+  table.rsm-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+  table.rsm-table th, table.rsm-table td { border: 1px solid var(--ink); padding: 4px 8px; font-size: 12px; vertical-align: top; }
+  table.rsm-table th { background: #eef1f6; font-weight: 600; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  table.rsm-table .yr { width: 52px; text-align: center; white-space: nowrap; }
+  table.rsm-table .mo { width: 44px; text-align: center; white-space: nowrap; }
+  table.rsm-table .ctr { text-align: center; }
+  .rsm-section-label { font-weight: 600; margin: 12px 0 2px; font-size: 12.5px; }
+  .rsm-kibou { border: 1px solid var(--ink); padding: 8px 10px; margin-top: 4px; white-space: pre-wrap; min-height: 60px; font-size: 12px; }
+
+  /* 職務経歴書レイアウト */
+  .cv-metaline { display: flex; justify-content: flex-end; gap: 18px; font-size: 12px; margin-bottom: 12px; }
+  .cv-h3 { font-size: 14px; font-weight: 600; border-left: 4px solid var(--accent); padding-left: 8px; margin: 16px 0 6px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .cv-block { white-space: pre-wrap; font-size: 12.5px; }
+  .cv-career { border: 1px solid var(--line); border-radius: 4px; padding: 8px 10px; margin-bottom: 8px; }
+  .cv-career .cc-top { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding-bottom: 4px; margin-bottom: 4px; }
+  .cv-career .cc-company { font-weight: 600; font-size: 13px; }
+  .cv-career .cc-period { font-size: 11px; color: #51607a; white-space: nowrap; }
+  .cv-career .cc-role { font-size: 12px; margin-bottom: 4px; }
+  .cv-career .cc-detail { white-space: pre-wrap; font-size: 12px; }
+  .muted { color: #9aa7bd; }
+
+  /* ---- 使い方タブ ---- */
+  .howto { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; max-width: 820px; line-height: 1.8; }
+  .howto h2 { font-size: 18px; margin: 0 0 12px; }
+  .howto h3 { font-size: 14px; margin: 18px 0 6px; color: var(--accent); }
+  .howto ol, .howto ul { margin: 6px 0; padding-left: 22px; }
+  .howto .warn { background: #f7f9fc; border-left: 3px solid var(--accent); padding: 10px 14px; font-size: 12px; color: #51607a; margin-top: 12px; border-radius: 0 6px 6px 0; }
+
+  /* ---- 印刷 ---- */
+  @media print {
+    @page { size: A4; margin: 0; }
+    body { background: #fff; }
+    header.app, .tabs, .freebar, .doc-controls, .doc-actions, .sheet-label, .panel-col, .no-print, .mdw-foot { display: none !important; }
+    .container { padding: 0; max-width: none; }
+    .wrap { display: block; }
+    .tab-panel:not(.active) { display: none !important; }
+    .sheet { box-shadow: none; max-width: none; width: 100%; min-height: auto; margin: 0; padding: 12mm; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<header class="app">
+  <h1>職務経歴書・履歴書メーカー <span>無料版 / 1回入力で2書類 / 入力も写真もこの端末内のみ</span></h1>
+  <div class="spacer"></div>
+  <button class="ghost" id="btn-clear" type="button">入力内容を消去</button>
+</header>
+
+<div class="freebar">
+  <span class="tag">無料版</span>
+  <span>学歴3行・職歴3行・職務経歴1社まで／出力（印刷・PDF）に「無料版」の透かしが入ります。</span>
+  <span>制限・透かしなしで使うなら
+    <a href="https://mamedougu.booth.pm/items/8734468" target="_blank" rel="noopener">買い切り版（¥700・BOOTH）はこちら</a>。
+  </span>
+</div>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="howto" class="active" type="button">使い方</button>
+  <button data-tab="input" type="button">基本情報入力</button>
+  <button data-tab="resume" type="button">履歴書</button>
+  <button data-tab="cvinput" type="button">職務経歴書 入力</button>
+  <button data-tab="cv" type="button">職務経歴書</button>
+</nav>
+
+<div class="container">
+
+  <!-- ============ 使い方 ============ -->
+  <section class="tab-panel active" id="tab-howto">
+    <div class="howto">
+      <h2>はじめにお読みください（5分で使えます）</h2>
+      <ol>
+        <li><b>「基本情報入力」タブ</b>で、氏名・連絡先・学歴・職歴など、両書類で共通する情報を1回だけ入力します。</li>
+        <li><b>「履歴書」タブ</b>を開くと、入力内容がそのまま履歴書の体裁で表示されます。日付や本人希望記入欄など、履歴書だけの項目はこのタブで補います。</li>
+        <li><b>「職務経歴書 入力」タブ</b>で、職務要約・活かせるスキル・自己PR・会社ごとの職務内容を書き、<b>「職務経歴書」タブ</b>でプレビューします。</li>
+        <li>各プレビュータブの<b>「印刷 / PDF保存」</b>ボタン → 送信先を「PDFに保存」にすると、その書類がA4のPDFになります。</li>
+      </ol>
+
+      <div class="warn" style="border-left-color:var(--free);background:#fff6e6;color:var(--free)">
+        こちらは<b>無料版</b>です。入力できるのは<b>学歴3行・職歴3行・職務経歴1社まで</b>で、履歴書・職務経歴書のプレビューと印刷/PDFに「無料版」の透かしが入ります。学歴・職歴が多い方や複数社の職務経歴書を作る方、透かしなしで提出用に仕上げたい方は、<a href="https://mamedougu.booth.pm/items/8734468" target="_blank" rel="noopener">制限のない買い切り版（¥700・BOOTH）</a>をご利用ください。
+      </div>
+
+      <h3>入力のルール</h3>
+      <ul>
+        <li>学歴・職歴・資格は「＋ 行を追加」で増やせます（無料版は学歴・職歴が各3行まで）。年・月・内容を時系列（古い順）で入れてください。</li>
+        <li>年齢は生年月日と「作成日（基準日）」から自動計算します（誕生日が来ていれば加算）。基準日は履歴書タブで変更できます。</li>
+        <li>顔写真は任意です。読み込んだ写真は<b>この端末のブラウザ内だけ</b>で表示に使われ、外部に送信されません。</li>
+      </ul>
+
+      <h3>データの保存とリセット</h3>
+      <ul>
+        <li>入力内容はこの端末のブラウザ内（localStorage）にのみ自動保存されます。<b>外部への送信は一切ありません。</b></li>
+        <li>顔写真は容量が大きいため、<b>「この端末に写真も保存する」にチェックしたときだけ</b>保存されます（既定は保存せず、タブを開いている間のみ保持）。</li>
+        <li>消去したいときは右上の「入力内容を消去」を押してください。共有PCでは使用後の消去を推奨します。</li>
+      </ul>
+
+      <div class="warn">
+        本ツールは応募書類の<b>書式作成の補助</b>であり、採用・選考の結果を保証・示唆するものではありません。履歴書の様式や記載項目（性別・扶養家族・通勤時間など）は運用や応募先の指定によって異なります。<b>応募先が様式を指定する場合はそれに従ってください。</b>各欄は任意入力です。ご自身の判断と応募先の指定に沿ってご記入ください。
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 基本情報入力 ============ -->
+  <section class="tab-panel" id="tab-input">
+    <div class="wrap">
+      <div class="panel-col">
+      <div class="panel">
+        <details open>
+          <summary>1. 氏名・基本情報</summary>
+          <div class="fields">
+            <div class="row2">
+              <label>姓（必須）<input id="b-lname" placeholder="例) 山田"></label>
+              <label>名<input id="b-fname" placeholder="例) 太郎"></label>
+            </div>
+            <div class="row2">
+              <label>せい（ふりがな）<input id="b-lkana" placeholder="例) やまだ"></label>
+              <label>めい（ふりがな）<input id="b-fkana" placeholder="例) たろう"></label>
+            </div>
+            <div class="row2">
+              <label>生年月日<input id="b-birth" type="date"></label>
+              <label>性別（任意）
+                <select id="b-gender">
+                  <option value="">（記入しない）</option>
+                  <option value="男">男</option>
+                  <option value="女">女</option>
+                  <option value="回答しない">回答しない</option>
+                </select>
+              </label>
+            </div>
+            <span class="hint">性別欄は任意です。近年は記載を求めない様式もあります。応募先の指定・ご自身の判断でお選びください。</span>
+          </div>
+        </details>
+
+        <details open>
+          <summary>2. 連絡先</summary>
+          <div class="fields">
+            <label>現住所<textarea id="b-addr" rows="2" placeholder="例) 〒100-0001&#10;東京都千代田区…"></textarea></label>
+            <label>現住所ふりがな（任意）<input id="b-addrkana" placeholder="例) とうきょうとちよだく…"></label>
+            <div class="row2">
+              <label>電話<input id="b-phone" placeholder="例) 090-xxxx-xxxx"></label>
+              <label>メール<input id="b-email" placeholder="例) mail@example.com"></label>
+            </div>
+          </div>
+        </details>
+
+        <details open>
+          <summary>3. 顔写真（任意）</summary>
+          <div class="fields">
+            <div class="photo-box">
+              <div class="photo-preview" id="photo-preview">写真<br>なし</div>
+              <div class="photo-ctl">
+                <input type="file" id="b-photo" accept="image/*">
+                <button type="button" id="btn-photo-clear" style="font-size:12px">写真を削除</button>
+                <label class="chk"><input type="checkbox" id="b-photo-save"> この端末に写真も保存する</label>
+                <span class="hint">写真はアップロードされません。この端末のブラウザ内でのみ処理されます。</span>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details open>
+          <summary>4. 学歴（古い順）</summary>
+          <div class="fields">
+            <div class="hrow-head"><span>年</span><span>月</span><span>内容</span><span></span></div>
+            <div id="gakureki"></div>
+            <button class="addrow" type="button" data-add="gakureki">＋ 学歴の行を追加</button>
+            <div class="limit-notice" id="limit-gakureki" style="display:none">無料版で入力できる学歴は3行までです。学歴が多い方は、行数の制限がない買い切り版（¥700）をご利用ください。→ <a href="https://mamedougu.booth.pm/items/8734468" target="_blank" rel="noopener">有料版（BOOTH）</a></div>
+          </div>
+        </details>
+
+        <details open>
+          <summary>5. 職歴（古い順）</summary>
+          <div class="fields">
+            <div class="hrow-head"><span>年</span><span>月</span><span>内容</span><span></span></div>
+            <div id="shokureki"></div>
+            <button class="addrow" type="button" data-add="shokureki">＋ 職歴の行を追加</button>
+            <div class="limit-notice" id="limit-shokureki" style="display:none">無料版で入力できる職歴は3行までです。職歴が多い方は、行数の制限がない買い切り版（¥700）をご利用ください。→ <a href="https://mamedougu.booth.pm/items/8734468" target="_blank" rel="noopener">有料版（BOOTH）</a></div>
+            <span class="hint">在職中の場合は「現在に至る」などと記載します。</span>
+          </div>
+        </details>
+
+        <details open>
+          <summary>6. 免許・資格（古い順）</summary>
+          <div class="fields">
+            <div class="hrow-head"><span>年</span><span>月</span><span>内容</span><span></span></div>
+            <div id="license"></div>
+            <button class="addrow" type="button" data-add="license">＋ 免許・資格の行を追加</button>
+          </div>
+        </details>
+
+        <div class="disclaimer">
+          入力データはブラウザの localStorage にのみ保存され、外部へ送信されません。顔写真は「この端末に写真も保存する」にチェックしたときのみ保存されます。共有PCでは使用後に「入力内容を消去」を押してください。
+        </div>
+      </div>
+      </div>
+
+      <!-- 反映プレビュー（縮小） -->
+      <div class="sheet-outer">
+        <div class="sheet-label">入力内容の確認（履歴書・職務経歴書の両方に反映されます）</div>
+        <div class="panel" style="padding:16px;font-size:13px;line-height:1.9">
+          <div><b>氏名：</b><span id="chk-name" class="muted">（未入力）</span></div>
+          <div><b>ふりがな：</b><span id="chk-kana"></span></div>
+          <div><b>生年月日：</b><span id="chk-birth"></span> <span id="chk-age"></span></div>
+          <div><b>連絡先：</b><span id="chk-contact"></span></div>
+          <div><b>学歴：</b><span id="chk-gakureki">0</span> 件 ／ <b>職歴：</b><span id="chk-shokureki">0</span> 件 ／ <b>資格：</b><span id="chk-license">0</span> 件</div>
+          <div class="hint" style="margin-top:8px">年齢は履歴書タブの「作成日（基準日）」を基準に計算しています。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 履歴書 ============ -->
+  <section class="tab-panel" id="tab-resume">
+    <div class="doc-controls">
+      <div class="dh">履歴書の固有項目</div>
+      <div class="grid">
+        <label>作成日（基準日・年齢の計算基準）<input id="rsm-date" type="date"></label>
+      </div>
+      <div class="grid" style="margin-top:10px">
+        <label style="grid-column:1 / -1">本人希望記入欄（任意）<input id="rsm-kibou" placeholder="例) 貴社規定に従います。"></label>
+      </div>
+      <div class="hint" style="margin-top:8px">氏名・連絡先・学歴・職歴・資格・写真は「基本情報入力」から自動で反映されます。</div>
+    </div>
+    <div class="doc-actions">
+      <button class="primary" data-print="resume" type="button">印刷 / PDF保存</button>
+      <span class="hint">履歴書だけがA4で印刷されます。</span>
+    </div>
+    <div class="sheet-outer">
+      <div class="sheet-label">プレビュー（A4）</div>
+      <div class="sheet wm" id="sheet-resume">
+        <h2 class="doctitle">履歴書</h2>
+        <div class="sheet-date"><span id="rsm-pv-date">-</span> 現在</div>
+        <div class="rsm-head">
+          <div class="rsm-id">
+            <table>
+              <tr>
+                <th>ふりがな</th>
+                <td><span class="kana" id="rsm-pv-kana"></span></td>
+              </tr>
+              <tr>
+                <th>氏名</th>
+                <td><span class="nm" id="rsm-pv-name">（氏名）</span></td>
+              </tr>
+              <tr>
+                <th>生年月日</th>
+                <td><span id="rsm-pv-birth"></span>　<span id="rsm-pv-age"></span>　<span id="rsm-pv-gender"></span></td>
+              </tr>
+              <tr>
+                <th>ふりがな</th>
+                <td><span class="kana" id="rsm-pv-addrkana"></span></td>
+              </tr>
+              <tr>
+                <th>現住所</th>
+                <td><span id="rsm-pv-addr" style="white-space:pre-wrap"></span></td>
+              </tr>
+              <tr>
+                <th>電話 / メール</th>
+                <td><span id="rsm-pv-contact"></span></td>
+              </tr>
+            </table>
+          </div>
+          <div class="rsm-photo" id="rsm-pv-photo">写真<br>（任意）<br>縦40×横30mm</div>
+        </div>
+
+        <table class="rsm-table">
+          <thead><tr><th class="ctr yr">年</th><th class="ctr mo">月</th><th>学歴・職歴</th></tr></thead>
+          <tbody id="rsm-pv-history"></tbody>
+        </table>
+
+        <div class="rsm-section-label">免許・資格</div>
+        <table class="rsm-table">
+          <thead><tr><th class="ctr yr">年</th><th class="ctr mo">月</th><th>免許・資格</th></tr></thead>
+          <tbody id="rsm-pv-license"></tbody>
+        </table>
+
+        <div class="rsm-section-label">本人希望記入欄</div>
+        <div class="rsm-kibou" id="rsm-pv-kibou"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 職務経歴書 入力 ============ -->
+  <section class="tab-panel" id="tab-cvinput">
+    <div class="wrap">
+      <div class="panel-col">
+      <div class="panel">
+        <details open>
+          <summary>1. 職務要約</summary>
+          <div class="fields">
+            <label>これまでの職務の要約（3〜5行程度）<textarea id="cv-summary" rows="4" placeholder="例) 〇〇業界で△年、□□の業務に従事してきました。…"></textarea></label>
+          </div>
+        </details>
+
+        <details open>
+          <summary>2. 職務経歴（会社ごと・新しい順が一般的）</summary>
+          <div class="fields">
+            <div id="careers"></div>
+            <button class="addrow" type="button" id="btn-add-career">＋ 会社（職務経歴）を追加</button>
+            <div class="limit-notice" id="limit-careers" style="display:none">無料版で作成できる職務経歴は1社までです。複数社の職務経歴書を作る方は、制限のない買い切り版（¥700）をご利用ください。→ <a href="https://mamedougu.booth.pm/items/8734468" target="_blank" rel="noopener">有料版（BOOTH）</a></div>
+            <span class="hint">会社概要・在籍期間・担当業務・実績を会社ごとに記入します。</span>
+          </div>
+        </details>
+
+        <details open>
+          <summary>3. 活かせる経験・知識・スキル</summary>
+          <div class="fields">
+            <label><textarea id="cv-skills" rows="3" placeholder="例) ・〇〇の実務経験&#10;・△△ツールの操作"></textarea></label>
+          </div>
+        </details>
+
+        <details open>
+          <summary>4. 自己PR</summary>
+          <div class="fields">
+            <label><textarea id="cv-pr" rows="4" placeholder="例) 私の強みは…"></textarea></label>
+          </div>
+        </details>
+
+        <div class="disclaimer">
+          事実に基づいてご記入ください。本ツールは書式作成の補助であり、記載内容の正確性・選考結果について責任を負うものではありません。
+        </div>
+      </div>
+      </div>
+      <div class="sheet-outer">
+        <div class="sheet-label">「職務経歴書」タブでプレビュー・印刷できます</div>
+        <div class="panel" style="padding:16px;font-size:13px;line-height:1.9">
+          <div class="hint">職務経歴書タブに切り替えると、ここで入力した内容がA4の体裁で表示されます。無料版で作成できる会社ブロックは1社までです。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 職務経歴書 プレビュー ============ -->
+  <section class="tab-panel" id="tab-cv">
+    <div class="doc-actions">
+      <button class="primary" data-print="cv" type="button">印刷 / PDF保存</button>
+      <span class="hint">職務経歴書だけがA4で印刷されます（本文量に応じ複数ページ）。</span>
+    </div>
+    <div class="sheet-outer">
+      <div class="sheet-label">プレビュー（A4）</div>
+      <div class="sheet wm" id="sheet-cv">
+        <h2 class="doctitle">職務経歴書</h2>
+        <div class="cv-metaline">
+          <span id="cv-pv-date">-</span> 現在
+          <span>氏名：<span id="cv-pv-name" class="muted">（氏名）</span></span>
+        </div>
+
+        <div class="cv-h3">職務要約</div>
+        <div class="cv-block" id="cv-pv-summary"></div>
+
+        <div class="cv-h3">職務経歴</div>
+        <div id="cv-pv-careers"></div>
+
+        <div class="cv-h3">活かせる経験・知識・スキル</div>
+        <div class="cv-block" id="cv-pv-skills"></div>
+
+        <div class="cv-h3">自己PR</div>
+        <div class="cv-block" id="cv-pv-pr"></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var LS_KEY = "mame_p005_v1";
+  // 無料版の件数上限（免許・資格は制限しない）。復元経由でも上限を超えて追加しない。
+  var ROW_LIMITS = { gakureki: 3, shokureki: 3 };
+  var CAREER_LIMIT = 1;
+
+  // ---------- ユーティリティ ----------
+  function $(id) { return document.getElementById(id); }
+  function fmtDate(iso) {
+    if (!iso) return "";
+    var p = iso.split("-");
+    if (p.length !== 3) return iso;
+    return parseInt(p[0], 10) + "年" + parseInt(p[1], 10) + "月" + parseInt(p[2], 10) + "日";
+  }
+  function todayISO() {
+    var d = new Date();
+    var m = ("0" + (d.getMonth() + 1)).slice(-2);
+    var day = ("0" + d.getDate()).slice(-2);
+    return d.getFullYear() + "-" + m + "-" + day;
+  }
+
+  // ---------- 無料版の上限案内の表示制御 ----------
+  function toggleNotice(contId, noticeId, sel, limit) {
+    var cont = $(contId), n = $(noticeId);
+    if (!cont || !n) return;
+    var count = cont.querySelectorAll(sel).length;
+    n.style.display = count >= limit ? "block" : "none";
+  }
+  function refreshLimits() {
+    toggleNotice("gakureki", "limit-gakureki", ".hrow", ROW_LIMITS.gakureki);
+    toggleNotice("shokureki", "limit-shokureki", ".hrow", ROW_LIMITS.shokureki);
+    toggleNotice("careers", "limit-careers", ".career-block", CAREER_LIMIT);
+  }
+
+  // ---------- 年齢算出（整数演算・誕生日到来判定） ----------
+  // birthISO/baseISO: "YYYY-MM-DD"。当日は到来済み（満年齢）として減算しない。
+  function calcAge(birthISO, baseISO) {
+    if (!birthISO || !baseISO) return null;
+    var b = birthISO.split("-"), r = baseISO.split("-");
+    if (b.length !== 3 || r.length !== 3) return null;
+    var by = parseInt(b[0], 10), bm = parseInt(b[1], 10), bd = parseInt(b[2], 10);
+    var ry = parseInt(r[0], 10), rm = parseInt(r[1], 10), rd = parseInt(r[2], 10);
+    if (isNaN(by) || isNaN(bm) || isNaN(bd) || isNaN(ry) || isNaN(rm) || isNaN(rd)) return null;
+    var age = ry - by;
+    // 基準日の(月,日)が生年月日の(月,日)より前＝まだ誕生日が来ていない → 1減算
+    if (rm < bm || (rm === bm && rd < bd)) age -= 1;
+    return age;
+  }
+  // QA用に公開（閲覧のみ・外部送信なし）
+  window.__mameP005 = { calcAge: calcAge };
+
+  // ---------- 顔写真（アップロードなし・端末内のみ） ----------
+  var photoDataUrl = "";
+  function renderPhotoPreview() {
+    var box = $("photo-preview");
+    box.textContent = "";
+    if (photoDataUrl) {
+      var img = document.createElement("img");
+      img.src = photoDataUrl; img.alt = "顔写真プレビュー";
+      box.appendChild(img);
+    } else {
+      box.appendChild(document.createTextNode("写真"));
+      box.appendChild(document.createElement("br"));
+      box.appendChild(document.createTextNode("なし"));
+    }
+  }
+  $("b-photo").addEventListener("change", function (e) {
+    var file = e.target.files && e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function (ev) {
+      photoDataUrl = String(ev.target.result || "");
+      renderPhotoPreview();
+      update();
+    };
+    reader.readAsDataURL(file); // ローカル読み込みのみ。ネットワーク送信なし
+  });
+  $("btn-photo-clear").addEventListener("click", function () {
+    photoDataUrl = "";
+    $("b-photo").value = "";
+    renderPhotoPreview();
+    update();
+  });
+
+  // ---------- 可変リスト（学歴・職歴・資格） ----------
+  function addHistoryRow(containerId, data) {
+    data = data || {};
+    var cont = $(containerId);
+    // 無料版：上限に達していれば追加しない（保存データ経由の裏口も塞ぐ）
+    var limit = ROW_LIMITS[containerId];
+    if (limit && cont.querySelectorAll(".hrow").length >= limit) {
+      refreshLimits();
+      return;
+    }
+    var row = document.createElement("div");
+    row.className = "hrow";
+    var year = document.createElement("input");
+    year.className = "h-year"; year.type = "number"; year.placeholder = "年"; year.value = data.year || "";
+    var mon = document.createElement("input");
+    mon.className = "h-mon"; mon.type = "number"; mon.min = "1"; mon.max = "12"; mon.placeholder = "月"; mon.value = data.mon || "";
+    var content = document.createElement("input");
+    content.className = "h-content"; content.placeholder = "例) 〇〇大学 〇〇学部 入学"; content.value = data.content || "";
+    var del = document.createElement("button");
+    del.type = "button"; del.className = "del"; del.title = "この行を削除"; del.textContent = "✕";
+    del.addEventListener("click", function () { row.remove(); update(); });
+    row.appendChild(year); row.appendChild(mon); row.appendChild(content); row.appendChild(del);
+    cont.appendChild(row);
+    refreshLimits();
+  }
+  function readHistory(containerId) {
+    var out = [];
+    Array.prototype.forEach.call($(containerId).querySelectorAll(".hrow"), function (row) {
+      out.push({
+        year: row.querySelector(".h-year").value.trim(),
+        mon: row.querySelector(".h-mon").value.trim(),
+        content: row.querySelector(".h-content").value
+      });
+    });
+    return out;
+  }
+
+  // ---------- 職務経歴（会社ブロック） ----------
+  var careerSeq = 0;
+  function addCareer(data) {
+    data = data || {};
+    var cont = $("careers");
+    // 無料版：1社まで（保存データ経由の裏口も塞ぐ）
+    if (cont.querySelectorAll(".career-block").length >= CAREER_LIMIT) {
+      refreshLimits();
+      return;
+    }
+    var block = document.createElement("div");
+    block.className = "career-block";
+    var idx = ++careerSeq;
+
+    var head = document.createElement("div");
+    head.className = "cb-head";
+    var b = document.createElement("b"); b.textContent = "会社 / 職歴";
+    var del = document.createElement("button");
+    del.type = "button"; del.className = "del"; del.title = "この会社を削除"; del.textContent = "✕ 削除";
+    del.addEventListener("click", function () { block.remove(); update(); });
+    head.appendChild(b); head.appendChild(del);
+    block.appendChild(head);
+
+    function field(labelText, cls, isArea, ph, val) {
+      var lab = document.createElement("label");
+      lab.appendChild(document.createTextNode(labelText));
+      var inp = document.createElement(isArea ? "textarea" : "input");
+      inp.className = cls; inp.placeholder = ph || ""; inp.value = val || "";
+      if (isArea) inp.rows = 3;
+      lab.appendChild(inp);
+      block.appendChild(lab);
+    }
+    field("会社名・事業内容", "c-company", false, "例) 株式会社サンプル（Web制作）", data.company);
+    field("在籍期間", "c-period", false, "例) 2020年4月〜2023年3月", data.period);
+    field("担当業務・役職", "c-role", false, "例) Webデザイナー", data.role);
+    field("業務内容・実績", "c-detail", true, "例) ・コーポレートサイトの制作を担当…", data.detail);
+
+    cont.appendChild(block);
+    refreshLimits();
+  }
+  function readCareers() {
+    var out = [];
+    Array.prototype.forEach.call($("careers").querySelectorAll(".career-block"), function (bl) {
+      out.push({
+        company: bl.querySelector(".c-company").value,
+        period: bl.querySelector(".c-period").value,
+        role: bl.querySelector(".c-role").value,
+        detail: bl.querySelector(".c-detail").value
+      });
+    });
+    return out;
+  }
+
+  // ---------- 描画（textContent + createElement のみ・XSS安全） ----------
+  function setText(id, text) { var el = $(id); if (el) el.textContent = text; }
+
+  function fullName() {
+    var l = $("b-lname").value.trim(), f = $("b-fname").value.trim();
+    return (l + " " + f).trim();
+  }
+  function fullKana() {
+    var l = $("b-lkana").value.trim(), f = $("b-fkana").value.trim();
+    return (l + " " + f).trim();
+  }
+
+  // 履歴書の学歴・職歴（1つの時系列表・見出し行つき）
+  function renderResumeHistory(gakureki, shokureki) {
+    var tbody = $("rsm-pv-history");
+    tbody.textContent = "";
+    function headerRow(label) {
+      var tr = document.createElement("tr");
+      var tdY = document.createElement("td"); tdY.className = "ctr yr";
+      var tdM = document.createElement("td"); tdM.className = "ctr mo";
+      var tdC = document.createElement("td"); tdC.style.textAlign = "center"; tdC.style.fontWeight = "600"; tdC.textContent = label;
+      tr.appendChild(tdY); tr.appendChild(tdM); tr.appendChild(tdC);
+      tbody.appendChild(tr);
+    }
+    function dataRows(list) {
+      list.forEach(function (h) {
+        if (!h.year && !h.mon && !h.content.trim()) return;
+        var tr = document.createElement("tr");
+        var tdY = document.createElement("td"); tdY.className = "ctr yr"; tdY.textContent = h.year;
+        var tdM = document.createElement("td"); tdM.className = "ctr mo"; tdM.textContent = h.mon;
+        var tdC = document.createElement("td"); tdC.textContent = h.content;
+        tr.appendChild(tdY); tr.appendChild(tdM); tr.appendChild(tdC);
+        tbody.appendChild(tr);
+      });
+    }
+    headerRow("学歴");
+    dataRows(gakureki);
+    headerRow("職歴");
+    dataRows(shokureki);
+  }
+
+  function renderResumeLicense(list) {
+    var tbody = $("rsm-pv-license");
+    tbody.textContent = "";
+    var any = false;
+    list.forEach(function (h) {
+      if (!h.year && !h.mon && !h.content.trim()) return;
+      any = true;
+      var tr = document.createElement("tr");
+      var tdY = document.createElement("td"); tdY.className = "ctr yr"; tdY.textContent = h.year;
+      var tdM = document.createElement("td"); tdM.className = "ctr mo"; tdM.textContent = h.mon;
+      var tdC = document.createElement("td"); tdC.textContent = h.content;
+      tr.appendChild(tdY); tr.appendChild(tdM); tr.appendChild(tdC);
+      tbody.appendChild(tr);
+    });
+    if (!any) {
+      var tr = document.createElement("tr");
+      var tdY = document.createElement("td"); tdY.className = "ctr yr";
+      var tdM = document.createElement("td"); tdM.className = "ctr mo";
+      var tdC = document.createElement("td"); tdC.className = "muted"; tdC.textContent = "特になし";
+      tr.appendChild(tdY); tr.appendChild(tdM); tr.appendChild(tdC);
+      tbody.appendChild(tr);
+    }
+  }
+
+  function renderResumePhoto() {
+    var box = $("rsm-pv-photo");
+    box.textContent = "";
+    if (photoDataUrl) {
+      var img = document.createElement("img");
+      img.src = photoDataUrl; img.alt = "顔写真";
+      box.appendChild(img);
+    } else {
+      box.appendChild(document.createTextNode("写真"));
+      box.appendChild(document.createElement("br"));
+      box.appendChild(document.createTextNode("（任意）"));
+      box.appendChild(document.createElement("br"));
+      box.appendChild(document.createTextNode("縦40×横30mm"));
+    }
+  }
+
+  function renderCvCareers(careers) {
+    var cont = $("cv-pv-careers");
+    cont.textContent = "";
+    var any = false;
+    careers.forEach(function (c) {
+      if (!c.company.trim() && !c.period.trim() && !c.role.trim() && !c.detail.trim()) return;
+      any = true;
+      var block = document.createElement("div");
+      block.className = "cv-career";
+      var top = document.createElement("div"); top.className = "cc-top";
+      var comp = document.createElement("span"); comp.className = "cc-company"; comp.textContent = c.company;
+      var per = document.createElement("span"); per.className = "cc-period"; per.textContent = c.period;
+      top.appendChild(comp); top.appendChild(per);
+      block.appendChild(top);
+      if (c.role.trim()) {
+        var role = document.createElement("div"); role.className = "cc-role"; role.textContent = "担当業務・役職：" + c.role;
+        block.appendChild(role);
+      }
+      var det = document.createElement("div"); det.className = "cc-detail"; det.textContent = c.detail;
+      block.appendChild(det);
+      cont.appendChild(block);
+    });
+    if (!any) {
+      var p = document.createElement("div"); p.className = "muted"; p.textContent = "（職務経歴を入力してください）";
+      cont.appendChild(p);
+    }
+  }
+
+  function update() {
+    var name = fullName();
+    var kana = fullKana();
+    var birth = $("b-birth").value;
+    var rsmDate = $("rsm-date").value || todayISO();
+    var age = calcAge(birth, rsmDate);
+    var gender = $("b-gender").value;
+    var addr = $("b-addr").value.trim();
+    var addrkana = $("b-addrkana").value.trim();
+    var phone = $("b-phone").value.trim();
+    var email = $("b-email").value.trim();
+    var contact = [phone, email].filter(function (x) { return x; }).join("　/　");
+
+    var gakureki = readHistory("gakureki");
+    var shokureki = readHistory("shokureki");
+    var license = readHistory("license");
+    var careers = readCareers();
+
+    // --- 確認パネル ---
+    var chkName = $("chk-name");
+    chkName.textContent = name || "（未入力）";
+    chkName.className = name ? "" : "muted";
+    setText("chk-kana", kana);
+    setText("chk-birth", fmtDate(birth));
+    setText("chk-age", age != null ? "（" + age + "歳）" : "");
+    setText("chk-contact", contact);
+    setText("chk-gakureki", String(gakureki.filter(function (h) { return h.content.trim(); }).length));
+    setText("chk-shokureki", String(shokureki.filter(function (h) { return h.content.trim(); }).length));
+    setText("chk-license", String(license.filter(function (h) { return h.content.trim(); }).length));
+
+    // --- 履歴書 ---
+    setText("rsm-pv-date", fmtDate(rsmDate) || "-");
+    setText("rsm-pv-kana", kana);
+    var rNm = $("rsm-pv-name");
+    rNm.textContent = name || "（氏名）";
+    rNm.className = name ? "nm" : "nm muted";
+    setText("rsm-pv-birth", fmtDate(birth));
+    setText("rsm-pv-age", age != null ? "（満" + age + "歳）" : "");
+    setText("rsm-pv-gender", gender ? "性別：" + gender : "");
+    setText("rsm-pv-addrkana", addrkana);
+    setText("rsm-pv-addr", addr);
+    setText("rsm-pv-contact", contact);
+    renderResumePhoto();
+    renderResumeHistory(gakureki, shokureki);
+    renderResumeLicense(license);
+    setText("rsm-pv-kibou", $("rsm-kibou").value.trim());
+
+    // --- 職務経歴書 ---
+    setText("cv-pv-date", fmtDate(rsmDate) || "-");
+    var cNm = $("cv-pv-name");
+    cNm.textContent = name || "（氏名）";
+    cNm.className = name ? "" : "muted";
+    setText("cv-pv-summary", $("cv-summary").value.trim());
+    renderCvCareers(careers);
+    setText("cv-pv-skills", $("cv-skills").value.trim());
+    setText("cv-pv-pr", $("cv-pr").value.trim());
+
+    refreshLimits();
+    save();
+  }
+
+  // ---------- 保存・復元（localStorageのみ） ----------
+  var saveTimer = null;
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      var savePhoto = $("b-photo-save").checked;
+      var data = {
+        basic: {
+          lname: $("b-lname").value, fname: $("b-fname").value,
+          lkana: $("b-lkana").value, fkana: $("b-fkana").value,
+          birth: $("b-birth").value, gender: $("b-gender").value,
+          addr: $("b-addr").value, addrkana: $("b-addrkana").value,
+          phone: $("b-phone").value, email: $("b-email").value
+        },
+        photoSave: savePhoto,
+        photo: savePhoto ? photoDataUrl : "",
+        gakureki: readHistory("gakureki"),
+        shokureki: readHistory("shokureki"),
+        license: readHistory("license"),
+        resume: { date: $("rsm-date").value, kibou: $("rsm-kibou").value },
+        cv: {
+          summary: $("cv-summary").value, skills: $("cv-skills").value, pr: $("cv-pr").value,
+          careers: readCareers()
+        }
+      };
+      try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch (e) { /* 容量超過/プライベートモード等 */ }
+    }, 300);
+  }
+
+  function restore() {
+    var raw = null;
+    try { raw = localStorage.getItem(LS_KEY); } catch (e) {}
+    if (!raw) { initFresh(); return; }
+    var d;
+    try { d = JSON.parse(raw); } catch (e) { initFresh(); return; }
+    var b = d.basic || {};
+    $("b-lname").value = b.lname || "";
+    $("b-fname").value = b.fname || "";
+    $("b-lkana").value = b.lkana || "";
+    $("b-fkana").value = b.fkana || "";
+    $("b-birth").value = b.birth || "";
+    $("b-gender").value = b.gender || "";
+    $("b-addr").value = b.addr || "";
+    $("b-addrkana").value = b.addrkana || "";
+    $("b-phone").value = b.phone || "";
+    $("b-email").value = b.email || "";
+    $("b-photo-save").checked = !!d.photoSave;
+    photoDataUrl = d.photo || "";
+    renderPhotoPreview();
+
+    // 復元は addHistoryRow / addCareer を経由するため、無料版の上限がここでも効く
+    var g = (d.gakureki && d.gakureki.length) ? d.gakureki : [{}];
+    g.forEach(function (h) { addHistoryRow("gakureki", h); });
+    var s = (d.shokureki && d.shokureki.length) ? d.shokureki : [{}];
+    s.forEach(function (h) { addHistoryRow("shokureki", h); });
+    var lic = (d.license && d.license.length) ? d.license : [{}];
+    lic.forEach(function (h) { addHistoryRow("license", h); });
+
+    var cv = d.cv || {};
+    $("rsm-date").value = (d.resume && d.resume.date) || todayISO();
+    $("rsm-kibou").value = (d.resume && d.resume.kibou) || "";
+    $("cv-summary").value = cv.summary || "";
+    $("cv-skills").value = cv.skills || "";
+    $("cv-pr").value = cv.pr || "";
+    var cs = (cv.careers && cv.careers.length) ? cv.careers : [{}];
+    cs.forEach(function (c) { addCareer(c); });
+  }
+
+  function initFresh() {
+    $("rsm-date").value = todayISO();
+    // サンプル（削除して使ってください）。無料版は学歴3行までのため下限で例示
+    addHistoryRow("gakureki", { year: "2016", mon: "4", content: "〇〇大学 〇〇学部 入学" });
+    addHistoryRow("gakureki", { year: "2020", mon: "3", content: "〇〇大学 〇〇学部 卒業" });
+    addHistoryRow("shokureki", { year: "2020", mon: "4", content: "株式会社サンプル 入社" });
+    addHistoryRow("shokureki", { year: "", mon: "", content: "現在に至る" });
+    addHistoryRow("license", { year: "2019", mon: "6", content: "普通自動車第一種運転免許 取得" });
+    addCareer({ company: "株式会社サンプル（Web制作）", period: "2020年4月〜現在", role: "Webデザイナー", detail: "・コーポレートサイトの制作を担当\n・〇〇件のプロジェクトに参画" });
+  }
+
+  // ---------- タブ切替 ----------
+  function showTab(name) {
+    Array.prototype.forEach.call(document.querySelectorAll(".tab-panel"), function (p) {
+      p.classList.toggle("active", p.id === "tab-" + name);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("#tabs button"), function (btn) {
+      btn.classList.toggle("active", btn.getAttribute("data-tab") === name);
+    });
+  }
+  $("tabs").addEventListener("click", function (e) {
+    var btn = e.target.closest("button[data-tab]");
+    if (btn) showTab(btn.getAttribute("data-tab"));
+  });
+
+  // ---------- 印刷 ----------
+  Array.prototype.forEach.call(document.querySelectorAll("button[data-print]"), function (btn) {
+    btn.addEventListener("click", function () {
+      showTab(btn.getAttribute("data-print"));
+      window.print();
+    });
+  });
+
+  // ---------- 行追加ボタン ----------
+  Array.prototype.forEach.call(document.querySelectorAll("button[data-add]"), function (btn) {
+    btn.addEventListener("click", function () {
+      addHistoryRow(btn.getAttribute("data-add"), {});
+      update();
+    });
+  });
+  $("btn-add-career").addEventListener("click", function () { addCareer({}); update(); });
+
+  // ---------- 消去 ----------
+  $("btn-clear").addEventListener("click", function () {
+    if (!confirm("入力内容と保存データ（顔写真を含む）をすべて消去します。よろしいですか？")) return;
+    try { localStorage.removeItem(LS_KEY); } catch (e) {}
+    location.reload();
+  });
+
+  document.addEventListener("input", update);
+  document.addEventListener("change", update);
+
+  // ---------- 起動 ----------
+  restore();
+  update();
+})();
+</script>
+<style>
+.mdw-foot{max-width:900px;margin:48px auto 32px;padding:24px;border-top:2px solid #d6dce6;font:15px/1.9 "Yu Gothic UI",Meiryo,sans-serif;color:#3a4658}
+.mdw-foot h2{font-size:19px;margin:0 0 12px;color:#1a2b4a}
+.mdw-foot h3{font-size:16px;margin:22px 0 8px;color:#1a2b4a}
+.mdw-foot ul{margin:8px 0 8px 1.3em;padding:0}
+.mdw-foot a{color:#2554a3}
+.mdw-foot dt{font-weight:bold;margin-top:14px}
+.mdw-foot dd{margin:4px 0 0;color:#5b6879}
+.mdw-cta{display:inline-block;margin-top:10px;padding:11px 20px;background:#2554a3;color:#fff;
+  text-decoration:none;border-radius:6px;font-weight:bold}
+.mdw-note{font-size:13px;color:#6b7686;margin-top:20px}
+@media print{.mdw-foot{display:none !important}}
+</style><div class="mdw-foot">
+<h2>このページについて</h2>
+<p>氏名・連絡先・学歴・職歴を入力するだけで、履歴書と職務経歴書をブラウザで作れる無料ツールです。
+<strong>会員登録・インストール・ネット接続は不要</strong>で、入力した個人情報や顔写真は<strong>この端末の中だけで処理され、外部に送信されません</strong>
+（通信処理を含まないHTMLファイル1枚で動きます）。作った書類はブラウザの印刷機能からA4のPDFとして保存・印刷できます。</p>
+
+<h3>履歴書と職務経歴書は何が違う？</h3>
+<p>履歴書は氏名・学歴・職歴・資格などを定型の様式にまとめた書類、職務経歴書はこれまでの仕事の内容や実績を自由な形式で説明する書類です。
+応募先によって求められる書類や様式が異なることがあります。<strong>様式の指定がある場合は応募先の指定に従ってください。</strong></p>
+
+<h3>この無料版でできること</h3>
+<ul>
+<li>基本情報を1回入力して履歴書・職務経歴書の両方に反映</li>
+<li>生年月日から年齢を自動計算</li>
+<li>学歴・職歴を行で追加（<strong>学歴3行・職歴3行まで</strong>）</li>
+<li>職務経歴を1社ぶん作成</li>
+<li>顔写真は端末内でのみ扱う（アップロードなし）</li>
+<li>ブラウザ印刷でA4のPDF保存（<strong>出力に「無料版」の透かしが入ります</strong>）</li>
+</ul>
+
+<h3>制限なしで使いたい方へ</h3>
+<p>学歴・職歴の行数制限と透かしをなくし、複数社の職務経歴書にも対応した買い切り版（¥700・税込）をBOOTHで頒布しています。月額料金はありません。</p>
+<a class="mdw-cta" href="https://mamedougu.booth.pm/items/8734468">職務経歴書・履歴書メーカー（¥700・買い切り）を見る</a>
+
+<h3>よくある質問</h3>
+<dl>
+<dt>履歴書と職務経歴書は何が違いますか？</dt>
+<dd>履歴書は氏名・学歴・職歴・資格などを定型の様式にまとめた書類、職務経歴書はこれまでの職務内容や実績を自由な形式で説明する書類です。応募先によって必要な書類や様式が異なる場合があります。様式の指定があるときはそれに従ってください。</dd>
+<dt>手書きとパソコン作成のどちらで出せばいいですか？</dt>
+<dd>近年はデータ（PDF等）での提出を認める応募先も増えていますが、手書きを求める場合もあります。どちらが良いかは応募先の指定やご自身の判断によります。本ツールはブラウザ印刷でA4のPDF保存・印刷ができます。</dd>
+<dt>入力した個人情報や顔写真は外部に送信されますか？</dt>
+<dd>送信されません。氏名・住所・学歴・職歴・顔写真は、お使いの端末（ブラウザ）の中だけで処理されます。外部へ送信する通信処理を含みません。顔写真は「この端末に写真も保存する」を選んだときのみ端末内に保存され、選ばなければ画面を閉じると消えます。</dd>
+<dt>作った書類はPDFで保存できますか？</dt>
+<dd>はい。ブラウザの印刷機能から「PDFに保存」を選ぶと、選択中の書類をA4サイズのPDFとして保存できます。紙への印刷も同じ手順です。</dd>
+</dl>
+
+<p class="mdw-note">制作: <a href="../">まめどうぐ製作所</a>／
+本ツールは応募書類の書式作成を補助するものです。採用・選考の結果を保証・示唆するものではありません。
+履歴書の様式は運用や応募先の指定により異なります。各記入欄は任意入力です。記載の要否はご自身の判断と応募先の指定に従ってください。</p></div>
+</body>
+</html>
