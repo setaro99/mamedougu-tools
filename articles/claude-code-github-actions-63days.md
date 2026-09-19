@@ -12,6 +12,7 @@ published: false
 「動かす」までは半日でしたが、「止まらずに動き続ける」には別の知識が要りました。この記事はその実測メモです。
 
 対象: `anthropics/claude-code-action` を `schedule` で回している／回そうとしている人。
+前提: リポジトリの Secrets に `CLAUDE_CODE_OAUTH_TOKEN`（`claude setup-token` で発行）を登録済みであること。
 
 ## 構成（最小）
 
