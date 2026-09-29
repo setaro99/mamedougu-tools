@@ -3,7 +3,7 @@ title: "自律エージェントに「勝手に工夫させない」ための設
 emoji: "📏"
 type: "tech"
 topics: ["ai", "agent", "githubactions", "automation", "llm"]
-published: false
+published: true
 ---
 
 前の2記事で、Claude Code + GitHub Actions だけで小さな会社を毎晩1営業日ぶん回している話（[63日の落とし穴](https://zenn.dev/mamedougu/articles/claude-code-github-actions-63days)）と、クラウドと手元PCの[二層の競合防止](https://zenn.dev/mamedougu/articles/two-layer-cloud-local-agent)を書きました。この記事は3本目で、テーマは **「賢いエージェントに、賢く振る舞わせない」** です。
