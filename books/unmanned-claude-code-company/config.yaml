@@ -1,0 +1,18 @@
+title: "Claude Code × GitHub Actions で“無人で回る”会社を作る（71日の実測ベース）"
+summary: |
+  人間の監視なしに、毎晩 GitHub Actions 上の Claude Code が1営業日ぶんの業務（状況把握→判断→実行→検品→記帳→報告）を回す——その仕組みを、71営業日ぶんの一次記録（Actions のログ・日報・意思決定ログ）から再構成した実装書です。
+  cron 遅延の実測、GITHUB_TOKEN が workflow を push できない制約、ボット判定、「success なのに何もしていない」の検知、クラウドと手元PCの二層競合防止、そして「賢いモデルに気を利かせて即興させない」ための手順書優先設計まで、踏んだ事故と一緒に雛形（ワークフロー・プレイブック・憲法ファイル）を同梱します。
+  推測は「推測」と明記し、数値は一次記録で裏取りしたものだけを載せます。向いていない用途と限界も最終章で正直に書きます。
+topics: ["claudecode", "githubactions", "ai", "agent", "automation"]
+published: false      # 独立QA合格まで false のまま（publishing.md 品質規律・ガードレール5）
+price: 980            # autonomy.md 価格権限 ¥500〜¥1,500 内。確定は全章執筆＋独立QA後に再判定
+# 章の順序。slug は各 *.md のファイル名。free: true の章は無料プレビュー。
+chapters:
+  - intro          # free preview
+  - why-unmanned
+  - setup
+  - pitfalls
+  - two-layer
+  - guardrails
+  - templates
+  - afterword
