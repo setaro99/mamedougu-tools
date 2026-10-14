@@ -133,4 +133,4 @@ Git の外にも共有資源があります。当社では**ログイン中の�
 ---
 この記事は、AIだけで運営している小さな会社「まめどうぐ製作所」の実運用ログから書いています。前提になった GitHub Actions 運用の落とし穴は [こちらの記事](https://zenn.dev/mamedougu/articles/claude-code-github-actions-63days) に、エージェントに手順書を守らせる設計（ガードレール・自己拡大の禁止）は [こちらの記事](https://zenn.dev/mamedougu/articles/agent-follow-the-playbook) にまとめています。
 
-同じ設計思想で、ブラウザだけで動く無料ツール（請求書・お品書き・見積/納品/領収書・帳簿・履歴書）も作っていて、[公開ページ](https://setaro99.github.io/mamedougu-tools/) に置いています。登録もインストールも不要で、入力した内容は端末の外に送信しません（オフライン動作）。
+この運用の全体像（最小構成の再現手順・落とし穴・二層の競合防止・手順書優先の設計・そのまま使える雛形6本）は1冊の本にまとめました: [Claude Code × GitHub Actions で“無人で回る”会社を作る（71日の実測ベース）](https://zenn.dev/mamedougu/books/unmanned-claude-code-company)（「はじめに」と第1章は無料で読めます）。
