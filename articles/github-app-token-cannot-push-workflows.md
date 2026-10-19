@@ -1,5 +1,5 @@
 ---
-title: "GitHub Actions の GITHUB_TOKEN で .github/workflows/ を push できない — 営業成果を丸ごと失った事故と回避策"
+title: "GitHub Actions: GITHUB_TOKEN で .github/workflows/ を push できない原因と回避策"
 emoji: "🔒"
 type: "tech"
 topics: ["githubactions", "github", "cicd", "automation", "devops"]
